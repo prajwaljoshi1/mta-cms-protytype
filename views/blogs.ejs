@@ -1,13 +1,38 @@
 <% include partials/header%>
-<h1>This is the blogs page</h1>
 
-<a href="/blogs/new">Add New Blog</a>
 
-<% blogs.forEach(function(blog){  %>
-    <div>
-       <h4><%= blog.title %></h4>
-       <img src="<%= blog.image %>" />
+<div class="container">
+
+    <header class="jumbotron">
+      <div class="container">
+
+
+        <h2>All Blogs</h2>
+        <p>
+          <a class="btn btn-primary btn-large" href="/blogs/new">Add New Blog</a>
+        </p>
+        <div class="container">
+
+
+    </header>
+
+
+    <div class="row" style="display:flex; flex-wrap: wrap;">
+
+        <% blogs.forEach(function(blog){  %>
+            <div class="col-md-3 col-sm-6">
+              <div class="thumbnail">
+                <div class="captions text-center">
+                  <h5><%= blog.title %></h5>
+                </div>
+                <img src="<%= blog.image %>" />
+              </div>
+
+            </div>
+        <% }) %>
+
     </div>
-<% }) %>
+
+    </div>
 
 <% include partials/footer%>
