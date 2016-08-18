@@ -1,0 +1,13 @@
+<% include partials/header%>
+
+<h1> Create a new blog</h1>
+
+
+<form action="/blogs" method="POST">
+    <input type="text" name="title" placeholder="Name">
+      <input type="text" name="image-url" placeholder="Image-URL" >
+      <button>Submit</button>
+</form>
+
+<a href="/blogs">go back</a>
+<% include partials/footer%>
