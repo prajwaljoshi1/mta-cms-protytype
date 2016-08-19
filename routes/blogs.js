@@ -10,7 +10,7 @@ router.get("/", function(req,res){
             debugger;
             console.log(err);
           }else{
-            res.render("index.ejs", { blogs: allBlogs});
+            res.render("blogs/index.ejs", { blogs: allBlogs});
           }
         });
 });
@@ -31,14 +31,14 @@ router.post("/", function(req, res){
         console.log(err);
       }else{
         //redirect to blogs
-        res.redirect("/index")
+        res.redirect("blogs/index.ejs")
       }
     })
 
 });
 
 router.get("/new", function(req,res){
-    res.render("new.ejs")
+    res.render("blogs/new.ejs")
 });
 
 router.get("/:id", function(req,res){
@@ -46,7 +46,7 @@ router.get("/:id", function(req,res){
     if(err){
         console.log(err);
     }else{
-        res.render("show" ,{blog : foundBlog})
+        res.render("blogs/show.ejs" ,{blog : foundBlog})
     }
   })
 });
@@ -57,7 +57,7 @@ router.get("/:id/edit", function(req, res){
     if(err){
       console.log(err);
     }else{
-      res.render("edit", {blog: foundBlog});
+      res.render("blogs/edit.ejs", {blog: foundBlog});
     }
   })
 });
