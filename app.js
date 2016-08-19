@@ -9,12 +9,14 @@ var LocalStrategy = require('passport-local');
 
 
 
-
-
-
 //import models
 var Blog = require('./models/blog.js');
 var User = require('./models/user.js');
+
+//import routes
+var blogRoutes = require('./routes/blogs.js');
+var indexRoutes = require('./routes/index.js');
+
 
 //passport config
 app.use(require("express-session")({
@@ -38,6 +40,10 @@ app.use(function(req,res, next){
     next();
 });
 
+//use routes
+app.use(indexRoutes);
+app.use("/blogs",blogRoutes);
+
 
 // var blogs = [
 //   {title: "TALES FROM THE ROAD", image:"http://www.child.com.au/resources/site/child/blog/blog-56-intro.jpg"},
@@ -46,153 +52,18 @@ app.use(function(req,res, next){
 // ]
 
 
-//middleware
-var isLoggedIn = function(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-    res.redirect("/");
-};
+// //middleware
+// var isLoggedIn = function(req, res, next){
+//   if(req.isAuthenticated()){
+//     return next();
+//   }
+//     res.redirect("/");
+// };
+//
+//
 
 
 
-app.get("/home", isLoggedIn, function(req,res){
-        res.render("cmshome.ejs");
-});
-
-
-
-app.get("/blogs", function(req,res){
-        Blog.find({}, function(err, allBlogs){
-          if(err){
-            debugger;
-            console.log(err);
-          }else{
-            res.render("index.ejs", { blogs: allBlogs});
-          }
-        });
-});
-
-app.post("/blogs", function(req, res){
-    console.log("we are here");
-    //get data from form
-    var title = req.body.title;
-    var image = req.body.image;
-    var text = req.body.text;
-    var author = req.body.author;
-    console.log(image);
-    //add to db
-    var newBlog = {blogTitle: title, blogImage:image,blogText: text, blogAuthor:author}
-    Blog.create(newBlog, function(err,newlyCreated){
-      if(err){
-        debugger;
-        console.log(err);
-      }else{
-        //redirect to blogs
-        res.redirect("/index")
-      }
-    })
-
-});
-
-app.get("/blogs/new", function(req,res){
-    res.render("new.ejs")
-});
-
-app.get("/blogs/:id", function(req,res){
-  Blog.findById(req.params.id, function(err, foundBlog ){
-    if(err){
-        console.log(err);
-    }else{
-        res.render("show" ,{blog : foundBlog})
-    }
-  })
-});
-
-app.get("/blogs/:id/edit", function(req, res){
-
-  Blog.findById(req.params.id, function(err, foundBlog){
-    if(err){
-      console.log(err);
-    }else{
-      res.render("edit", {blog: foundBlog});
-    }
-  })
-});
-
-app.put("/blog/:id", function(req, res){
-console.log("test etstestesteste");
-  var title = req.body.title;
-  var image = req.body.image;
-  var text = req.body.text;
-  var author = req.body.author;
-  console.log(image);
-  //add to db
-  var updatingBlog = {blogTitle: title, blogImage:image,blogText: text, blogAuthor:author}
-
-  Blog.findByIdAndUpdate(req.params.id, updatingBlog, function(err, updatedBlog){
-      if(err){
-        console.log(err);
-      }else{
-        res.redirect("/blogs/"+req.params.id);
-      }
-  });
-});
-
-app.delete("/blog/:id", function(req, res){
-  Blog.findByIdAndRemove(req.params.id, function(err){
-    if(err){
-      console.log(err);
-    }else{
-      res.redirect("/blogs")
-    }
-  });
-});
-
-
-//auth routes
-
-//show register form
-app.get("/register", function(req, res){
- res.render('register');
-});
-
-app.post("/register", function(req, res){
-  var newUser = new User({username: req.body.username});
-  var password = req.body.password
-  User.register(newUser, password, function(err, user){
-      if(err){
-       console.log(err);
-       return res.render("register");
-     }
-     passport.authenticate("local")(req, res, function(){
-       res.redirect("/home")
-     });
-  });
-});
-
-//show login form
-app.get("/", function(req, res){
- res.render('login');
-});
-
-
-
-app.post("/", passport.authenticate("local",
-                                    {
-                                      successRedirect: "/home",
-                                      failureRedirect: "/"
-                                    }),
-                                    function(req,res ){
-
-                                    });
-
-
-
-  app.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/");
-    });
 
 
 
