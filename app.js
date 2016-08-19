@@ -33,6 +33,10 @@ mongoose.connect("mongodb://localhost/mtadb");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
+app.use(function(req,res, next){
+    res.locals.currentUser= req.user;
+    next();
+});
 
 
 // var blogs = [
@@ -41,7 +45,18 @@ app.use(methodOverride("_method"));
 //   {title: "SPEECH SOUNDS", image:"http://www.child.com.au/resources/site/child/blog/blog-54-intro.jpg"}
 // ]
 
-app.get("/", function(req,res){
+
+//middleware
+var isLoggedIn = function(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+    res.redirect("/");
+};
+
+
+
+app.get("/home", isLoggedIn, function(req,res){
         res.render("cmshome.ejs");
 });
 
@@ -151,14 +166,33 @@ app.post("/register", function(req, res){
        return res.render("register");
      }
      passport.authenticate("local")(req, res, function(){
-       res.redirect("/blogs")
+       res.redirect("/home")
      });
   });
+});
 
+//show login form
+app.get("/", function(req, res){
+ res.render('login');
 });
 
 
 
+app.post("/", passport.authenticate("local",
+                                    {
+                                      successRedirect: "/home",
+                                      failureRedirect: "/"
+                                    }),
+                                    function(req,res ){
+
+                                    });
+
+
+
+  app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/");
+    });
 
 
 

@@ -9,7 +9,8 @@
   </head>
   <body>
 
-    <!-- Static navbar -->
+  <!-- Static navbar -->
+<% if(currentUser) { %>
 <nav class="navbar navbar-default">
 <div class="container-fluid">
 <div class="navbar-header">
@@ -24,18 +25,35 @@
 <div id="navbar" class="navbar-collapse collapse">
   <ul class="nav navbar-nav">
     <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li>  <a  href="/users">Manage users</a></li>
+        <li>  <a  href="/register">Add new user</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li>  <a  href="/blogs">list all products</a></li>
+        <li>  <a  href="/blogs/new">Add new product</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li>  <a  href="/blogs">Show all Blogs</a></li>
-        <li>  <a  href="/blogs/new">Add New Blog</a></li>
+        <li>  <a  href="/blogs">List all blogs</a></li>
+        <li>  <a  href="/blogs/new">Add new blog</a></li>
       </ul>
     </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
-    <li><a href="#">Login</a></li>
-    <li><a href="#">Sign up</a></li>
-      <li><a href="#">Log out</a></li>
+
+      <li><a href="#"><%= currentUser.username%></a></li>
+      <li><a href="/logout">(logout)</a></li>
+
   </ul>
 </div><!--/.nav-collapse -->
 </div><!--/.container-fluid -->
 </nav>
+
+<% } %>
