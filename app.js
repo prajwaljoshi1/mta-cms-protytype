@@ -4,10 +4,30 @@ var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
 var methodOverride = require("method-override");
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+
+
+
+
+
 
 //import models
-
 var Blog = require('./models/blog.js');
+var User = require('./models/user.js');
+
+//passport config
+app.use(require("express-session")({
+  secret: "adf32rkj32ljfdpf934jl2k4jfp9324",
+  resave:false,
+  saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 mongoose.connect("mongodb://localhost/mtadb");
 app.use(bodyParser.urlencoded({extended:true}));
@@ -113,6 +133,32 @@ app.delete("/blog/:id", function(req, res){
     }
   });
 });
+
+
+//auth routes
+
+//show register form
+app.get("/register", function(req, res){
+ res.render('register');
+});
+
+app.post("/register", function(req, res){
+  var newUser = new User({username: req.body.username});
+  var password = req.body.password
+  User.register(newUser, password, function(err, user){
+      if(err){
+       console.log(err);
+       return res.render("register");
+     }
+     passport.authenticate("local")(req, res, function(){
+       res.redirect("/blogs")
+     });
+  });
+
+});
+
+
+
 
 
 
