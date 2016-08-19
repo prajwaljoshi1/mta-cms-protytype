@@ -1,0 +1,27 @@
+
+<% include partials/header%>
+
+<div class="container">
+<h1><%= blog.blogTitle %></h1>
+<div class="row">
+  <div class="col-md-6">
+        <img src="<%=blog.blogImage%>" alt="" />
+  </div>
+  <div class="col-md-6">
+        <p>
+          <%= blog.blogAuthor %>
+        </p>
+
+        <p>
+          <%= blog.blogText %>
+        </p>
+  </div>
+  <a class="btn btn-warning" href="/blogs/<%=blog._id%>/edit" name="button">Edit</a>
+  <form class="" action="/blog/<%=blog._id%>?_method=DELETE" method="POST">
+    <button class="btn btn-danger" name="button">Delete</button>
+  </form>
+
+  </div>
+</div>
+
+<% include partials/footer%>

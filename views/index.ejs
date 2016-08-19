@@ -17,15 +17,18 @@
     </header>
 
 
-    <div class="row" style="display:flex; flex-wrap: wrap;">
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
 
         <% blogs.forEach(function(blog){  %>
             <div class="col-md-3 col-sm-6">
               <div class="thumbnail">
-                <div class="captions text-center">
+                <div class="captions ">
                   <h5><%= blog.blogTitle %></h5>
                 </div>
                 <img src="<%= blog.blogImage %>" />
+                <div>
+                    <a class="btn btn-default"href="/blogs/<%=blog._id%>">Show</a>
+                </div>
               </div>
 
             </div>
