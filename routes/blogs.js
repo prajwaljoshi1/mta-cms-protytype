@@ -70,7 +70,7 @@ console.log("test etstestesteste");
   var author = req.body.author;
   console.log(image);
   //add to db
-  var updatingBlog = {blogTitle: title, blogImage:image,blogText: text, blogAuthor:author}
+  var updatingBlog = {blogTitle: title, blogImage:image, blogText: text, blogAuthor:author}
 
   Blog.findByIdAndUpdate(req.params.id, updatingBlog, function(err, updatedBlog){
       if(err){

@@ -14,5 +14,57 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect("/");
 };
 
+middlewareObj.isBlogFullAccess = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.userType == 'blogfullAccess' || req.user.userType == 'admin'){
+      return next();
+    }
+  }
+    req.flash("error", "You dont have permission in to do this");
+    res.redirect("/home");
+};
+
+middlewareObj.isBlogReadOnly = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.userType == 'blogfullAccess' || req.user.userType == 'admin' || req.user.userType == 'blogReadOnly'){
+      return next();
+    }
+  }
+    req.flash("error", "You dont have permission in to do this");
+    res.redirect("/home");
+};
+
+middlewareObj.isProductReadOnly = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.userType == 'productFullAccess' || req.user.userType == 'admin' || req.user.userType == 'productReadOnly'){
+      return next();
+    }
+  }
+    req.flash("error", "You dont have permission in to do this");
+    res.redirect("/home");
+};
+
+middlewareObj.isProductFullAccess = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.userType == 'productFullAccess' || req.user.userType == 'admin'){
+      return next();
+    }
+  }
+    req.flash("error", "You dont have permission in to do this");
+    res.redirect("/home");
+};
+
+middlewareObj.isAdmin = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.userType == 'admin'){
+      return next();
+    }
+  }
+    req.flash("error", "You do not have permission in to do this!");
+    res.redirect("/home");
+};
+
+
+
 
 module.exports = middlewareObj;

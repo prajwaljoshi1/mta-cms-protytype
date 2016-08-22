@@ -24,22 +24,35 @@ router.get("/home", middleware.isLoggedIn, function(req,res){
 
 
 //show register form
-router.get("/register", function(req, res){
+router.get("/register",middleware.isAdmin, function(req, res){
  res.render('register');
 });
 
 //post register form
 router.post("/register", function(req, res){
   var newUser = new User({username: req.body.username});
-  var password = req.body.password
+  var password = req.body.password;
+  var userType = req.body.userType;
   User.register(newUser, password, function(err, user){
       if(err){
          req.flash("error", err.message);
          return res.render("register");
      }
-     passport.authenticate("local")(req, res, function(){
-       res.redirect("/home")
-     });
+     //user.userType = userType;
+     console.log(req .body);
+     debugger;
+     var upsertData = {userType : userType}
+     User.findByIdAndUpdate(user._id,upsertData, function(err,user){
+       if(err){
+         console.log(err);
+       }else{
+         req.flash("success", "New User Created");
+         res.redirect("/");
+
+       }
+     } );
+
+
   });
 });
 

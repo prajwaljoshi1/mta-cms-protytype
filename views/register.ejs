@@ -2,6 +2,15 @@
 <h1>Register new users</h1>
 <form action="/register" method="POST">
   <input type="text" name="username" placeholder="Username">
+  <select name='userType'>
+      <option value="admin">Admin</option>
+      <option value="blogFullAccess">Blog Full Access</option>
+      <option value="blogReadOnly">Blog Read Only</option>
+      <option value="productFullAccess">Product Full Access</option>
+      <option value="productReadOnly">Product Read Only</option>
+      <option value="blogAndProductFullAccess">Blog and Product Full Access</option>
+      <option value="blogAndProductReadOnly">Blog and Product Read Only</option>
+</select>
   <input type="password" name="password" placeholder="Password">
   <input type="password" name="confirmPassword" placeholder="Confirm Password">
   <button> Sign up</button>
