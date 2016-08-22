@@ -1,27 +1,31 @@
 
 <% include ../partials/header%>
 
+
 <div class="container">
-<h1><%= blog.blogTitle %></h1>
-<div class="row">
-  <div class="col-md-6">
-        <img src="<%=blog.blogImage%>" alt="" />
-  </div>
-  <div class="col-md-6">
-        <p>
-          <%= blog.blogAuthor %>
-        </p>
+  <div class="well">
+      <div class="media">
+          <a class="row" href="#">
+              <img class="media-object" src="<%= blog.blogImage %>">
+          </a>
+          <div class="media-body">
+              <h2 class="media-heading"><%= blog.blogTitle %></h2>
+              <h4>By <%= blog.blogAuthor %></h4>
+              <h6><%= blog.blogCreatedAt %></h6>
+              <p>
+                  <%- blog.blogText %>
+              </p>
+              <div class="pull-right">
+                <a class="btn btn-default" href="/blogs/<%=blog._id%>/edit" name="button">Edit</a>
+                <form class="" action="/blog/<%=blog._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-default" name="button">Delete</button>
+                </form>
+              </div>
 
-        <p>
-          <%= blog.blogText %>
-        </p>
-  </div>
-  <a class="btn btn-warning" href="/blogs/<%=blog._id%>/edit" name="button">Edit</a>
-  <form class="" action="/blog/<%=blog._id%>?_method=DELETE" method="POST">
-    <button class="btn btn-danger" name="button">Delete</button>
-  </form>
-
+          </div>
+      </div>
   </div>
 </div>
+
 
 <% include ../partials/footer%>

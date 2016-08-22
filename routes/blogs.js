@@ -3,8 +3,10 @@ var express = require('express');
 var router = express.Router();
 var Blog = require("../models/blog.js")
 
+var middleware 	= require("../middleware");
 
-router.get("/", function(req,res){
+
+router.get("/",middleware.isBlogReadOnly, function(req,res){
         Blog.find({}, function(err, allBlogs){
           if(err){
             debugger;
@@ -15,14 +17,13 @@ router.get("/", function(req,res){
         });
 });
 
-router.post("/", function(req, res){
-    console.log("we are here");
+router.post("/",middleware.isBlogFullAccess, function(req, res){
+
     //get data from form
     var title = req.body.title;
     var image = req.body.image;
     var text = req.body.text;
     var author = req.body.author;
-    console.log(image);
     //add to db
     var newBlog = {blogTitle: title, blogImage:image,blogText: text, blogAuthor:author}
     Blog.create(newBlog, function(err,newlyCreated){
@@ -30,18 +31,18 @@ router.post("/", function(req, res){
         debugger;
         console.log(err);
       }else{
-        //redirect to blogs
-        res.redirect("blogs/index.ejs")
+        var text
+        res.redirect("/blogs")
       }
     })
 
 });
 
-router.get("/new", function(req,res){
+router.get("/new", middleware.isBlogFullAccess, function(req,res){
     res.render("blogs/new.ejs")
 });
 
-router.get("/:id", function(req,res){
+router.get("/:id",middleware.isBlogReadOnly, function(req,res){
   Blog.findById(req.params.id, function(err, foundBlog ){
     if(err){
         console.log(err);
@@ -51,7 +52,7 @@ router.get("/:id", function(req,res){
   })
 });
 
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", middleware.isBlogFullAccess, function(req, res){
 
   Blog.findById(req.params.id, function(err, foundBlog){
     if(err){
@@ -62,8 +63,9 @@ router.get("/:id/edit", function(req, res){
   })
 });
 
-router.put("/:id", function(req, res){
+router.put("/:id", middleware.isBlogFullAccess, function(req, res){
 console.log("test etstestesteste");
+console.log(req.body);
   var title = req.body.title;
   var image = req.body.image;
   var text = req.body.text;
@@ -81,7 +83,7 @@ console.log("test etstestesteste");
   });
 });
 
-router.delete("/:id", function(req, res){
+router.delete("/:id", middleware.isBlogFullAccess, function(req, res){
   Blog.findByIdAndRemove(req.params.id, function(err){
     if(err){
       console.log(err);

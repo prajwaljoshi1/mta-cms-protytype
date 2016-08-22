@@ -21,7 +21,7 @@ middlewareObj.isBlogFullAccess = function(req, res, next){
     }
   }
     req.flash("error", "You dont have permission in to do this");
-    res.redirect("/home");
+    res.redirect("/home")
 };
 
 middlewareObj.isBlogReadOnly = function(req, res, next){
@@ -41,7 +41,7 @@ middlewareObj.isProductReadOnly = function(req, res, next){
     }
   }
     req.flash("error", "You dont have permission in to do this");
-    res.redirect("/home");
+    res.redirect("/home")
 };
 
 middlewareObj.isProductFullAccess = function(req, res, next){
@@ -51,7 +51,7 @@ middlewareObj.isProductFullAccess = function(req, res, next){
     }
   }
     req.flash("error", "You dont have permission in to do this");
-    res.redirect("/home");
+    res.redirect("/home")
 };
 
 middlewareObj.isAdmin = function(req, res, next){
@@ -61,7 +61,7 @@ middlewareObj.isAdmin = function(req, res, next){
     }
   }
     req.flash("error", "You do not have permission in to do this!");
-    res.redirect("/home");
+    res.redirect("/home")
 };
 
 

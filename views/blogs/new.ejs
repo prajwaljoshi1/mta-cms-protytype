@@ -6,17 +6,18 @@
     <div  style="width:40%; margin:30px auto;">
       <form action="/blogs" method="POST">
         <div class="form-group">
-            <input class="form-control" type="text" name="title" placeholder="Name">
+            <input class="form-control" type="text" name="title" placeholder="Title">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="author" placeholder="Author" >
         </div>
         <div class="form-group">
             <input class="form-control" type="text" name="image" placeholder="Image-URL" >
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" name="text" placeholder="text" >
+            <textarea id="blog-body"class="form-control" type="text" name="text" placeholder="text" ></textarea>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="author" placeholder="Author" >
-        </div>
+
         <div class="form-group">
               <button class="btn btn-large btn-primary btn-block">Submit</button>
         </div>
@@ -25,7 +26,24 @@
         <a href="/blogs">Go Back</a>
     </div>
 
-
+    <script type="text/javascript">
+          $(document).ready(function(){
+              $('#blog-body').summernote({
+                height:300,
+                theme:'yeti',
+                toolbar: [
+                      // [groupName, [list of button]]
+                      ['style', ['bold', 'italic', 'underline', 'clear']],
+                      ['font', ['strikethrough', 'superscript', 'subscript']],
+                      ['fontsize', ['fontsize']],
+                      ['color', ['color']],
+                      ['para', ['ul', 'ol', 'paragraph']],
+                      ['height', ['height']],
+                      ['link', ['link']],
+                    ]
+              });
+          });
+    </script>
 
   </div>
 </div>

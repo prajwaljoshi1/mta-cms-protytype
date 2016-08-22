@@ -9,13 +9,13 @@
             <input class="form-control" type="text" name="title" value="<%= blog.blogTitle%>" placeholder="Name">
         </div>
         <div class="form-group">
+            <input class="form-control" type="text" name="author" value="<%= blog.blogAuthor%>" placeholder="Author" >
+        </div>
+        <div class="form-group">
             <input class="form-control" type="text" name="image" value="<%= blog.blogImage%>" placeholder="Image-URL" >
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" name="text" value="<%= blog.blogText%>" placeholder="text" >
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="author" value="<%= blog.blogAuthor%>" placeholder="Author" >
+            <textarea id="blog-body"class="form-control" type="text"  name="text" placeholder="text" ><%- blog.blogText%>"</textarea>
         </div>
         <div class="form-group">
               <button class="btn btn-large btn-primary btn-block">Submit</button>
@@ -24,6 +24,25 @@
 
         <a href="/blogs">Go Back</a>
     </div>
+
+    <script type="text/javascript">
+          $(document).ready(function(){
+              $('#blog-body').summernote({
+                height:300,
+                theme:'yeti',
+                toolbar: [
+                      // [groupName, [list of button]]
+                      ['style', ['bold', 'italic', 'underline', 'clear']],
+                      ['font', ['strikethrough', 'superscript', 'subscript']],
+                      ['fontsize', ['fontsize']],
+                      ['color', ['color']],
+                      ['para', ['ul', 'ol', 'paragraph']],
+                      ['height', ['height']],
+                      ['link', ['link']],
+                    ]
+              });
+          });
+    </script>
 
 
 
