@@ -7,6 +7,8 @@ var methodOverride = require("method-override");
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 
+var flash = require('connect-flash');
+
 
 
 //import models
@@ -35,14 +37,19 @@ mongoose.connect("mongodb://localhost/mtadb");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
+app.use(flash());
 app.use(function(req,res, next){
     res.locals.currentUser= req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
 //use routes
 app.use(indexRoutes);
 app.use("/blogs",blogRoutes);
+
+
 
 
 // var blogs = [

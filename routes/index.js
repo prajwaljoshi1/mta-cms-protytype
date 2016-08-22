@@ -5,16 +5,20 @@ var passport = require('passport');
 
 var User = require("../models/user.js");
 
-//middleware
-var isLoggedIn = function(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-    res.redirect("/");
-};
+var middleware 	= require("../middleware");
+
+// //middleware
+// var isLoggedIn = function(req, res, next){
+//   if(req.isAuthenticated()){
+//     return next();
+//
+//   }
+//     req.flash("error", "You need to be logged in to do this");
+//     res.redirect("/");
+// };
 
 //homepage
-router.get("/home", isLoggedIn, function(req,res){
+router.get("/home", middleware.isLoggedIn, function(req,res){
         res.render("cmshome.ejs");
 });
 
@@ -30,8 +34,8 @@ router.post("/register", function(req, res){
   var password = req.body.password
   User.register(newUser, password, function(err, user){
       if(err){
-       console.log(err);
-       return res.render("register");
+         req.flash("error", err.message);
+         return res.render("register");
      }
      passport.authenticate("local")(req, res, function(){
        res.redirect("/home")
@@ -41,7 +45,7 @@ router.post("/register", function(req, res){
 
 //show login form
 router.get("/", function(req, res){
- res.render('login');
+ res.render('login.ejs');
 });
 
 
@@ -49,16 +53,18 @@ router.get("/", function(req, res){
 router.post("/", passport.authenticate("local",
                                     {
                                       successRedirect: "/home",
-                                      failureRedirect: "/"
+                                      failureRedirect: "/",
+                                      failureFlash: true
                                     }),
                                     function(req,res ){
-
+                                      req.flash("error", "You need to be logged in to do this");
                                     });
 
 
 
   router.get("/logout", function(req, res){
     req.logout();
+    req.flash("success", "Logged you out!");
     res.redirect("/");
     });
 
