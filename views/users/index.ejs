@@ -1,0 +1,36 @@
+<% include ../partials/header%>
+
+
+    <div class="container">
+
+        <header class="jumbotron">
+            <div class="container">
+                <h2>All Users</h2>
+                <p>
+                    <a class="btn btn-primary btn-large" href="/blogs/new">Add New User</a>
+                </p>
+                <div class="container">
+        </header>
+
+  <% users.forEach(function(user){  %>
+        <div class="well">
+                  <div class="row">
+                <div class="col-sm-6">
+                    <h4 class="media-heading"><%= user.username %></h4>
+                    <p>Role: <%= user.userType %></p>
+                  </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-default" href="/users/<%=user._id%>">Edit</a>
+
+                    <form class="" action="/users/<%=user._id%>?_method=DELETE" method="POST">
+                      <button class="btn btn-default" name="button">Delete</button>
+                    </form>
+                    </div>
+                  </div>
+
+            </div>
+              <% }) %>
+
+        </div>
+
+        <% include ../partials/footer%>

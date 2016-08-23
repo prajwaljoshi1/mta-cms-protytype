@@ -5,19 +5,34 @@
 <div class="container">
   <div class="well">
       <div class="media">
-          <a class="row" href="#">
-              <img class="media-object" src="<%= blog.blogImage %>">
-          </a>
+
+              <img class="media-object" src="<%= blog.blogMainImage %>">
+
           <div class="media-body">
               <h2 class="media-heading"><%= blog.blogTitle %></h2>
               <h4>By <%= blog.blogAuthor %></h4>
-              <h6><%= blog.blogCreatedAt %></h6>
+              <h6><%= blog.blogPublishedDate %></h6>
               <p>
-                  <%- blog.blogText %>
+                  <%- blog.blogState %>
+              </p>
+              <p>
+                  <%- blog.blogContentBrief %>
+              </p>
+              <p>
+                <img class="media-object" src="<%= blog.blogAdditionalImage01 %>">
+              </p>
+              <p>
+                    <%- blog.blogContentExtended %>
+              </p>
+              <p>
+                <img class="media-object" src="<%= blog.blogAdditionalImage02 %>">
+              </p>
+              <p>
+                <img class="media-object" src="<%= blog.blogAdditionalImage03 %>">
               </p>
               <div class="pull-right">
                 <a class="btn btn-default" href="/blogs/<%=blog._id%>/edit" name="button">Edit</a>
-                <form class="" action="/blog/<%=blog._id%>?_method=DELETE" method="POST">
+                <form class="" action="/blogs/<%=blog._id%>?_method=DELETE" method="POST">
                   <button class="btn btn-default" name="button">Delete</button>
                 </form>
               </div>

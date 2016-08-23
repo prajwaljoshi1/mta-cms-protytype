@@ -1,51 +1,99 @@
 <% include ../partials/header%>
-<div class="container">
-  <div class="row">
+    <div class="container">
+        <div class="row">
 
-    <h1 style="text-align:center;"> Create a new blog</h1>
-    <div  style="width:40%; margin:30px auto;">
-      <form action="/blogs" method="POST">
-        <div class="form-group">
-            <input class="form-control" type="text" name="title" placeholder="Title">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="author" placeholder="Author" >
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="image" placeholder="Image-URL" >
-        </div>
-        <div class="form-group">
-            <textarea id="blog-body"class="form-control" type="text" name="text" placeholder="text" ></textarea>
-        </div>
+            <h1 style="text-align:center;"> Create a new blog</h1>
+            <div style="width:80%; margin:30px auto;">
+                <form action="/blogs" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="title" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="state" placeholder="State">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="author" placeholder="Author">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="publishedDate" placeholder="Published Date">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="mainImage" placeholder="Main Image">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage01" placeholder="First Additional Image">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage03" placeholder="Third Additional Image">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"></textarea>
+                    </div>
 
-        <div class="form-group">
-              <button class="btn btn-large btn-primary btn-block">Submit</button>
-        </div>
-      </form>
+                    <div class="form-group">
+                        <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended"></textarea>
+                    </div>
 
-        <a href="/blogs">Go Back</a>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="template" placeholder="Template">
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-large btn-primary btn-block">Submit</button>
+                    </div>
+                </form>
+
+                <a href="/blogs">Go Back</a>
+            </div>
+
+            <script type="text/javascript">
+
+          //   function sendFile(file, editor, welEditable) {
+          //     console.log("sendfile");
+          //     var data = new FormData();
+          //     data.append("file", file);
+          //     $.ajax({
+          //         data: data,
+          //         type: "POST",
+          //         url: "/imgtos3",
+          //         cache: false,
+          //         contentType: false,
+          //         processData: false,
+          //         success: function(url) {
+          //             editor.insertImage(welEditable, url);
+          //         }
+          //     });
+          // }
+                $(document).ready(function() {
+                    $('.blog-body').summernote({
+                        height: 300,
+                        toolbar: [
+                            // [groupName, [list of button]]
+                            ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['font', ['strikethrough', 'superscript', 'subscript']],
+                            ['fontsize', ['fontsize']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['link', ['link']]
+                        ]//,callbacks:{
+                        //   onImageUpload: function(files, editor, welEditable) {
+                        //     console.log("imageupload");
+                        //       sendFile(files[0], editor, welEditable);
+                        //   }
+                        // }
+                      });
+
+                              });
+
+
+
+
+
+            </script>
+
+        </div>
     </div>
 
-    <script type="text/javascript">
-          $(document).ready(function(){
-              $('#blog-body').summernote({
-                height:300,
-                theme:'yeti',
-                toolbar: [
-                      // [groupName, [list of button]]
-                      ['style', ['bold', 'italic', 'underline', 'clear']],
-                      ['font', ['strikethrough', 'superscript', 'subscript']],
-                      ['fontsize', ['fontsize']],
-                      ['color', ['color']],
-                      ['para', ['ul', 'ol', 'paragraph']],
-                      ['height', ['height']],
-                      ['link', ['link']],
-                    ]
-              });
-          });
-    </script>
-
-  </div>
-</div>
-
-<% include ../partials/footer%>
+    <% include ../partials/footer%>

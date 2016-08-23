@@ -3,33 +3,56 @@
   <div class="row">
 
     <h1 style="text-align:center;"> Edit <%= blog.blogTitle%></h1>
-    <div  style="width:40%; margin:30px auto;">
-      <form action="/blog/<%= blog._id%>?_method=PUT" method="POST">
+    <div  style="width:80%; margin:30px auto;">
+      <form action="/blogs/<%= blog._id%>?_method=PUT" method="POST">
         <div class="form-group">
-            <input class="form-control" type="text" name="title" value="<%= blog.blogTitle%>" placeholder="Name">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="author" value="<%= blog.blogAuthor%>" placeholder="Author" >
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="image" value="<%= blog.blogImage%>" placeholder="Image-URL" >
-        </div>
-        <div class="form-group">
-            <textarea id="blog-body"class="form-control" type="text"  name="text" placeholder="text" ><%- blog.blogText%>"</textarea>
-        </div>
-        <div class="form-group">
-              <button class="btn btn-large btn-primary btn-block">Submit</button>
-        </div>
-      </form>
+                      <input class="form-control" type="text" name="title" value="<%=blog.blogTitle %>" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="state" placeholder="State" value="<%=blog.blogState %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="author" placeholder="Author" value="<%=blog.blogAuthor %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="publishedDate" placeholder="Published Date" value="<%=blog.blogPublishedDate %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="mainImage" placeholder="Main Image" value="<%=blog.blogMainImage %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage01" placeholder="First Additional Image" value="<%=blog.blogAdditionalImage01 %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image" value="<%=blog.blogAdditionalImage02 %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="additionalImage03" placeholder="Third Additional Image" value="<%=blog.blogAdditionalImage03 %>">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"><%-blog.blogContentBrief %></textarea>
+                    </div>
 
+                    <div class="form-group">
+                        <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended">value="<%-blog.blogContentExtended %>"</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="template" placeholder="Template" value="<%=blog.blogTemplate %>">
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-large btn-primary btn-block">Submit</button>
+                    </div>
+                </form>
         <a href="/blogs">Go Back</a>
     </div>
 
     <script type="text/javascript">
           $(document).ready(function(){
-              $('#blog-body').summernote({
+              $('.blog-body').summernote({
                 height:300,
-                theme:'yeti',
+                airMode:false,
                 toolbar: [
                       // [groupName, [list of button]]
                       ['style', ['bold', 'italic', 'underline', 'clear']],

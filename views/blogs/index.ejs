@@ -25,12 +25,13 @@
         <div class="well">
             <div class="media">
                 <a class="pull-left" href="#">
-                    <img class="media-object" src="<%= blog.blogImage %>" height="128px" width='128px'>
+                    <img class="media-object" src="<%= blog.blogMainImage %>" height="128px" width='128px'>
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading"><%= blog.blogTitle %></h4>
                     <p>By <%= blog.blogAuthor %></p>
                     <p><%= blog.blogCreatedAt %></p>
+
                     <div>
                         <a class="btn btn-default" href="/blogs/<%=blog._id%>">Show</a>
                     </div>

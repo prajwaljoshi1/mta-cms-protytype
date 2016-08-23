@@ -9,7 +9,7 @@ var LocalStrategy = require('passport-local');
 
 var flash = require('connect-flash');
 
-
+app.use(methodOverride("_method"));
 
 //import models
 var Blog = require('./models/blog.js');
@@ -18,6 +18,10 @@ var User = require('./models/user.js');
 //import routes
 var blogRoutes = require('./routes/blogs.js');
 var indexRoutes = require('./routes/index.js');
+var userRoutes = require('./routes/users.js');
+
+//var uploadImageRoutes = require('./routes/uploadimage.js');
+
 
 
 //passport config
@@ -36,7 +40,7 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect("mongodb://localhost/mtadb");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
-app.use(methodOverride("_method"));
+
 app.use(flash());
 app.use(function(req,res, next){
     res.locals.currentUser= req.user;
@@ -47,7 +51,9 @@ app.use(function(req,res, next){
 
 //use routes
 app.use(indexRoutes);
+//app.use(uploadImageRoutes);
 app.use("/blogs",blogRoutes);
+app.use("/users",userRoutes);
 
 
 

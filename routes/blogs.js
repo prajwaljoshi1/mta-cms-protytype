@@ -1,6 +1,8 @@
 
 var express = require('express');
 var router = express.Router();
+//var methodOverride = require("method-override");
+//router.use(methodOverride("_method"));
 var Blog = require("../models/blog.js")
 
 var middleware 	= require("../middleware");
@@ -9,7 +11,7 @@ var middleware 	= require("../middleware");
 router.get("/",middleware.isBlogReadOnly, function(req,res){
         Blog.find({}, function(err, allBlogs){
           if(err){
-            debugger;
+
             console.log(err);
           }else{
             res.render("blogs/index.ejs", { blogs: allBlogs});
@@ -19,13 +21,19 @@ router.get("/",middleware.isBlogReadOnly, function(req,res){
 
 router.post("/",middleware.isBlogFullAccess, function(req, res){
 
-    //get data from form
-    var title = req.body.title;
-    var image = req.body.image;
-    var text = req.body.text;
-    var author = req.body.author;
-    //add to db
-    var newBlog = {blogTitle: title, blogImage:image,blogText: text, blogAuthor:author}
+    var newBlog = {
+          blogTitle: req.body.title,
+          blogState: req.body.state,
+          blogAuthor:req.body.author,
+          blogPublishedDate:req.body.publishedDate,
+          blogMainImage:req.body.mainImage,
+          blogAdditionalImage01:req.body.additionalImage01,
+          blogAdditionalImage02:req.body.additionalImage02,
+          blogAdditionalImage03:req.body.additionalImage03,
+          blogContentBrief: req.body.contentBrief,
+          blogContentExtended:req.body.contentExtended,
+          blogTemplate:req.body.template
+      }
     Blog.create(newBlog, function(err,newlyCreated){
       if(err){
         debugger;
@@ -66,13 +74,20 @@ router.get("/:id/edit", middleware.isBlogFullAccess, function(req, res){
 router.put("/:id", middleware.isBlogFullAccess, function(req, res){
 console.log("test etstestesteste");
 console.log(req.body);
-  var title = req.body.title;
-  var image = req.body.image;
-  var text = req.body.text;
-  var author = req.body.author;
-  console.log(image);
-  //add to db
-  var updatingBlog = {blogTitle: title, blogImage:image, blogText: text, blogAuthor:author}
+
+  var updatingBlog = {
+    blogTitle: req.body.title,
+    blogState: req.body.state,
+    blogAuthor:req.body.author,
+    blogPublishedDate:req.body.publishedDate,
+    blogMainImage:req.body.mainImage,
+    blogAdditionalImage01:req.body.additionalImage01,
+    blogAdditionalImage02:req.body.additionalImage02,
+    blogAdditionalImage03:req.body.additionalImage03,
+    blogContentBrief: req.body.contentBrief,
+    blogContentExtended:req.body.contentExtended,
+    blogTemplate:req.body.template
+  }
 
   Blog.findByIdAndUpdate(req.params.id, updatingBlog, function(err, updatedBlog){
       if(err){
