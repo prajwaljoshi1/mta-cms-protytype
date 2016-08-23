@@ -1,49 +1,106 @@
 <% include ../partials/header%>
-    <div class="container">
-        <div class="row">
+
+
 
             <h1 style="text-align:center;"> Create a new blog</h1>
             <div style="width:80%; margin:30px auto;">
                 <form action="/blogs" method="POST">
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="title" placeholder="Title">
+
+                    <div class="container">
+                      <div class="row">
+                          <div class="main-image-container col-xs-12">
+                            <div class="form-group main-image-input">
+                                <input class="form-control" type="text" name="mainImage" placeholder="Main Image">
+                            </div>
+                          </div>
+                      </div>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="state" placeholder="State">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="author" placeholder="Author">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="publishedDate" placeholder="Published Date">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="mainImage" placeholder="Main Image">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage01" placeholder="First Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage03" placeholder="Third Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"></textarea>
+                    <div class="container">
+                      <div class="row">
+                        <div class="title-container col-sm-5">
+
+                          <div class="title-inputs form-group">
+                              <input class="form-control" type="text" name="title" placeholder="Title">
+                              <input class="form-control" type="text" name="author" placeholder="Author">
+                              <input class="form-control" type="text" name="publishedDate" placeholder="Published Date">
+                          </div>
+                        </div>
+                        <div class="col-sm-offset-7">
+
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="form-group">
-                        <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended"></textarea>
+                    <div class="container">
+                      <div class="row">
+                        <div class="content-brief-container">
+                          <div class="form-group">
+                              <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"></textarea>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
+                    <div class="container">
+                      <div class="row">
+                          <div class="optional-left-image-container col-md-6">
+                            <div class="left-image-input form-group">
+                                <input class="form-control" type="text" name="additionalImage01" placeholder="Additional Image (optional)">
+                            </div>
+                          </div>
+                          <div class="optional-right-text-container col-md-6">
+
+                              <div class="form-group">
+                                  <textarea class="blog-body optional-content-textarea" class="form-control" type="text" name="contentOptional" placeholder="Content Optional"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="container">
+                      <div class="row">
+                          <div class="middle-image-container col-xs-12">
+                            <div class="form-group middle-image-input">
+                                  <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="container">
+                      <div class="row">
+                        <div class="content-brief-container">
+                          <div class="form-group">
+                              <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                <div class="container">
+
+                  <div class="additional-fields">
                     <div class="form-group">
                         <input class="form-control" type="text" name="template" placeholder="Template">
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-large btn-primary btn-block">Submit</button>
+                        <input class="form-control" type="text" name="state" placeholder="State">
                     </div>
+                  </div>
+
+
+                  <div class="form-group">
+                      <button class="btn btn-large btn-primary btn-block">Submit</button>
+                  </div>
+
+                </div>
+
+
                 </form>
 
                 <a href="/blogs">Go Back</a>
@@ -93,7 +150,6 @@
 
             </script>
 
-        </div>
-    </div>
+
 
     <% include ../partials/footer%>

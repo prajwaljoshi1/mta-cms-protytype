@@ -5,25 +5,30 @@
 <div class="container">
   <div class="well">
       <div class="media">
-
-              <img class="media-object" src="<%= blog.blogMainImage %>">
-
+              <div class="main-image-div">
+                <img class="media-object" src="<%= blog.blogMainImage %>">
+              </div>
           <div class="media-body">
-              <h2 class="media-heading"><%= blog.blogTitle %></h2>
+              <h1 class="media-heading"><%= blog.blogTitle %></h1>
               <h4>By <%= blog.blogAuthor %></h4>
               <h6><%= blog.blogPublishedDate %></h6>
-              <p>
-                  <%- blog.blogState %>
-              </p>
-              <p>
+
+              <div>
                   <%- blog.blogContentBrief %>
-              </p>
-              <p>
-                <img class="media-object" src="<%= blog.blogAdditionalImage01 %>">
-              </p>
-              <p>
-                    <%- blog.blogContentExtended %>
-              </p>
+              </div>
+
+
+<div class="col-md-6">
+
+                  <div class="main-image-div">
+                      <img class="media-object" src="<%= blog.blogAdditionalImage01 %>">
+                  </div>
+</div>
+              <div class="col-md-6">
+                  <%- blog.blogContentExtended %>
+              </div>
+
+
               <p>
                 <img class="media-object" src="<%= blog.blogAdditionalImage02 %>">
               </p>

@@ -40,6 +40,7 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect("mongodb://localhost/mtadb");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
 app.use(flash());
 app.use(function(req,res, next){
