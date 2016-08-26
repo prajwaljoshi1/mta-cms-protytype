@@ -2,19 +2,18 @@ var mongoose = require('mongoose');
 
 var mtaProductSchema = new mongoose.Schema({
   productName: String,
-  blogState: String,
-  blogAuthor:String,
-  blogPublishedDate:String,
-  blogMainImage: String,
-  blogAdditionalImage01: String,
-  blogAdditionalImage02: String,
-  blogAdditionalImage03: String,
-  blogContentBrief: String,
-  blogContentExtended:String,
-  blogTemplate:String,
-  blogCreatedAt: { type: Date, default: Date.now }
+  productState: String,
+  productPrice:String,
+  productQuantity:String,
+  productMainImage: String,
+  productAdditionalImage01: String,
+  productAdditionalImage02: String,
+  productAdditionalImage03: String,
+  productAdditionalDescription: String,
+  productCreatedAt: { type: Date, default: Date.now },
+  productCustomAttributes: Array
 });
 
-var Blog = mongoose.model("Blog", mtaBlogSchema);
+var Product = mongoose.model("Product", mtaProductSchema);
 
-module.exports  = Blog
+module.exports  = Product;

@@ -1,0 +1,33 @@
+
+<% include ../partials/header%>
+
+
+<div class="container">
+  <div class="well">
+        <div class="row">
+          <div class="col-xs-12">
+                <h3>
+                    <%= productCategory.productCategoryName %>
+                </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-md-4">
+              <h4>
+                  Additional Fields:
+              </h4>
+          </div>
+          <div class="col-xs-6 col-md-8">
+            <%productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+              <h4>
+                  <%=field%>
+              </h4>
+            <%})%>
+          </div>
+
+        </div>
+  </div>
+</div>
+
+
+<% include ../partials/footer%>

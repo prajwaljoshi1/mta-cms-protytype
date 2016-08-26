@@ -5,7 +5,7 @@ var mtaBlogSchema = new mongoose.Schema({
   blogState: String,
   blogAuthor:String,
   blogPublishedDate:String,
-  blogMainImage: String,
+  blogMainImage: String,//mongoose.Schema.Types.Mixed,
   blogAdditionalImage01: String,
   blogAdditionalImage02: String,
   blogAdditionalImage03: String,
@@ -17,4 +17,4 @@ var mtaBlogSchema = new mongoose.Schema({
 
 var Blog = mongoose.model("Blog", mtaBlogSchema);
 
-module.exports  = Blog
+module.exports  = Blog;

@@ -1,0 +1,39 @@
+
+<% include ../partials/header%>
+
+
+<div class="container">
+  <div class="well">
+      <div class="media">
+              <div class="main-image-div">
+                <img class="media-object" src="<%= product.productMainImage %>">
+              </div>
+          <div class="media-body">
+              <h1 class="media-heading"><%= product.productName %></h1>
+              <h4>By <%= product.productPrice %></h4>
+              <h6><%= product.product %></h6>
+
+              <div>
+                  <%- product.productAdditionalDescription %>
+              </div>
+
+            <% product.productCustomAttributes.forEach(function(attr) { %>
+
+                  <h1><%= attr.attributeName%> <%= attr.attributeValue%> </h1>
+                <% }); %>
+
+
+              <div class="pull-right">
+                <a class="btn btn-default" href="/products/<%=product._id%>/edit" name="button">Edit</a>
+                <form class="" action="/products/<%=product._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-default" name="button">Delete</button>
+                </form>
+              </div>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<% include ../partials/footer%>

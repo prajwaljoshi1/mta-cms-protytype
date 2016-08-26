@@ -1,11 +1,36 @@
 
 var express = require('express');
 var router = express.Router();
-//var methodOverride = require("method-override");
-//router.use(methodOverride("_method"));
 var Blog = require("../models/blog.js")
+var aws = require('aws-sdk')
+ var multer = require('multer');
+
+var s3 = new aws.S3({ /* ... */ })
+var multerS3 = require('multer-s3')
+
+var s3FileNames = [];
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'mtacmsblog',
+    secretAccessKey: 'Go to hell',
+    accessKeyId: 'Go to hell',
+    acl: 'public-read',
+    key: function (req, file, cb) {
+        console.log("##############--");
+        console.log(req.body);
+        console.log("##############--");
+        var fileName = Date.now()+"_"+req.body.title+"_"+file.originalname;
+        s3FileNames.push(fileName)
+      cb(null, fileName );
+    }
+  })
+})
+
 
 var middleware 	= require("../middleware");
+
+
 
 
 router.get("/",middleware.isBlogReadOnly, function(req,res){
@@ -19,20 +44,21 @@ router.get("/",middleware.isBlogReadOnly, function(req,res){
         });
 });
 
-router.post("/",middleware.isBlogFullAccess, function(req, res){
+router.post("/",[middleware.isBlogFullAccess, upload.any()], function(req, res){
+
 
     var newBlog = {
-          blogTitle: req.body.title,
-          blogState: req.body.state,
-          blogAuthor:req.body.author,
-          blogPublishedDate:req.body.publishedDate,
-          blogMainImage:req.body.mainImage,
-          blogAdditionalImage01:req.body.additionalImage01,
-          blogAdditionalImage02:req.body.additionalImage02,
-          blogAdditionalImage03:req.body.additionalImage03,
-          blogContentBrief: req.body.contentBrief,
-          blogContentExtended:req.body.contentExtended,
-          blogTemplate:req.body.template
+      blogTitle: req.body.title,
+      blogState: req.body.state,
+      blogAuthor:req.body.author,
+      blogPublishedDate:req.body.publishedDate,
+      blogMainImage:"https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[0],
+      blogAdditionalImage01:"https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[1],
+      blogAdditionalImage02:"https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[2],
+      blogAdditionalImage03:"https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[3],
+      blogContentBrief: req.body.contentBrief,
+      blogContentExtended:req.body.contentExtended,
+      blogTemplate:req.body.template
       }
     Blog.create(newBlog, function(err,newlyCreated){
       if(err){

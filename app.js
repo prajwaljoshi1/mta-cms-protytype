@@ -3,6 +3,10 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
 var methodOverride = require("method-override");
+var assert = require('assert');
+
+
+
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
@@ -14,11 +18,15 @@ app.use(methodOverride("_method"));
 //import models
 var Blog = require('./models/blog.js');
 var User = require('./models/user.js');
+var Product = require('./models/product.js');
+var ProductCategory = require('./models/productCategory.js');
 
 //import routes
 var blogRoutes = require('./routes/blogs.js');
 var indexRoutes = require('./routes/index.js');
 var userRoutes = require('./routes/users.js');
+var productRoutes = require('./routes/products.js');
+var productCategoryRoutes = require('./routes/productCategories.js');
 
 //var uploadImageRoutes = require('./routes/uploadimage.js');
 
@@ -55,26 +63,10 @@ app.use(indexRoutes);
 //app.use(uploadImageRoutes);
 app.use("/blogs",blogRoutes);
 app.use("/users",userRoutes);
+app.use("/products",productRoutes);
+app.use("/productcategories",productCategoryRoutes);
 
 
-
-
-// var blogs = [
-//   {title: "TALES FROM THE ROAD", image:"http://www.child.com.au/resources/site/child/blog/blog-56-intro.jpg"},
-//   {title: "LAKESHORE MAGNETIC FISHING SET", image:"http://www.child.com.au/resources/site/child/blog/blog-55-intro.jpg"},
-//   {title: "SPEECH SOUNDS", image:"http://www.child.com.au/resources/site/child/blog/blog-54-intro.jpg"}
-// ]
-
-
-// //middleware
-// var isLoggedIn = function(req, res, next){
-//   if(req.isAuthenticated()){
-//     return next();
-//   }
-//     res.redirect("/");
-// };
-//
-//
 
 
 

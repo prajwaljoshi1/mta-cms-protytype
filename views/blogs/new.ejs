@@ -2,88 +2,113 @@
 
 
 
-            <h1 style="text-align:center;"> Create a new blog</h1>
-            <div style="width:80%; margin:30px auto;">
-                <form action="/blogs" method="POST">
+    <h1 style="text-align:center;"> Create a new blog</h1>
+    <div style="width:80%; margin:30px auto;">
+        <form enctype="multipart/form-data" action="/blogs" method="POST">
 
-                    <div class="container">
-                      <div class="row">
-                          <div class="main-image-container col-xs-12">
-                            <div class="form-group main-image-input">
-                                <input class="form-control" type="text" name="mainImage" placeholder="Main Image">
-                            </div>
-                          </div>
-                      </div>
+
+            <div class="container" id="title">
+                <div class="row">
+                    <div class="blog-title-container col-xs-12">
+                        <input class="form-control blog-title-input " type="text" name="title" placeholder="Title">
                     </div>
-                    <div class="container">
-                      <div class="row">
-                        <div class="title-container col-sm-5">
+                </div>
+            </div>
 
-                          <div class="title-inputs form-group">
-                              <input class="form-control" type="text" name="title" placeholder="Title">
-                              <input class="form-control" type="text" name="author" placeholder="Author">
-                              <input class="form-control" type="text" name="publishedDate" placeholder="Published Date">
-                          </div>
+            <div class="container">
+                <div class="row">
+                    <div class="main-image-container col-xs-12">
+                        <div class="form-group main-image-input">
+                            <img id="image_upload_preview" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                            <input class="form-control" type="file" id="inputMainImage" name="mainImage" placeholder="Main Image">
                         </div>
-                        <div class="col-sm-offset-7">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="title-container col-sm-5">
 
+                        <div class="title-inputs form-group">
+                            <input class="form-control" type="text" name="author" placeholder="Author">
+                            <input class="form-control" type="text" name="publishedDate" placeholder="Published Date">
                         </div>
-                      </div>
                     </div>
+                    <div class="col-sm-offset-7">
 
-                    <div class="container">
-                      <div class="row">
-                        <div class="content-brief-container">
-                          <div class="form-group">
-                              <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"></textarea>
-                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="content-brief-container">
+                        <div class="form-group">
+                            <textarea class="blog-body" class="form-control" type="text" name="contentBrief" placeholder="Content Brief"></textarea>
                         </div>
-                      </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="container">
-                      <div class="row">
-                          <div class="optional-left-image-container col-md-6">
-                            <div class="left-image-input form-group">
-                                <input class="form-control" type="text" name="additionalImage01" placeholder="Additional Image (optional)">
-                            </div>
-                          </div>
-                          <div class="optional-right-text-container col-md-6">
 
-                              <div class="form-group">
-                                  <textarea class="blog-body optional-content-textarea" class="form-control" type="text" name="contentOptional" placeholder="Content Optional"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
+  <div class="container  optional-grid" >
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" >
+                  <p class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#advanced-grid" aria-expanded="true" aria-controls="collapseOne">
+                      Advanced Grid (Optional)
+                    </a>
+                  </p>
+                </div>
 
-                    <div class="container">
-                      <div class="row">
-                          <div class="middle-image-container col-xs-12">
-                            <div class="form-group middle-image-input">
-                                  <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
 
-                    <div class="container">
-                      <div class="row">
-                        <div class="content-brief-container">
-                          <div class="form-group">
-                              <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended"></textarea>
-                          </div>
+                <div class="row panel-body panel-collapse collapse" id="advanced-grid">
+                    <div class="optional-left-image-container col-md-6">
+                        <div class="left-image-input form-group">
+                            <input class="form-control" type="file" name="additionalImage01" placeholder="Additional Image (optional)">
                         </div>
-                      </div>
                     </div>
+                    <div class="optional-right-text-container col-md-6">
+
+                        <div class="form-group">
+                            <textarea class="blog-body optional-content-textarea" class="form-control" type="text" name="contentOptional" placeholder="Content Optional"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              </div>
+              </div>
+              
+
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="middle-image-container col-xs-12">
+                        <div class="form-group middle-image-input">
+                            <input class="form-control" type="file" name="additionalImage02" placeholder="Second Additional Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="content-brief-container">
+                        <div class="form-group">
+                            <textarea class="blog-body" class="form-control" type="text" name="contentExtended" placeholder="Content Extended"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
 
-                <div class="container">
+            <div class="container">
 
-                  <div class="additional-fields">
+                <div class="additional-fields">
                     <div class="form-group">
                         <input class="form-control" type="text" name="template" placeholder="Template">
                     </div>
@@ -91,64 +116,53 @@
                     <div class="form-group">
                         <input class="form-control" type="text" name="state" placeholder="State">
                     </div>
-                  </div>
-
-
-                  <div class="form-group">
-                      <button class="btn btn-large btn-primary btn-block">Submit</button>
-                  </div>
-
                 </div>
 
 
-                </form>
+                <div class="form-group">
+                    <button class="btn btn-large btn-primary btn-block">Submit</button>
+                </div>
 
-                <a href="/blogs">Go Back</a>
             </div>
 
-            <script type="text/javascript">
 
-          //   function sendFile(file, editor, welEditable) {
-          //     console.log("sendfile");
-          //     var data = new FormData();
-          //     data.append("file", file);
-          //     $.ajax({
-          //         data: data,
-          //         type: "POST",
-          //         url: "/imgtos3",
-          //         cache: false,
-          //         contentType: false,
-          //         processData: false,
-          //         success: function(url) {
-          //             editor.insertImage(welEditable, url);
-          //         }
-          //     });
-          // }
-                $(document).ready(function() {
-                    $('.blog-body').summernote({
-                        height: 300,
-                        toolbar: [
-                            // [groupName, [list of button]]
-                            ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['font', ['strikethrough', 'superscript', 'subscript']],
-                            ['fontsize', ['fontsize']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['link', ['link']]
-                        ]//,callbacks:{
-                        //   onImageUpload: function(files, editor, welEditable) {
-                        //     console.log("imageupload");
-                        //       sendFile(files[0], editor, welEditable);
-                        //   }
-                        // }
-                      });
+        </form>
 
-                              });
+        <a href="/blogs">Go Back</a>
+    </div>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.blog-body').summernote({
+                height: 300,
+                toolbar: [
 
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['link', ['link']]
+                ]
+            });
 
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
 
+                    reader.onload = function(e) {
+                        $('#image_upload_preview').attr('src', e.target.result);
+                    }
 
-            </script>
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#inputMainImage").change(function() {
+                readURL(this);
+            });
+
+        });
+    </script>
 
 
 

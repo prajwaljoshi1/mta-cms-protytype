@@ -14,7 +14,17 @@
 
 /*simple-blog-form*/
 
+.blog-title-container{
+  height:100px;
+  background-color: #eee;
+}
+
+.blog-title-input{
+margin-top:30px;
+}
+
   .main-image-container{
+    margin-top: 20px;
     height:300px;
     background-color: #eee;
   }
@@ -25,7 +35,7 @@
 
   .title-container{
     margin-top:20px;
-    height:200px;
+    height:160px;
     background-color: #eee;
   }
 
@@ -33,6 +43,11 @@
     margin-top:50px;
   }
 
+ .optional-grid{
+   margin-top: 20px;
+   padding-right: 10px;
+   padding-right: 10px;
+ }
   .optional-left-image-container{
     margin-top: 20px;
     height:400px;
@@ -80,5 +95,5 @@
 
   .additional-fields{
     margin-top:20px;
-    
+
   }

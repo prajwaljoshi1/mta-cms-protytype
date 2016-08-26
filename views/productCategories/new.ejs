@@ -1,0 +1,77 @@
+<% include ../partials/header%>
+    <div class="container">
+        <div class="row">
+
+            <h1 style="text-align:center;"> Add a new Product</h1>
+            <div style="width:80%; margin:30px auto;">
+                <form action="/productcategories" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" placeholder="Product Name">
+                    </div>
+
+                    <div class="" id="custom-attributes">
+
+                    </div>
+
+                    <button class="btn btn-large btn-default" id="addCustomAttr" >Add Custom Attributes</button>
+                    <div class="" id="attribute-name-input">
+                      <input class="form-control" id="attribute-name" name="field1" placeholder="enter additional attribute name" type="text">
+                      <button class="btn btn-default" id="confirm-attribute">Confirm</button>
+                    </div>
+
+
+                    <div class="form-group">
+                        <button class="btn btn-large btn-primary btn-block" >Submit</button>
+                    </div>
+                </form>
+
+                <a href="/blogs">Go Back</a>
+            </div>
+
+            <script type="text/javascript">
+
+
+
+                $(document).ready(function() {
+
+                  $('#attribute-name-input').hide();
+
+                  $('#addCustomAttr').on('click', function(e){
+                      e.preventDefault();
+                    $('#attribute-name-input').show();
+                  });
+
+                  var i = 1;
+                  $('#confirm-attribute').on('click', function(e){
+                      e.preventDefault();
+                      var inputVal = $('#attribute-name').val();
+
+
+
+
+                      if(inputVal && inputVal.length > 0){
+
+                          $('#attribute-name').val('');
+                          $('#attribute-name-input').hide();
+                          $('#custom-attributes').append('<div class="form-group"><label> Additional Attribue '+i+' </label> <input input class="form-control" type="text" name="fields" value="'+inputVal+'"> </div>');
+                           i = i+1;
+                      }
+
+
+                    });
+
+
+
+
+                      });
+
+
+
+
+
+            </script>
+
+        </div>
+    </div>
+
+    <% include ../partials/footer%>

@@ -1,0 +1,127 @@
+
+
+
+    <% include ../partials/header%>
+        <div class="container">
+            <div class="row">
+
+                <h1 style="text-align:center;"> Add a new Product</h1>
+                <div style="width:80%; margin:30px auto;">
+                      <form action="/blogs/<%= blog._id%>?_method=PUT" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" value="<%=product.productName %>" placeholder="Product Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="state" value="<%=product.productState %>" placeholder="State">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="price" value="<%=product.productPrice %>" placeholder="price">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="Quantity" value="<%=product.productQuantity %>" placeholder="Quantity">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="mainImage" value="<%=product.productMainImage %>" placeholder="Main Image">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="additionalImage01" value="<%=product.productAdditionalImage01 %>" placeholder="First Additional Image">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="additionalImage02" value="<%=product.productAdditionalImage02 %>" placeholder="Second Additional Image">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="additionalImage03" value="<%=product.productAdditionalImage03 %>" placeholder="Third Additional Image">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"><%=product.productAdditionalDescription %></textarea>
+                        </div>
+
+
+
+                        <div id="custom-attributes">
+
+
+                        </div>
+
+                        <button class="btn btn-large btn-default" id="addCustomAttr" >Add Custom Attributes</button>
+                        <div class="" id="attribute-name-input">
+                          <input class="form-control" id="attribute-name" placeholder="Enter Attribute Name Here" type="text">
+                          <button class="btn btn-default" id="confirm-attribute">Confirm</button>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-group">
+                            <button class="btn btn-large btn-primary btn-block" >Submit</button>
+                        </div>
+                    </form>
+
+                    <a href="/blogs">Go Back</a>
+                </div>
+
+                <script type="text/javascript">
+
+
+
+                    $(document).ready(function() {
+                      $('#attribute-name-input').hide();
+
+                      $('#addCustomAttr').on('click', function(e){
+                          e.preventDefault();
+                        $('#attribute-name-input').show();
+                      });
+
+
+                      $('#confirm-attribute').on('click', function(e){
+                          e.preventDefault();
+                          var label = $('#attribute-name').val();
+
+
+
+                          if(label && label.length > 0){
+                            $('#attribute-name').val('');
+                            $('#attribute-name-input').hide();
+                            $('#custom-attributes').append('<div class="form-group"><label> '+label+' </label> <input input class="form-control" type="text" name="customAttributes['+label+']" placeholder="'+label+'"> </div>');
+                          }
+
+
+                        });
+
+
+
+                        $('.blog-body').summernote({
+                            height: 300,
+                            toolbar: [
+                                // [groupName, [list of button]]
+                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                                ['font', ['strikethrough', 'superscript', 'subscript']],
+                                ['fontsize', ['fontsize']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['link', ['link']]
+                            ]//,callbacks:{
+                            //   onImageUpload: function(files, editor, welEditable) {
+                            //     console.log("imageupload");
+                            //       sendFile(files[0], editor, welEditable);
+                            //   }
+                            // }
+                          });
+
+
+
+
+                          });
+
+
+
+
+
+                </script>
+
+            </div>
+        </div>
+
+        <% include ../partials/footer%>
