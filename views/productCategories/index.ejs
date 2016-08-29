@@ -9,7 +9,7 @@
 
                 <h2>All Product Categories</h2>
                 <p>
-                    <a class="btn btn-primary btn-large" href="/products/new">Add New Category</a>
+                    <a class="btn btn-primary btn-large" href="/productcategories/new">Add New Category</a>
                 </p>
                 <div class="container">
 
@@ -24,12 +24,12 @@
   <% productCategories.forEach(function(productCategory){  %>
         <div class="well">
           <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-7">
                 <h3><%= productCategory.productCategoryName %>   </h3>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-5">
                 <h3>
-                  <a class="btn btn-default" href="/productCategories/<%=productCategory._id%>/products/new"> Add Product</a>
+                  <a class="btn btn-default" href="/productCategories/<%=productCategory._id%>/products/new"> Add new <%= productCategory.productCategoryName %> </a>
                   <a class="btn btn-default" href="/productCategories/<%=productCategory._id%>"> Details</a>
                 </h3>
             </div>

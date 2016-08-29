@@ -1,12 +1,13 @@
 <% include ../partials/header%>
-    <div class="container">
-        <div class="row">
 
+<!-- enctype="multipart/form-data" -->
 
+        <div class="container">
+            <div class="row">
 
             <h1 style="text-align:center;"> Add a new Product</h1>
             <div style="width:80%; margin:30px auto;">
-                <form action="/productcategories/<%=productCategory._id%>/products" method="POST">
+                <form  action="/productcategories/<%=productCategory._id%>/products" class="dropzone" drop-zone="" id="file-dropzone" method="POST">
                     <div class="form-group">
                         <input class="form-control" type="text" name="name" placeholder="Product Name">
                     </div>
@@ -19,81 +20,170 @@
                     <div class="form-group">
                         <input class="form-control" type="text" name="Quantity" placeholder="Quantity">
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="mainImage" placeholder="Main Image">
+
+
+                    <div class="row">
+
+
+                    <div class="images col-md-6"  >
+
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="image-text">
+                              <p>
+                                  Main Image
+                              </p>
+                          </div>
+
+                          <div class="image-text">
+                                <p>
+                                  Additional Image 1
+                                </p>
+                          </div>
+
+                          <div class="image-text">
+                            <p>
+                              Additional Image 2
+                            </p>
+                          </div>
+
+                          <div class="image-text">
+                            <p>
+                              Addditional Image 3
+                            </p>
+                          </div>
+
+                        </div>
+                        <div class="col-md-6" id="sortable">
+                          <div id="0" class="image-preview">
+                              <img id="preview1" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                          </div>
+
+                          <div id="1" class="image-preview">
+                                <img id="preview2" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                          </div>
+
+                          <div  id="2" class="image-preview">
+                            <img id="preview3" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                          </div>
+
+                          <div  id="3" class="image-preview">
+                                <img id="preview4" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                          </div>
+                        </div>
+
+                      </div>
+
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage01" placeholder="First Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage02" placeholder="Second Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="additionalImage03" placeholder="Third Additional Image">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                          <input class="form-control" type="file" id="image1" name="mainImage" placeholder="Main Image">
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control" type="file" id="image2" name="additionalImage01" placeholder="First Additional Image">
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control" type="file" id="image3" name="additionalImage02" placeholder="Second Additional Image">
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control" type="file" id="image4" name="additionalImage03" placeholder="Third Additional Image">
+                      </div>
+
+                      </div>
                     </div>
 
 
-                      <% productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+                      <input id="imageOrder" type="hidden" name="imageOrder">
+
+
+                     <div class="form-group">
+                              <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
+                      </div>
+
+
+
+                    <% productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+
+                        <div class="form-group">
+
+                            <input class="form-control" type="text" name="customAttributes[<%= field %>]" placeholder="  <%= field %>">
+                        </div>
+
+                        <%  }) %>
+
 
                             <div class="form-group">
-
-                                  <input class="form-control" type="text" name="customAttributes[<%= field %>]" placeholder="  <%= field %>">
-                              </div>
-
-                    <%  }) %>
-
-
-
-
-
-
-
-
-
-
-
-
-                    <div class="form-group">
-                        <button class="btn btn-large btn-primary btn-block" >Submit</button>
-                    </div>
+                                <button class="btn btn-large btn-primary btn-block">Submit</button>
+                            </div>
                 </form>
 
                 <a href="/blogs">Go Back</a>
             </div>
 
-            <script type="text/javascript">
-
-
-
-                $(document).ready(function() {
-
-                    $('.blog-body').summernote({
-                        height: 300,
-                        toolbar: [
-                            // [groupName, [list of button]]
-                            ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['font', ['strikethrough', 'superscript', 'subscript']],
-                            ['fontsize', ['fontsize']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['link', ['link']]
-                        ]
-                      });
-
-
-
-
-                      });
-
-
-
-
-
-            </script>
-
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+          $("#sortable").sortable({
+               update: function(event, ui) {
+                 var order = $(this).sortable('toArray');
+                 $('#imageOrder').val(order);
+               }
+          });
+
+            $('.blog-body').summernote({
+                height: 300,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['link', ['link']]
+                ]
+            });
+
+            function readURLImage(input,$output) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $output.attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+            $("#image1").change(function() {
+                 var $output = $("#preview1")
+                readURLImage(this, $output);
+            });
+
+            $("#image2").change(function() {
+              var $output = $("#preview2")
+              readURLImage(this, $output);
+            });
+
+            $("#image3").change(function() {
+             var  $output = $("#preview3")
+              readURLImage(this, $output);
+            });
+
+            $("#image4").change(function() {
+               var $output = $("#preview4")
+              readURLImage(this, $output);
+            });
+
+
+        });
+    </script>
+
 
     <% include ../partials/footer%>

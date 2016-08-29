@@ -5,7 +5,7 @@ var Blog = require("../models/blog.js")
 var aws = require('aws-sdk')
  var multer = require('multer');
 
-var s3 = new aws.S3({ /* ... */ })
+var s3 = new aws.S3({});
 var multerS3 = require('multer-s3')
 
 var s3FileNames = [];
@@ -17,9 +17,6 @@ var upload = multer({
     accessKeyId: 'Go to hell',
     acl: 'public-read',
     key: function (req, file, cb) {
-        console.log("##############--");
-        console.log(req.body);
-        console.log("##############--");
         var fileName = Date.now()+"_"+req.body.title+"_"+file.originalname;
         s3FileNames.push(fileName)
       cb(null, fileName );
