@@ -4,8 +4,10 @@ var mtaProductCategorySchema = new mongoose.Schema({
   productCategoryName: String,
   productCategoryAdditionalFields:Array,
   products:[
-    type:mongoose.Schema.Types.objectId,
-    ref:"Comment"
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product"
+    }
   ]
 });
 

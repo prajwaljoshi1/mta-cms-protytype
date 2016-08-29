@@ -63,7 +63,7 @@ app.use(indexRoutes);
 //app.use(uploadImageRoutes);
 app.use("/blogs",blogRoutes);
 app.use("/users",userRoutes);
-app.use("/products",productRoutes);
+app.use("/productcategories/:id/products",productRoutes);
 app.use("/productcategories",productCategoryRoutes);
 
 

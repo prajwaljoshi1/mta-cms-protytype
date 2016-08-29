@@ -1,9 +1,11 @@
 
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams:true});
 //var methodOverride = require("method-override");
 //router.use(methodOverride("_method"));
+var ProductCategory = require("../models/productCategory.js");
 var Product = require("../models/product.js");
+
 
 var middleware 	= require("../middleware");
 
@@ -22,13 +24,12 @@ router.get("/",middleware.isProductReadOnly, function(req,res){
 
 router.post("/",middleware.isProductFullAccess, function(req, res){
 
-//console.log(req.body);
-debugger;
+
   var customAttributesArr =  objMapToArr(req.body.customAttributes, function ( n,k) {
-  return { attributeName: k, attributeValue: n };
-});
-  console.log(req.body.customAttributes);
-  console.log(customAttributesArr);
+    return { attributeName: k, attributeValue: n };
+  });
+
+
     var newProduct = {
           productName: req.body.name,
           productState: req.body.state,
@@ -41,20 +42,42 @@ debugger;
           productContentDescription: req.body.contentDescription,
           productCustomAttributes: customAttributesArr
       }
-      Product.create(newProduct, function(err,newlyCreated){
+
+      ProductCategory.findById(req.params.id, function(err, productCategory){
         if(err){
-
+          req.flash("error", "something went wrong");
           console.log(err);
-        }else{
+        }else {
 
-        res.redirect("/products")
-      }
-    })
+          Product.create(newProduct, function(err,newlyCreated){
+            if(err){
+              req.flash("error", "something went wrong");
+              console.log(err);
+            }else{
+              newlyCreated.save();
+              productCategory.products.push(newlyCreated);
+              productCategory.save();
+              req.flash('success', "Successfully add a new " + productCategory.productCategoryName+".");
+              res.redirect("/productCategories/");
+          }
+        })
+
+        }
+      });
+
 
 });
 
 router.get("/new", middleware.isProductFullAccess, function(req,res){
-    res.render("products/new.ejs")
+    ProductCategory.findById(req.params.id, function(err, productCategory){
+      if(err){
+        console.log(err);
+      }else{
+
+        res.render("products/new.ejs", {productCategory:productCategory});
+      }
+    })
+
 });
 
 router.get("/:id",middleware.isProductReadOnly, function(req,res){

@@ -26,9 +26,7 @@ router.post("/",middleware.isProductFullAccess, function(req, res){
 //   var customAttributesArr =  objMapToArr(req.body.customAttributes, function ( n,k) {
 //   return { attributeName: k, attributeValue: n };
 // });
-  console.log(req.body);
-  console.log("#################");
-  console.log(req.body.fields);
+
     var newProductCategory = {
           productCategoryName: req.body.name,
           productCategoryAdditionalFields:req.body.fields

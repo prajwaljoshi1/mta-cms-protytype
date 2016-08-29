@@ -2,9 +2,11 @@
     <div class="container">
         <div class="row">
 
+
+
             <h1 style="text-align:center;"> Add a new Product</h1>
             <div style="width:80%; margin:30px auto;">
-                <form action="/products" method="POST">
+                <form action="/productcategories/<%=productCategory._id%>/products" method="POST">
                     <div class="form-group">
                         <input class="form-control" type="text" name="name" placeholder="Product Name">
                     </div>
@@ -33,16 +35,20 @@
                         <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
                     </div>
 
-                    <div id="custom-attributes">
+
+                      <% productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+
+                            <div class="form-group">
+
+                                  <input class="form-control" type="text" name="customAttributes[<%= field %>]" placeholder="  <%= field %>">
+                              </div>
+
+                    <%  }) %>
 
 
-                    </div>
 
-                    <button class="btn btn-large btn-default" id="addCustomAttr" >Add Custom Attributes</button>
-                    <div class="" id="attribute-name-input">
-                      <input class="form-control" id="attribute-name" placeholder="Enter Attribute Name Here" type="text">
-                      <button class="btn btn-default" id="confirm-attribute">Confirm</button>
-                    </div>
+
+
 
 
 
@@ -63,30 +69,6 @@
 
 
                 $(document).ready(function() {
-                  $('#attribute-name-input').hide();
-
-                  $('#addCustomAttr').on('click', function(e){
-                      e.preventDefault();
-                    $('#attribute-name-input').show();
-                  });
-
-
-                  $('#confirm-attribute').on('click', function(e){
-                      e.preventDefault();
-                      var label = $('#attribute-name').val();
-
-
-
-                      if(label && label.length > 0){
-                        $('#attribute-name').val('');
-                        $('#attribute-name-input').hide();
-                        $('#custom-attributes').append('<div class="form-group"><label> '+label+' </label> <input input class="form-control" type="text" name="customAttributes['+label+']" placeholder="'+label+'"> </div>');
-                      }
-
-
-                    });
-
-
 
                     $('.blog-body').summernote({
                         height: 300,
@@ -97,12 +79,7 @@
                             ['fontsize', ['fontsize']],
                             ['para', ['ul', 'ol', 'paragraph']],
                             ['link', ['link']]
-                        ]//,callbacks:{
-                        //   onImageUpload: function(files, editor, welEditable) {
-                        //     console.log("imageupload");
-                        //       sendFile(files[0], editor, welEditable);
-                        //   }
-                        // }
+                        ]
                       });
 
 
