@@ -1,18 +1,52 @@
 <% include partials/header%>
-<h1>Register new users</h1>
-<form action="/register" method="POST">
-  <input type="text" name="username" placeholder="Username">
-  <select name='userType'>
-      <option value="admin">Admin</option>
-      <option value="blogFullAccess">Blog Full Access</option>
-      <option value="blogReadOnly">Blog Read Only</option>
-      <option value="productFullAccess">Product Full Access</option>
-      <option value="productReadOnly">Product Read Only</option>
-      <option value="blogAndProductFullAccess">Blog and Product Full Access</option>
-      <option value="blogAndProductReadOnly">Blog and Product Read Only</option>
-</select>
-  <input type="password" name="password" placeholder="Password">
-  <input type="password" name="confirmPassword" placeholder="Confirm Password">
-  <button> Sign up</button>
-</form>
+
+
+
+
+<div class="container login-register">
+    <div class="row">
+		<div class="col-sm-6 col-sm-offset-3 well">
+		<form action="/register" method="POST">
+			  <fieldset>
+			    <div id="legend">
+			      <h2 class="">Register new users</h2>
+			    </div>
+			    <div class="control-group">
+			      <!-- Username -->
+			      <label class="control-label"  for="username">Username</label>
+			      <div class="controls">
+			        <input type="text" id="username" name="username" placeholder="" class=" form-control input-xlarge">
+			      </div>
+			    </div>
+            <div class="control-group">
+              <label class="control-label"  for="username">Select a role</label>
+          <select name='userType' class="selectpicker form-control">
+              <option value="admin">Admin</option>
+              <option value="blogFullAccess">Blog Full Access</option>
+              <option value="blogReadOnly">Blog Read Only</option>
+              <option value="productFullAccess">Product Full Access</option>
+              <option value="productReadOnly">Product Read Only</option>
+              <option value="blogAndProductFullAccess">Blog and Product Full Access</option>
+              <option value="blogAndProductReadOnly">Blog and Product Read Only</option>
+        </select>
+          </div>
+			    <div class="control-group">
+			      <!-- Password-->
+			      <label class="control-label" for="password">Password</label>
+			      <div class="form-controls">
+			        <input type="text" id="password" name="password" placeholder="" class="form-control">
+			      </div>
+			    </div>
+			    <div class="control-group" align="center">
+			      <!-- Button -->
+			      <div class="submit">
+			        <button class="btn btn-default btn-lg btn-block">Register a User</button>
+			      </div>
+			    </div>
+			  </fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
 <% include partials/footer%>

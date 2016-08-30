@@ -48,7 +48,6 @@ router.post("/register", function(req, res){
        }else{
          req.flash("success", "New User Created");
          res.redirect("/cmshome");
-
        }
      } );
 

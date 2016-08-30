@@ -15,10 +15,8 @@ middlewareObj.isLoggedIn = function(req, res, next){
 };
 
 middlewareObj.isBlogFullAccess = function(req, res, next){
-  console.log("test middleware");
   if(req.isAuthenticated()){
     if(req.user.userType == 'blogfullAccess' || req.user.userType == 'admin'){
-        console.log("test middleware2");
       return next();
     }
   }

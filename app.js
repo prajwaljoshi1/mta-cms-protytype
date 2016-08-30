@@ -27,6 +27,7 @@ var indexRoutes = require('./routes/index.js');
 var userRoutes = require('./routes/users.js');
 var productRoutes = require('./routes/products.js');
 var productCategoryRoutes = require('./routes/productCategories.js');
+var apiRoutes = require('./routes/api.js');
 
 //var uploadImageRoutes = require('./routes/uploadimage.js');
 
@@ -65,6 +66,8 @@ app.use("/blogs",blogRoutes);
 app.use("/users",userRoutes);
 app.use("/productcategories/:id/products",productRoutes);
 app.use("/productcategories",productCategoryRoutes);
+app.use("/api",apiRoutes);
+
 
 
 
