@@ -2,38 +2,135 @@
 <% include ../partials/header%>
 
 
+
 <div class="container">
-  <div class="well">
-      <div class="media">
-              <div class="main-image-div">
-                <img class="media-object" src="<%= product.productMainImage %>">
-              </div>
-          <div class="media-body">
-              <h1 class="media-heading"><%= product.productName %></h1>
-              <h4>By <%= product.productPrice %></h4>
-              <h6><%= product.product %></h6>
-
-              <div>
-                  <%- product.productAdditionalDescription %>
-              </div>
-
-            <% product.productCustomAttributes.forEach(function(attr) { %>
-
-                  <h1><%= attr.attributeName%> <%= attr.attributeValue%> </h1>
-                <% }); %>
+        <div id="main_area">
+                <!-- Slider -->
+                <div class="row">
+                    <div class="col-xs-12" id="slider">
+                        <!-- Top part of the slider -->
+                        <div class="row">
+                            <div class="col-sm-8" id="carousel-bounding-box">
+                                <div class="carousel slide" id="myCarousel">
+                                    <!-- Carousel items -->
+                                    <div class="carousel-inner">
 
 
-              <div class="pull-right">
-                <a class="btn btn-default" href="/products/<%=product._id%>/edit" name="button">Edit</a>
-                <form class="" action="/products/<%=product._id%>?_method=DELETE" method="POST">
-                  <button class="btn btn-default" name="button">Delete</button>
-                </form>
-              </div>
+                                        <div class="active item" data-slide-number="0">
+                                        <img src="<%= product.productMainImage %>"></div>
 
-          </div>
-      </div>
-  </div>
+                                        <div class="item" data-slide-number="1">
+                                        <img src="http://placehold.it/770x300&text=two"></div>
+
+                                        <div class="item" data-slide-number="2">
+                                        <img src="http://placehold.it/200x100&text=three"></div>
+
+                                        <div class="item" data-slide-number="3">
+                                        <img src="http://placehold.it/770x300&text=four"></div>
+
+                                        <div class="item" data-slide-number="4">
+                                        <img src="http://placehold.it/320x480&text=five"></div>
+
+                                        <div class="item" data-slide-number="5">
+                                        <img src="http://placehold.it/770x300&text=six"></div>
+                                    </div><!-- Carousel nav -->
+                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                    </div>
+                            </div>
+
+                            <div class="col-sm-4" id="carousel-text"></div>
+
+                            <div>
+                                <div>
+                                    <h2><%= product.productName %></h2>
+                                    <h4>Cost: <%= product.productPrice %></h4>
+                                    <p>This image is 320x480px</p>
+                                    <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
+                                </div>
+                        </div>
+                    </div>
+                </div><!--/Slider-->
+
+                <div class="row hidden-xs" id="slider-thumbs">
+                        <!-- Bottom switcher of slider -->
+                        <ul class="hide-bullets">
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-0"><img src="<%= product.productMainImage %>"></a>
+                            </li>
+
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-1"><img src="http://placehold.it/170x100&text=two"></a>
+                            </li>
+
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-2"><img src="http://placehold.it/170x100&text=three"></a>
+                            </li>
+
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-3"><img src="http://placehold.it/170x100&text=four"></a>
+                            </li>
+
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-4"><img src="http://placehold.it/70x100&text=five"></a>
+                            </li>
+
+                            <li class="col-sm-2">
+                                <a class="thumbnail" id="carousel-selector-5"><img src="http://placehold.it/170x100&text=six"></a>
+                            </li>
+                        </ul>
+                </div>
+        </div>
+</div>
+<div>
+    <%- product.productAdditionalDescription %>
 </div>
 
+<% product.productCustomAttributes.forEach(function(attr) { %>
+
+      <div><%= attr.attributeName%>:  <%= attr.attributeValue%> </div>
+    <% }); %>
+
+    <div class="pull-right">
+      <a class="btn btn-default" href="/products/<%=product._id%>/edit" name="button">Edit</a>
+      <form class="" action="/products/<%=product._id%>?_method=DELETE" method="POST">
+        <button class="btn btn-default" name="button">Delete</button>
+      </form>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function($) {
+
+      $('#myCarousel').carousel({
+              interval: 5000
+      });
+
+      $('#carousel-text').html($('#slide-content-0').html());
+
+      //Handles the carousel thumbnails
+     $('[id^=carousel-selector-]').click( function(){
+          var id = this.id.substr(this.id.lastIndexOf("-") + 1);
+          var id = parseInt(id);
+          $('#myCarousel').carousel(id);
+      });
+
+
+      // When the carousel slides, auto update the text
+      $('#myCarousel').on('slid.bs.carousel', function (e) {
+               var id = $('.item.active').data('slide-number');
+              $('#carousel-text').html($('#slide-content-'+id).html());
+      });
+});
+
+</script>
 
 <% include ../partials/footer%>

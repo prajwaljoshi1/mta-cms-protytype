@@ -49,7 +49,7 @@ router.get("/new", middleware.isProductFullAccess, function(req,res){
 });
 
 router.get("/:id",middleware.isProductReadOnly, function(req,res){
-  ProductCategory.findById(req.params.id, function(err, foundProductCategory ){
+  ProductCategory.findById(req.params.id).populate("products").exec(function(err, foundProductCategory ){
     if(err){
         console.log(err);
     }else{
