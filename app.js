@@ -64,7 +64,7 @@ app.use(indexRoutes);
 //app.use(uploadImageRoutes);
 app.use("/blogs",blogRoutes);
 app.use("/users",userRoutes);
-app.use("/productcategories/:id/products",productRoutes);
+app.use("/productcategories/:categoryId/products",productRoutes);
 app.use("/productcategories",productCategoryRoutes);
 app.use("/api",apiRoutes);
 

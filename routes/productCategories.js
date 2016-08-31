@@ -48,8 +48,8 @@ router.get("/new", middleware.isProductFullAccess, function(req,res){
     res.render("productcategories/new.ejs")
 });
 
-router.get("/:id",middleware.isProductReadOnly, function(req,res){
-  ProductCategory.findById(req.params.id).populate("products").exec(function(err, foundProductCategory ){
+router.get("/:categoryId",middleware.isProductReadOnly, function(req,res){
+  ProductCategory.findById(req.params.categoryId).populate("products").exec(function(err, foundProductCategory ){
     if(err){
         console.log(err);
     }else{

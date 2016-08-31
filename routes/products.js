@@ -20,20 +20,42 @@ var s3 = new aws.S3({});
 var multerS3 = require('multer-s3')
 
 var s3FileNames = [];
-var upload = multer({
+var uploadNew = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'mtacmsproducts',
-        secretAccessKey: 'Go to hell',
-        accessKeyId: 'Go to hell',
+        key: 'go to hell',
+        secret: 'go to hell//',
+        bucket: 'mtacmsblog',
         acl: 'public-read',
         key: function(req, file, cb) {
+
+
             var fileName = Date.now() + "_" + req.body.title + "_" + file.originalname;
             s3FileNames.push(fileName)
             cb(null, fileName);
         }
     })
 })
+
+
+var uploadIndexes =[];
+var uploadEdit = multer({
+    storage: multerS3({
+        s3: s3,
+        key: 'go to hell',
+        secret: 'go to hell',
+        bucket: 'mtacmsblog',
+        acl: 'public-read',
+        key: function(req, file, cb) {
+            uploadIndexes.push(parseInt(file.fieldname));
+
+            var fileName = Date.now() + "_" + req.body.title + "_" + file.originalname;
+            s3FileNames.push(fileName)
+            cb(null, fileName);
+        }
+    })
+})
+
 
 
 router.get("/", middleware.isProductReadOnly, function(req, res) {
@@ -49,8 +71,7 @@ router.get("/", middleware.isProductReadOnly, function(req, res) {
     });
 });
 
-router.post("/", [middleware.isProductFullAccess,  upload.any()], function(req, res) {
-
+router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(req, res) {
 
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
@@ -60,28 +81,41 @@ router.post("/", [middleware.isProductFullAccess,  upload.any()], function(req, 
     });
 
 
-    var imageOrder = req.body.imageOrder;
-    console.log(imageOrder);
-        imageOrder = imageOrder.split(',').map(function(item) {
-    return parseInt(item, 10);
-}); //convert back to array and all elements to int
+
+        var newProduct = {
+            productName: req.body.name,
+            productState: req.body.state,
+            productPrice: req.body.price,
+            productQuantity: req.body.quantity,
+            productContentDescription: req.body.contentDescription,
+            productCustomAttributes: customAttributesArr
+        }
 
 
-    var newProduct = {
-        productName: req.body.name,
-        productState: req.body.state,
-        productPrice: req.body.price,
-        productQuantity: req.body.quantity,
-        productContentDescription: req.body.contentDescription,
-        productCustomAttributes: customAttributesArr
+
+
+    var imageOrder = req.body.imageOrder || [];
+
+    if(imageOrder.length === 0){
+      imageOrder = s3FileNames.map(function(item,key){
+        return key;  //make default imageorder based on number of files
+      });
+    }else{
+      imageOrder = imageOrder.split(',').map(function(item) {
+      return parseInt(item, 10);
+      }); //convert back to array and all elements to int
     }
 
-    newProduct.productMainImage = "https://s3.amazonaws.com/mtacmsproducts/"+s3FileNames[imageOrder[0]],
-    newProduct.productAdditionalImage01 = "https://s3.amazonaws.com/mtacmsproducts/"+s3FileNames[imageOrder[1]];
-    newProduct.productAdditionalImage02 = "https://s3.amazonaws.com/mtacmsproducts/"+s3FileNames[imageOrder[2]];
-    newProduct.productAdditionalImage03 = "https://s3.amazonaws.com/mtacmsproducts/"+s3FileNames[imageOrder[3]];
 
-    ProductCategory.findById(req.params.id, function(err, productCategory) {
+    var arr =  [];
+
+    s3FileNames.forEach(function(fileName,key){
+        arr.push("https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[imageOrder[key]]);
+    });
+
+    newProduct.productImages = arr;
+
+    ProductCategory.findById(req.params.categoryId, function(err, productCategory) {
         if (err) {
             req.flash("error", "something went wrong");
             console.log(err);
@@ -96,7 +130,7 @@ router.post("/", [middleware.isProductFullAccess,  upload.any()], function(req, 
                     productCategory.products.push(newlyCreated);
                     productCategory.save();
                     req.flash('success', "Successfully add a new " + productCategory.productCategoryName + ".");
-                    res.redirect("/productCategories/");
+                    res.redirect("/productcategories/"+req.params.categoryId+"products"+newlyCreated._id);
                 }
             })
 
@@ -107,7 +141,7 @@ router.post("/", [middleware.isProductFullAccess,  upload.any()], function(req, 
 });
 
 router.get("/new", middleware.isProductFullAccess, function(req, res) {
-    ProductCategory.findById(req.params.id, function(err, productCategory) {
+    ProductCategory.findById(req.params.categoryId, function(err, productCategory) {
         if (err) {
             console.log(err);
         } else {
@@ -120,33 +154,44 @@ router.get("/new", middleware.isProductFullAccess, function(req, res) {
 
 });
 
-router.get("/:id", middleware.isProductReadOnly, function(req, res) {
-    Product.findById(req.params.id, function(err, foundProduct) {
+router.get("/:productId", middleware.isProductReadOnly, function(req, res) {
+    Product.findById(req.params.productId, function(err, foundProduct) {
+      console.log(req.params);
         if (err) {
             console.log(err);
         } else {
             res.render("products/show.ejs", {
-                product: foundProduct
+                product: foundProduct,
+                productCategoryId:req.params.categoryId
             })
         }
     })
 });
 
-router.get("/:id/edit", middleware.isProductFullAccess, function(req, res) {
+router.get("/:productId/edit", middleware.isProductFullAccess, function(req, res) {
 
-    Product.findById(req.params.id, function(err, foundProduct) {
+    Product.findById(req.params.productId, function(err, foundProduct) {
         if (err) {
             console.log(err);
         } else {
             res.render("products/edit.ejs", {
+                productCategoryId: req.params.categoryId,
                 product: foundProduct
             });
         }
     })
 });
 
-router.put("/:id", middleware.isProductFullAccess, function(req, res) {
-    console.log("test etstestesteste");
+router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], function(req, res) {
+    // console.log("test etstestesteste");
+    console.log(req.body);
+
+    var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
+        return {
+            attributeName: k,
+            attributeValue: n
+        };
+    });
 
 
     var updatingProduct = {
@@ -154,24 +199,66 @@ router.put("/:id", middleware.isProductFullAccess, function(req, res) {
         productState: req.body.state,
         productPrice: req.body.price,
         productQuantity: req.body.quantity,
-        productMainImage: req.body.mainImage,
-        productAdditionalImage01: req.body.additionalImage01,
-        productAdditionalImage02: req.body.additionalImage02,
-        productAdditionalImage03: req.body.additionalImage03,
-        productContentDescription: req.body.contentDescription
+        productContentDescription: req.body.contentDescription,
+        productCustomAttributes: customAttributesArr
     }
 
-    Product.findByIdAndUpdate(req.params.id, updatingProduct, function(err, updatedProduct) {
+
+    var imageOrder = req.body.imageOrder || "0,1,2,3,4,5"; // if image unchanged
+    var arr =  [];
+    if(imageOrder.length > 0){
+
+      imageOrder = imageOrder.split(',').map(function(item) {
+      return parseInt(item, 10);
+      }); //convert back to array and all elements to int
+
+
+      // code to re-order images
+      var imageUrl = req.body.imageUrl;
+
+      imageOrder.forEach(function(val){
+        if(imageUrl[val]){
+
+          arr.push(imageUrl[val]);
+        }
+      });
+
+    }
+
+    //uploadedIndexes
+    console.log(  arr);
+    if(uploadIndexes.length > 0){
+      uploadIndexes.forEach(function(val,key){
+          arr[val] = "https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[key];
+      })
+
+      console.log(arr);
+    }
+    uploadIndexes=[];  //cleanup
+    s3FileNames=[];
+
+
+
+    //console.log(arr);
+    updatingProduct.productImages = arr;
+
+
+
+
+
+
+
+    Product.findByIdAndUpdate(req.params.productId, updatingProduct, function(err, updatedProduct) {
         if (err) {
             console.log(err);
         } else {
-            res.redirect("/products/" + req.params.id);
+            res.redirect("/productcategories/"+req.params.categoryId+"/products/" + req.params.productId);
         }
     });
 });
 
-router.delete("/:id", middleware.isProductFullAccess, function(req, res) {
-    Product.findByIdAndRemove(req.params.id, function(err) {
+router.delete("/:productId", middleware.isProductFullAccess, function(req, res) {
+    Product.findByIdAndRemove(req.params.ProductId, function(err) {
         if (err) {
             console.log(err);
         } else {

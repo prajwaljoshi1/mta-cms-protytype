@@ -5,6 +5,7 @@ var mtaProductSchema = new mongoose.Schema({
   productState: String,
   productPrice:String,
   productQuantity:String,
+  productImages:Array,
   productMainImage: String,
   productAdditionalImage01: String,
   productAdditionalImage02: String,

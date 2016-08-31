@@ -15,24 +15,14 @@
                                     <!-- Carousel items -->
                                     <div class="carousel-inner">
 
+                                      <% product.productImages.forEach(function(image, key){ %>
 
-                                        <div class="active item" data-slide-number="0">
-                                        <img src="<%= product.productMainImage %>"></div>
+                                        <div class="item" data-slide-number="<%=key%>">
+                                        <img src="<%=image%>"></div>
 
-                                        <div class="item" data-slide-number="1">
-                                        <img src="http://placehold.it/770x300&text=two"></div>
+                                       <% }) %>
 
-                                        <div class="item" data-slide-number="2">
-                                        <img src="http://placehold.it/200x100&text=three"></div>
 
-                                        <div class="item" data-slide-number="3">
-                                        <img src="http://placehold.it/770x300&text=four"></div>
-
-                                        <div class="item" data-slide-number="4">
-                                        <img src="http://placehold.it/320x480&text=five"></div>
-
-                                        <div class="item" data-slide-number="5">
-                                        <img src="http://placehold.it/770x300&text=six"></div>
                                     </div><!-- Carousel nav -->
                                     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -59,29 +49,16 @@
                 <div class="row hidden-xs" id="slider-thumbs">
                         <!-- Bottom switcher of slider -->
                         <ul class="hide-bullets">
-                            <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-0"><img src="<%= product.productMainImage %>"></a>
-                            </li>
+                          <% product.productImages.forEach(function(image, key){ %>
 
                             <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-1"><img src="http://placehold.it/170x100&text=two"></a>
+                                <a class="thumbnail item" id="carousel-selector-<%=key%>"><img src="<%=image%>"></a>
                             </li>
 
-                            <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-2"><img src="http://placehold.it/170x100&text=three"></a>
-                            </li>
+                           <% }) %>
 
-                            <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-3"><img src="http://placehold.it/170x100&text=four"></a>
-                            </li>
 
-                            <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-4"><img src="http://placehold.it/70x100&text=five"></a>
-                            </li>
 
-                            <li class="col-sm-2">
-                                <a class="thumbnail" id="carousel-selector-5"><img src="http://placehold.it/170x100&text=six"></a>
-                            </li>
                         </ul>
                 </div>
         </div>
@@ -96,7 +73,7 @@
     <% }); %>
 
     <div class="pull-right">
-      <a class="btn btn-default" href="/products/<%=product._id%>/edit" name="button">Edit</a>
+      <a class="btn btn-default" href="/productcategories/<%=productCategoryId%>/products/<%=product._id%>/edit" name="button">Edit</a>
       <form class="" action="/products/<%=product._id%>?_method=DELETE" method="POST">
         <button class="btn btn-default" name="button">Delete</button>
       </form>
@@ -110,8 +87,11 @@
 
 jQuery(document).ready(function($) {
 
+      $('.carousel-inner').children().first().addClass('active');
+
       $('#myCarousel').carousel({
-              interval: 5000
+              pause: true,
+              interval: false
       });
 
       $('#carousel-text').html($('#slide-content-0').html());

@@ -1,127 +1,264 @@
 
+<% include ../partials/header%>
 
 
-    <% include ../partials/header%>
+
         <div class="container">
             <div class="row">
 
-                <h1 style="text-align:center;"> Add a new Product</h1>
-                <div style="width:80%; margin:30px auto;">
-                      <form action="/blogs/<%= blog._id%>?_method=PUT" method="POST">
+            <h1 style="text-align:center;"> Edit Product</h1>
+            <div style="width:80%; margin:30px auto;">
+                <form enctype="multipart/form-data" action="/productcategories/<%=productCategoryId%>/products/<%=product._id%>?_method=PUT"  method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" value="<%=product.productName %>" placeholder="Product Name">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="state"  value="<%=product.productName %>" placeholder="State">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="price"  value="<%=product.productName %>" placeholder="Price">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="Quantity"  value="<%=product.productName %>" placeholder="Quantity">
+                    </div>
+
+
+
+                                        <div class="row">
+
+
+                                        <div class="images col-xs-3"  >
+
+                                              <div class="image-text">
+                                                  <p>
+                                                      Main Image
+                                                  </p>
+                                              </div>
+
+                                              <div class="image-text">
+                                                    <p>
+                                                      Additional Image 1
+                                                    </p>
+                                              </div>
+
+                                              <div class="image-text">
+                                                <p>
+                                                  Additional Image 2
+                                                </p>
+                                              </div>
+
+                                              <div class="image-text">
+                                                <p>
+                                                  Addditional Image 3
+                                                </p>
+                                              </div>
+                                              <div class="image-text">
+                                                <p>
+                                                  Addditional Image 4
+                                                </p>
+                                              </div>
+                                              <div class="image-text">
+                                                <p>
+                                                  Addditional Image 5
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div class="col-xs-9" id="sortable">
+                                              <div id="0" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview1" src="<%= product.productImages[0] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <a href="#" class="upload btn btn-default"> Upload
+                                                      <input class="opacity" type="file" id="image1" name="0" placeholder="Main Image">
+                                                  </a>
+
+                                                </div>
+
+
+                                              </div>
+
+                                              <div id="1" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview2" src="<%= product.productImages[1] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+
+                                                </div>
+                                                <div class="col-xs-8">
+                                                  <a href="#" class="upload btn btn-default"> Upload
+                                                          <input class="opacity" type="file" id="image2" name="1" placeholder="First Additional Image">
+                                                        </a>
+
+                                                </div>
+                                              </div>
+
+                                              <div  id="2" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview3" src="<%= product.productImages[2] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <a href="#" class="upload btn btn-default"> Upload
+                                                      <input class="opacity" type="file" id="image3" name="2" placeholder="Second Additional Image">
+                                                  </a>
+                                                </div>
+
+                                              </div>
+
+                                              <div  id="3" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview4" src="<%= product.productImages[3] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <a href="#" class="upload btn btn-default"> Upload
+                                                      <input class="opacity" type="file" id="image4" name="3" placeholder="Third Additional Image">
+                                                  </a>
+                                                </div>
+
+                                              </div>
+                                              <div  id="4" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview5" src="<%= product.productImages[4] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+
+                                                </div>
+                                                <div class="col-xs-8">
+                                                  <a href="#" class="upload btn btn-default"> Upload
+                                                      <input class="opacity" type="file" id="image5" name="4" placeholder="Fourth Additional Image">
+                                                  </a>
+                                                </div>
+
+
+                                              </div>
+                                              <div  id="5" class="image-preview well row">
+                                                <div class="col-xs-4">
+                                                  <img id="preview6" src="<%= product.productImages[5] || 'http://placehold.it/100x100' %>" height="100px" width="100px" alt="your image" />
+
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <a href="#" class="upload btn btn-default"> Upload
+                                                      <input class="opacity" type="file" id="image6" name="5" placeholder="Fifth Additional Image">
+                                                  </a>
+
+                                                </div>
+
+                                              </div>
+                                            </div>
+
+                                          </div>
+
+                                          <%product.productImages.forEach(function(image){ %>
+                                            <input type="hidden" name="imageUrl" value="<%=image%>">
+                                          <% }); %>
+
+
+
+                                          <input id="imageOrder" type="hidden" name="imageOrder">
+
+
+
+
+
+                     <div class="form-group">
+                              <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"><%=product.productName %></textarea>
+                      </div>
+
+
+                      <% product.productCustomAttributes.forEach(function(attribute){ %>
+
+
+
                         <div class="form-group">
-                            <input class="form-control" type="text" name="name" value="<%=product.productName %>" placeholder="Product Name">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="state" value="<%=product.productState %>" placeholder="State">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="price" value="<%=product.productPrice %>" placeholder="price">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="Quantity" value="<%=product.productQuantity %>" placeholder="Quantity">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="mainImage" value="<%=product.productMainImage %>" placeholder="Main Image">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="additionalImage01" value="<%=product.productAdditionalImage01 %>" placeholder="First Additional Image">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="additionalImage02" value="<%=product.productAdditionalImage02 %>" placeholder="Second Additional Image">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="additionalImage03" value="<%=product.productAdditionalImage03 %>" placeholder="Third Additional Image">
-                        </div>
-                        <div class="form-group">
-                            <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"><%=product.productAdditionalDescription %></textarea>
+                            <label for="">    <%=attribute.attributeName %></label>
+                            <input class="form-control" type="text" name="customAttributes[ <%=attribute.attributeName%>]" placeholder="<%=attribute.attributeValue%>" value="<%=attribute.attributeValue%>">
                         </div>
 
 
-
-                        <div id="custom-attributes">
-
-
-                        </div>
-
-                        <button class="btn btn-large btn-default" id="addCustomAttr" >Add Custom Attributes</button>
-                        <div class="" id="attribute-name-input">
-                          <input class="form-control" id="attribute-name" placeholder="Enter Attribute Name Here" type="text">
-                          <button class="btn btn-default" id="confirm-attribute">Confirm</button>
-                        </div>
+                      <%}); %>
 
 
 
+                            <div class="form-group">
+                                <button class="btn btn-large btn-primary btn-block">Submit</button>
+                            </div>
+                </form>
 
-
-
-
-                        <div class="form-group">
-                            <button class="btn btn-large btn-primary btn-block" >Submit</button>
-                        </div>
-                    </form>
-
-                    <a href="/blogs">Go Back</a>
-                </div>
-
-                <script type="text/javascript">
-
-
-
-                    $(document).ready(function() {
-                      $('#attribute-name-input').hide();
-
-                      $('#addCustomAttr').on('click', function(e){
-                          e.preventDefault();
-                        $('#attribute-name-input').show();
-                      });
-
-
-                      $('#confirm-attribute').on('click', function(e){
-                          e.preventDefault();
-                          var label = $('#attribute-name').val();
-
-
-
-                          if(label && label.length > 0){
-                            $('#attribute-name').val('');
-                            $('#attribute-name-input').hide();
-                            $('#custom-attributes').append('<div class="form-group"><label> '+label+' </label> <input input class="form-control" type="text" name="customAttributes['+label+']" placeholder="'+label+'"> </div>');
-                          }
-
-
-                        });
-
-
-
-                        $('.blog-body').summernote({
-                            height: 300,
-                            toolbar: [
-                                // [groupName, [list of button]]
-                                ['style', ['bold', 'italic', 'underline', 'clear']],
-                                ['font', ['strikethrough', 'superscript', 'subscript']],
-                                ['fontsize', ['fontsize']],
-                                ['para', ['ul', 'ol', 'paragraph']],
-                                ['link', ['link']]
-                            ]//,callbacks:{
-                            //   onImageUpload: function(files, editor, welEditable) {
-                            //     console.log("imageupload");
-                            //       sendFile(files[0], editor, welEditable);
-                            //   }
-                            // }
-                          });
-
-
-
-
-                          });
-
-
-
-
-
-                </script>
-
+                <a href="/blogs">Go Back</a>
             </div>
-        </div>
 
-        <% include ../partials/footer%>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+          $("#sortable").sortable({
+               update: function(event, ui) {
+                 var order = $(this).sortable('toArray');
+                 $('#imageOrder').val(order);
+               }
+          });
+
+            $('.blog-body').summernote({
+                height: 300,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['link', ['link']]
+                ]
+            });
+
+            function readURLImage(input,$output) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $output.attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+
+                //url reader for edit goes here.
+            }
+
+
+            $("#image1").change(function() {
+                 var $output = $("#preview1")
+                readURLImage(this, $output);
+            });
+
+            $("#image2").change(function() {
+              var $output = $("#preview2")
+              readURLImage(this, $output);
+            });
+
+            $("#image3").change(function() {
+             var  $output = $("#preview3")
+              readURLImage(this, $output);
+            });
+
+            $("#image4").change(function() {
+               var $output = $("#preview4")
+              readURLImage(this, $output);
+            });
+
+            $("#image5").change(function() {
+               var $output = $("#preview5")
+              readURLImage(this, $output);
+            });
+
+            $("#image6").change(function() {
+               var $output = $("#preview6")
+              readURLImage(this, $output);
+            });
+
+
+        });
+    </script>
+
+
+    <% include ../partials/footer%>
