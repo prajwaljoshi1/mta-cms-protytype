@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductSchema = new mongoose.Schema({
   productName: String,
@@ -13,7 +14,11 @@ var mtaProductSchema = new mongoose.Schema({
   productAdditionalDescription: String,
   productCreatedAt: { type: Date, default: Date.now },
   productCustomAttributes: Array
+  productCategory:String;
 });
+
+mtaProductSchema.plugin(mongoosePaginate);
+
 
 var Product = mongoose.model("Product", mtaProductSchema);
 

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = new mongoose.Schema({
@@ -6,6 +7,8 @@ var UserSchema = new mongoose.Schema({
   password:String,
   userType:{ type: String, default: "noAccess" }
 });
+
+UserSchema.plugin(mongoosePaginate);
 
  UserSchema.plugin(passportLocalMongoose);
 

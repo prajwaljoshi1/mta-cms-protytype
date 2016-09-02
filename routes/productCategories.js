@@ -1,5 +1,6 @@
 
 var express = require('express');
+var paginate = require('express-paginate');
 var router = express.Router();
 
 var ProductCategory = require("../models/productCategory.js");
@@ -7,16 +8,27 @@ var ProductCategory = require("../models/productCategory.js");
 var middleware 	= require("../middleware");
 
 //var objMapToArr = require('object-map-to-array');
-
+router.use(paginate.middleware(10, 50));
 router.get("/",middleware.isProductReadOnly, function(req,res){
-        ProductCategory.find({}, function(err, allProductCategories){
-          if(err){
-
-            console.log(err);
-          }else{
-            res.render("productcategories/index.ejs", { productCategories: allProductCategories});
-          }
-        });
+  ProductCategory.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allProductCategories, pageCount, itemCount){
+    if(err){
+      console.log(err);
+    }else{
+       res.render("productcategories/index.ejs", { productCategories: allProductCategories,
+                                        pageCount:pageCount,
+                                       itemCount:itemCount,
+                                       pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
+                                      });
+    }
+  })
+        // ProductCategory.find({}, function(err, allProductCategories){
+        //   if(err){
+        //
+        //     console.log(err);
+        //   }else{
+        //     res.render("productcategories/index.ejs", { productCategories: allProductCategories});
+        //   }
+        // });
 });
 
 router.post("/",middleware.isProductFullAccess, function(req, res){

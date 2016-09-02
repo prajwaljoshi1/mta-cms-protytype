@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 
 var mtaBlogSchema = new mongoose.Schema({
   blogTitle: String,
@@ -14,6 +15,8 @@ var mtaBlogSchema = new mongoose.Schema({
   blogTemplate:String,
   blogCreatedAt: { type: Date, default: Date.now }
 });
+
+mtaBlogSchema.plugin(mongoosePaginate);
 
 var Blog = mongoose.model("Blog", mtaBlogSchema);
 

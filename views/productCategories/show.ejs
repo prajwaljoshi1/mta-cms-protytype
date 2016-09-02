@@ -31,26 +31,40 @@
         </div>
   </div>
 
+  <div id="products">
+  <input class="search form-control" placeholder="Search" />
+
+
+  <ul class="row list list-group">
   <% productCategory.products.forEach(function(product){ %>
-        <div class="row">
-      <div class="well">
-        <div class="row">
-          <div class="col-xs-6">
-            <h4> <%= product.productName %></h4>
-          </div>
-          <div class="col-xs-6">
-              <a class="btn btn-default " href="/productcategories/<%=productCategory._id%>/products/<%=product._id%>">Show</a>
 
-          </div>
+            <li class="list-group-item list-group-item col-xs-offset-1 col-xs-5">
 
-          </div>
-      </div>
-          </div>
+              <a class="name " href="/productcategories/<%=productCategory._id%>/products/<%=product._id%>"><%= product.productName %></a>
+          </li>
+
 
   <% }); %>
-
+    </ul>
+</div>
 
 </div>
+
+<script type="text/javascript">
+
+//search, sort
+
+$(document).ready(function(){
+  var options = {
+  valueNames: [ 'name']
+};
+
+var productList = new List('products', options);
+})
+
+</script>
+
+
 
 
 <% include ../partials/footer%>

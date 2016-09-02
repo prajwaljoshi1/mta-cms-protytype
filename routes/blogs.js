@@ -1,5 +1,6 @@
 
 var express = require('express');
+var paginate = require('express-paginate');
 var router = express.Router();
 var Blog = require("../models/blog.js")
 var aws = require('aws-sdk')
@@ -29,16 +30,27 @@ var middleware 	= require("../middleware");
 
 
 
-
+router.use(paginate.middleware(10, 50))
 router.get("/",middleware.isBlogReadOnly, function(req,res){
-        Blog.find({}, function(err, allBlogs){
-          if(err){
-
-            console.log(err);
-          }else{
-            res.render("blogs/index.ejs", { blogs: allBlogs});
-          }
-        });
+  Blog.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allBlogs, pageCount, itemCount){
+    if(err){
+      console.log(err);
+    }else{
+       res.render("blogs/index.ejs", { blogs: allBlogs,
+                                        pageCount:pageCount,
+                                       itemCount:itemCount,
+                                       pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
+                                      });
+    }
+  })
+        // Blog.find({}, function(err, allBlogs){
+        //   if(err){
+        //
+        //     console.log(err);
+        //   }else{
+        //     res.render("blogs/index.ejs", { blogs: allBlogs});
+        //   }
+        // });
 });
 
 router.post("/",[middleware.isBlogFullAccess, upload.any()], function(req, res){

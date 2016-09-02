@@ -1,4 +1,5 @@
 var express = require('express');
+var paginate = require('express-paginate');
 var router = express.Router({
     mergeParams: true
 });
@@ -57,18 +58,30 @@ var uploadEdit = multer({
 })
 
 
-
+router.use(paginate.middleware(10, 50));
 router.get("/", middleware.isProductReadOnly, function(req, res) {
-    Product.find({}, function(err, allProducts) {
-        if (err) {
+  Products.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allProducts, pageCount, itemCount){
+    if(err){
+      console.log(err);
+    }else{
 
-            console.log(err);
-        } else {
-            res.render("products/index.ejs", {
-                products: allProducts
-            });
-        }
-    });
+       res.render("products/index.ejs", { products: allProducts,
+                                        pageCount:pageCount,
+                                       itemCount:itemCount,
+                                       pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
+                                      });
+    }
+  })
+    // Product.find({}, function(err, allProducts) {
+    //     if (err) {
+    //
+    //         console.log(err);
+    //     } else {
+    //         res.render("products/index.ejs", {
+    //             products: allProducts
+    //         });
+    //     }
+    // });
 });
 
 router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(req, res) {
@@ -88,7 +101,8 @@ router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(re
             productPrice: req.body.price,
             productQuantity: req.body.quantity,
             productContentDescription: req.body.contentDescription,
-            productCustomAttributes: customAttributesArr
+            productCustomAttributes: customAttributesArr,
+            productCategory:req.params.categoryId
         }
 
 
@@ -237,16 +251,8 @@ router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], fun
     uploadIndexes=[];  //cleanup
     s3FileNames=[];
 
-
-
     //console.log(arr);
     updatingProduct.productImages = arr;
-
-
-
-
-
-
 
     Product.findByIdAndUpdate(req.params.productId, updatingProduct, function(err, updatedProduct) {
         if (err) {

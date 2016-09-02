@@ -12,6 +12,7 @@
                 <div class="container">
         </header>
 
+
   <% users.forEach(function(user){  %>
         <div class="well">
                   <div class="row">
@@ -31,6 +32,10 @@
             </div>
               <% }) %>
 
+
+
         </div>
+
+          <% include ../partials/paginate%>
 
         <% include ../partials/footer%>

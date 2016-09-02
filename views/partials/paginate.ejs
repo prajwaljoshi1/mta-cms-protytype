@@ -1,0 +1,31 @@
+
+
+
+
+        <div class="navigation well-sm" id="pagination">
+
+
+                <ul>
+                <% if(paginate.hasPreviousPages) { %>
+
+                        <a class="btn btn-default" href="<%=paginate.href(true) %>">Previous</a>
+
+                <% } %>
+
+
+                 <%pages.forEach(function(page){ %>
+                   <a href="<%=page.url%>" class="btn btn-default <%= paginate.page == page.number ? 'btn-primary' : ''%>" ><%=page.number%></a>
+                 <%});%>
+
+
+                <% if(paginate.hasNextPages(pageCount)) { %>
+
+                        <a  class="btn btn-default" href="<%=paginate.href() %>">Next</a>
+
+                <% } %>
+                </ul>
+
+
+        </div>
+    </div>
+</div>

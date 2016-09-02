@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductCategorySchema = new mongoose.Schema({
   productCategoryName: String,
@@ -10,6 +11,9 @@ var mtaProductCategorySchema = new mongoose.Schema({
     }
   ]
 });
+
+
+mtaProductCategorySchema.plugin(mongoosePaginate);
 
 var ProductCategory = mongoose.model("ProductCategory", mtaProductCategorySchema);
 
