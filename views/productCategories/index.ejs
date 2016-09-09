@@ -9,7 +9,9 @@
 
                 <h2>All Product Categories</h2>
                 <p>
-                    <a class="btn btn-primary btn-large" href="/productcategories/new">Add New Category</a>
+                    <a class="btn btn-primary btn-large" href="/productcategories/new">Add New Product Type</a>
+                      <a class="btn btn-default btn-large" href="/productbrands">List Brands</a>
+                      <a class="btn btn-default btn-large" href="/productauthors">List Authors</a>
                 </p>
                 <div class="container">
 
@@ -29,8 +31,9 @@
             </div>
             <div class="col-xs-5">
                 <h3>
-                  <a class="btn btn-default" href="/productCategories/<%=productCategory._id%>/products/new"> Add new <%= productCategory.productCategoryName %> </a>
-                  <a class="btn btn-default" href="/productCategories/<%=productCategory._id%>"> Details</a>
+                  <a class="btn btn-default btn-product-list" href="/productCategories/<%=productCategory._id%>"> List</a>
+                  <a class="btn btn-default btn-product-add-new" href="/productCategories/<%=productCategory._id%>/products/new"> Add new <%= productCategory.productCategoryName %> </a>
+
                 </h3>
             </div>
           </div>

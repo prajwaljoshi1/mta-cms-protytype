@@ -3,7 +3,7 @@ var express = require('express');
 var paginate = require('express-paginate');
 var router = express.Router();
 
-var ProductCategory = require("../models/productCategory.js");
+var ProductCategory = require("../models/product/productCategory.js");
 
 var middleware 	= require("../middleware");
 

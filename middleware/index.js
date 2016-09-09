@@ -65,6 +65,35 @@ middlewareObj.isAdmin = function(req, res, next){
 };
 
 
+// fill form
+
+middlewareObj.fillNewForm = function(req,res,next){
+    var ProductBrand = require('../models/product/productBrand.js');
+    var ProductAuthor = require('../models/product/productBrand.js');
+
+    var brandList = [];
+
+    ProductBrand.find({}, function(err, allProductBrands) {
+        if (err) {
+            console.log(err);
+        } else {
+              req.brandList = allProductBrands;
+              ProductAuthor.find({}, function(err, allProductAuthors) {
+                  if (err) {
+                      console.log(err);
+                  } else {
+                        req.authorList = allProductAuthors;
+                        return next();
+                  }
+              });
+        }
+    });
+
+};
+
+
+
+
 
 
 module.exports = middlewareObj;

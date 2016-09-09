@@ -7,15 +7,6 @@ var User = require("../models/user.js");
 
 var middleware 	= require("../middleware");
 
-// //middleware
-// var isLoggedIn = function(req, res, next){
-//   if(req.isAuthenticated()){
-//     return next();
-//
-//   }
-//     req.flash("error", "You need to be logged in to do this");
-//     res.redirect("/");
-// };
 
 //homepage
 router.get("/home", middleware.isLoggedIn, function(req,res){
@@ -48,6 +39,7 @@ router.post("/register", function(req, res){
        }else{
          req.flash("success", "New User Created");
          res.redirect("/cmshome");
+
        }
      } );
 
@@ -57,6 +49,9 @@ router.post("/register", function(req, res){
 
 //show login form
 router.get("/", function(req, res){
+  if(req.isAuthenticated()){
+    res.redirect('/home');
+  }
  res.render('login.ejs');
 });
 

@@ -3,6 +3,7 @@
 
 
         <div class="container">
+
             <div class="row">
 
             <h1 style="text-align:center;"> Add a new Product</h1>
@@ -20,6 +21,24 @@
                     <div class="form-group">
                         <input class="form-control" type="text" name="Quantity" placeholder="Quantity">
                     </div>
+
+                    <!--  product brand start-->
+
+					          <select  id="select-brand" name="brandId[]" class=" demo-default" placeholder="Select Brand">
+						                <option value="">Select a Brand </option>
+                            <% brandList.forEach(function(brand){ %>
+                                <option value="<%=brand._id%>"><%=brand.productBrandName%></option>
+                            <% }); %>
+					          </select>
+
+                    <select  id="select-author" name="authorId[]" class=" demo-default" placeholder="Select Author">
+                            <option value="">Select an Author </option>
+                            <% authorList.forEach(function(author){ %>
+                                <option value="<%=author._id%>"><%=author.productAuthorName%></option>
+                            <% }); %>
+                    </select>
+
+                      <!--  product brand end -->
 
 
                     <div class="row">
@@ -178,8 +197,22 @@
     </div>
 
     <script type="text/javascript">
+
+
         $(document).ready(function() {
 
+          //ajax get brands start
+          //ajax get brands end
+
+          // selectize start
+          $(function() {
+            var options = {
+              maxItems: 3
+            };
+            $('#select-brand').selectize(options);
+              $('#select-author').selectize(options);
+          });
+          //selectize end
 
           $("#sortable").sortable({
                update: function(event, ui) {

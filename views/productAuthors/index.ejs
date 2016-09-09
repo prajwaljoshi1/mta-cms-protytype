@@ -1,0 +1,53 @@
+<% include ../partials/header%>
+
+
+    <div class="container">
+
+        <header class="jumbotron">
+            <div class="container">
+
+
+                <h2>All Product Authors</h2>
+                <p>
+                    <a class="btn btn-primary btn-large" href="/productbrands/new">Add New Author</a>
+                </p>
+                <div class="container">
+
+
+        </header>
+
+
+
+
+
+
+  <% productAuthors.forEach(function(productAuthor){  %>
+        <div class="well">
+          <div class="row">
+            <div class="col-xs-7">
+                <h3><%= productAuthor.productAuthorName %>   </h3>
+            </div>
+            <div class="col-xs-5">
+                <h3>
+                  <a class="btn btn-default btn-product-list" href="/productauthors/<%=productAuthor._id%>"> List</a>
+                  <a class="btn btn-default btn-product-add-new" href="/productauthors/<%=productAuthor._id%>/products/new"> Add new <%= productAuthor.productAuthorName %> </a>
+
+                </h3>
+            </div>
+          </div>
+
+
+
+        </div>
+  <% }) %>
+
+
+
+
+
+
+        </div>
+
+        <% include ../partials/paginate%>
+
+        <% include ../partials/footer%>
