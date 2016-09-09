@@ -23,6 +23,45 @@
                     </div>
 
 
+                    <% if(product.productBrand) { %>
+
+                      <% product.productBrand.forEach(function(brand){ %>
+
+                        <div class="checkbox">
+                             <label><input type="checkbox" name="removedBrands[]" class="strikethrough" value="<%=brand.id%>"><span><%=brand.name%></span></label>
+                        </div>
+
+                      <% }); %>
+
+                  <% } %>
+
+
+
+
+                    <!--  product brand start-->
+
+                    <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+
+                        <!--  product brand end -->
+
+                    <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
+                        <option value="">Select an Author </option>
+                        <% authorList.forEach(function(author){ %>
+                            <option value='{ "id" :"<%=author._id%>" , "name": "<%=author.productAuthorName%>"}'>
+                                <%=author.productAuthorName%>
+                            </option>
+                            <% }); %>
+                    </select>
+
+
+
 
                                         <div class="row">
 
@@ -189,7 +228,22 @@
     </div>
 
     <script type="text/javascript">
+
         $(document).ready(function() {
+
+          // selectize start
+          $(function() {
+            var options = {
+              maxItems: 3
+            };
+            //var items = ['22323', '23432432']
+            var $selectBrand = $('#select-brand').selectize(options);
+
+              $('#select-author').selectize(options);
+          });
+          //selectize end
+
+
 
 
           $("#sortable").sortable({

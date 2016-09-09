@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Blog = require("../models/blog.js");
 var ProductCategory = require("../models/product/productCategory.js");
-var Product = require("../models/product.js");
+var Product = require("../models/product/product.js");
 
 var searchIndex = require('search-index');
  //var si = require('search-index')({indexPath: 'testindex', logLevel: 'info'});

@@ -12,7 +12,8 @@ var mtaProductSchema = new mongoose.Schema({
   productCreatedAt: { type: Date, default: Date.now },
   productCustomAttributes: Array,
   productCategories: [{type: mongoose.Schema.Types.ObjectId, ref: 'ProductCategory'}],
-  productBrand:Array
+  productBrand:Array,
+    productAuthor:Array
 });
 
 mtaProductSchema.plugin(mongoosePaginate);

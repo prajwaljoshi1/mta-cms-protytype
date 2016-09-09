@@ -1,6 +1,6 @@
 //middleware
 
-var Blog = require('../models/blog');
+//var Blog = require('../models/blog');
 
 
 var middlewareObj = {};
@@ -65,11 +65,11 @@ middlewareObj.isAdmin = function(req, res, next){
 };
 
 
-// fill form
+// get each category objects
 
-middlewareObj.fillNewForm = function(req,res,next){
+middlewareObj.getEachCategoryObjects = function(req,res,next){
     var ProductBrand = require('../models/product/productBrand.js');
-    var ProductAuthor = require('../models/product/productBrand.js');
+    var ProductAuthor = require('../models/product/productAuthor.js');
 
     var brandList = [];
 
@@ -93,7 +93,19 @@ middlewareObj.fillNewForm = function(req,res,next){
 
 
 
+ middlewareObj.getProductDetails = function(req, res, next){
 
+     var Product = require('../models/product/product.js');
+
+   Product.findById(req.params.productId, function(err, foundProduct) {
+       if (err) {
+           console.log(err);
+       } else {
+             req.productDetails = foundProduct;
+             return next();
+       }
+   });
+  };
 
 
 module.exports = middlewareObj;

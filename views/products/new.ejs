@@ -2,13 +2,13 @@
 
 
 
-        <div class="container">
+    <div class="container">
 
-            <div class="row">
+        <div class="row">
 
             <h1 style="text-align:center;"> Add a new Product</h1>
             <div style="width:80%; margin:30px auto;">
-                <form enctype="multipart/form-data" action="/productcategories/<%=productCategory._id%>/products"  method="POST">
+                <form enctype="multipart/form-data" action="/productcategories/<%=productCategory._id%>/products" method="POST">
                     <div class="form-group">
                         <input class="form-control" type="text" name="name" placeholder="Product Name">
                     </div>
@@ -24,154 +24,160 @@
 
                     <!--  product brand start-->
 
-					          <select  id="select-brand" name="brandId[]" class=" demo-default" placeholder="Select Brand">
-						                <option value="">Select a Brand </option>
-                            <% brandList.forEach(function(brand){ %>
-                                <option value="<%=brand._id%>"><%=brand.productBrandName%></option>
-                            <% }); %>
-					          </select>
-
-                    <select  id="select-author" name="authorId[]" class=" demo-default" placeholder="Select Author">
-                            <option value="">Select an Author </option>
-                            <% authorList.forEach(function(author){ %>
-                                <option value="<%=author._id%>"><%=author.productAuthorName%></option>
+                    <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
                             <% }); %>
                     </select>
 
-                      <!--  product brand end -->
+                        <!--  product brand end -->
+
+                    <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
+                        <option value="">Select an Author </option>
+                        <% authorList.forEach(function(author){ %>
+                            <option value='{ "id" :"<%=author._id%>" , "name": "<%=author.productAuthorName%>"}'>
+                                <%=author.productAuthorName%>
+                            </option>
+                            <% }); %>
+                    </select>
+
+
 
 
                     <div class="row">
 
 
-                    <div class="images col-xs-3"  >
+                        <div class="images col-xs-3">
 
-                          <div class="image-text">
-                              <p>
-                                  Main Image
-                              </p>
-                          </div>
-
-                          <div class="image-text">
+                            <div class="image-text">
                                 <p>
-                                  Additional Image 1
+                                    Main Image
                                 </p>
-                          </div>
+                            </div>
 
-                          <div class="image-text">
-                            <p>
-                              Additional Image 2
-                            </p>
-                          </div>
+                            <div class="image-text">
+                                <p>
+                                    Additional Image 1
+                                </p>
+                            </div>
 
-                          <div class="image-text">
-                            <p>
-                              Addditional Image 3
-                            </p>
-                          </div>
-                          <div class="image-text">
-                            <p>
-                              Addditional Image 4
-                            </p>
-                          </div>
-                          <div class="image-text">
-                            <p>
-                              Addditional Image 5
-                            </p>
-                          </div>
+                            <div class="image-text">
+                                <p>
+                                    Additional Image 2
+                                </p>
+                            </div>
+
+                            <div class="image-text">
+                                <p>
+                                    Addditional Image 3
+                                </p>
+                            </div>
+                            <div class="image-text">
+                                <p>
+                                    Addditional Image 4
+                                </p>
+                            </div>
+                            <div class="image-text">
+                                <p>
+                                    Addditional Image 5
+                                </p>
+                            </div>
                         </div>
                         <div class="col-xs-9" id="sortable">
-                          <div id="0" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview1" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
-                            </div>
-                            <div class="col-xs-8">
-                                <a href="#" class="upload btn btn-default"> Upload
+                            <div id="0" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview1" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                   <input class="opacity" type="file" id="image1" name="mainImage" placeholder="Main Image">
                               </a>
 
+                                </div>
+
+
                             </div>
 
+                            <div id="1" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview2" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
 
-                          </div>
-
-                          <div id="1" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview2" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
-
-                            </div>
-                            <div class="col-xs-8">
-                              <a href="#" class="upload btn btn-default"> Upload
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                       <input class="opacity" type="file" id="image2" name="additionalImage01" placeholder="First Additional Image">
                                     </a>
 
+                                </div>
                             </div>
-                          </div>
 
-                          <div  id="2" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview3" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                            <div id="2" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview3" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
 
-                            </div>
-                            <div class="col-xs-8">
-                                <a href="#" class="upload btn btn-default"> Upload
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                   <input class="opacity" type="file" id="image3" name="additionalImage02" placeholder="Second Additional Image">
                               </a>
-                            </div>
-
-                          </div>
-
-                          <div  id="3" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview4" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                                </div>
 
                             </div>
-                            <div class="col-xs-8">
-                                <a href="#" class="upload btn btn-default"> Upload
+
+                            <div id="3" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview4" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                   <input class="opacity" type="file" id="image4" name="additionalImage03" placeholder="Third Additional Image">
                               </a>
-                            </div>
-
-                          </div>
-                          <div  id="4" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview5" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+                                </div>
 
                             </div>
-                            <div class="col-xs-8">
-                              <a href="#" class="upload btn btn-default"> Upload
+                            <div id="4" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview5" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                   <input class="opacity" type="file" id="image5" name="additionalImage04" placeholder="Fourth Additional Image">
                               </a>
-                            </div>
+                                </div>
 
-
-                          </div>
-                          <div  id="5" class="image-preview well row">
-                            <div class="col-xs-4">
-                              <img id="preview6" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
 
                             </div>
-                            <div class="col-xs-8">
-                                <a href="#" class="upload btn btn-default"> Upload
+                            <div id="5" class="image-preview well row">
+                                <div class="col-xs-4">
+                                    <img id="preview6" src="http://placehold.it/100x100" height="100px" width="100px" alt="your image" />
+
+                                </div>
+                                <div class="col-xs-8">
+                                    <a href="#" class="upload btn btn-default"> Upload
                                   <input class="opacity" type="file" id="image6" name="additionalImage05" placeholder="Fifth Additional Image">
                               </a>
 
-                            </div>
+                                </div>
 
-                          </div>
+                            </div>
                         </div>
 
-                      </div>
+                    </div>
 
 
 
 
-                      <input id="imageOrder" type="hidden" name="imageOrder">
+                    <input id="imageOrder" type="hidden" name="imageOrder">
 
 
-                     <div class="form-group">
-                              <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
-                      </div>
+                    <div class="form-group">
+                        <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
+                    </div>
 
 
 
@@ -197,29 +203,26 @@
     </div>
 
     <script type="text/javascript">
-
-
         $(document).ready(function() {
 
-          //ajax get brands start
-          //ajax get brands end
 
-          // selectize start
-          $(function() {
-            var options = {
-              maxItems: 3
-            };
-            $('#select-brand').selectize(options);
-              $('#select-author').selectize(options);
-          });
-          //selectize end
 
-          $("#sortable").sortable({
-               update: function(event, ui) {
-                 var order = $(this).sortable('toArray');
-                 $('#imageOrder').val(order);
-               }
-          });
+            // selectize start
+            $(function() {
+                var options = {
+                    maxItems: 3
+                };
+                $('#select-brand').selectize(options);
+                $('#select-author').selectize(options);
+            });
+            //selectize end
+
+            $("#sortable").sortable({
+                update: function(event, ui) {
+                    var order = $(this).sortable('toArray');
+                    $('#imageOrder').val(order);
+                }
+            });
 
             $('.blog-body').summernote({
                 height: 300,
@@ -233,7 +236,7 @@
                 ]
             });
 
-            function readURLImage(input,$output) {
+            function readURLImage(input, $output) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
@@ -249,33 +252,33 @@
 
 
             $("#image1").change(function() {
-                 var $output = $("#preview1")
+                var $output = $("#preview1")
                 readURLImage(this, $output);
             });
 
             $("#image2").change(function() {
-              var $output = $("#preview2")
-              readURLImage(this, $output);
+                var $output = $("#preview2")
+                readURLImage(this, $output);
             });
 
             $("#image3").change(function() {
-             var  $output = $("#preview3")
-              readURLImage(this, $output);
+                var $output = $("#preview3")
+                readURLImage(this, $output);
             });
 
             $("#image4").change(function() {
-               var $output = $("#preview4")
-              readURLImage(this, $output);
+                var $output = $("#preview4")
+                readURLImage(this, $output);
             });
 
             $("#image5").change(function() {
-               var $output = $("#preview5")
-              readURLImage(this, $output);
+                var $output = $("#preview5")
+                readURLImage(this, $output);
             });
 
             $("#image6").change(function() {
-               var $output = $("#preview6")
-              readURLImage(this, $output);
+                var $output = $("#preview6")
+                readURLImage(this, $output);
             });
 
 

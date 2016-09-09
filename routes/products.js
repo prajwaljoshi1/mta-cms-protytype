@@ -41,7 +41,7 @@ var uploadNew = multer({
 })
 
 
-var uploadIndexes =[];
+var uploadIndexes = [];
 var uploadEdit = multer({
     storage: multerS3({
         s3: s3,
@@ -61,18 +61,22 @@ var uploadEdit = multer({
 
 
 router.use(paginate.middleware(10, 50));
-router.get("/",middleware.isProductReadOnly , function(req, res) {
-  Products.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allProducts, pageCount, itemCount){
-    if(err){
-      console.log(err);
-    }else{
-       res.render("products/index.ejs", { products: allProducts,
-                                        pageCount:pageCount,
-                                       itemCount:itemCount,
-                                       pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
-                                      });
-    }
-  });
+router.get("/", middleware.isProductReadOnly, function(req, res) {
+    Products.paginate({}, {
+        page: req.query.page,
+        limit: req.query.limit
+    }, function(err, allProducts, pageCount, itemCount) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("products/index.ejs", {
+                products: allProducts,
+                pageCount: pageCount,
+                itemCount: itemCount,
+                pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
+            });
+        }
+    });
     // Product.find({}, function(err, allProducts) {
     //     if (err) {
     //
@@ -85,7 +89,7 @@ router.get("/",middleware.isProductReadOnly , function(req, res) {
     // });
 });
 
-router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(req, res) {
+router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req, res) {
 
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
@@ -95,42 +99,50 @@ router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(re
     });
 
 
-    var productBrandArr=[];
-    productBrandArr = req.body.brandId;
-    var productAuthorArr=[];
-    productAuthorArr = req.body.authorId;
+
+    var productBrandArr = req.body.brand || [];
+    productBrandArr = productBrandArr.map(function(value) {
+        return JSON.parse(value);
+    });
+
+
+    var productAuthorArr = req.body.author || [];
+    productAuthorArr = productAuthorArr.map(function(value) {
+        return JSON.parse(value);
+    });
 
     var newProduct = {
-            productName: req.body.name,
-            productState: req.body.state,
-            productPrice: req.body.price,
-            productQuantity: req.body.quantity,
-            productContentDescription: req.body.contentDescription,
-            productCustomAttributes: customAttributesArr,
-            productCategory:req.params.categoryId,
-            productBrand:productBrandArr
-        }
+        productName: req.body.name,
+        productState: req.body.state,
+        productPrice: req.body.price,
+        productQuantity: req.body.quantity,
+        productContentDescription: req.body.contentDescription,
+        productCustomAttributes: customAttributesArr,
+        productCategory: req.params.categoryId,
+        productBrand: productBrandArr,
+        productAuthor: productAuthorArr
+    }
 
 
 
 
     var imageOrder = req.body.imageOrder || [];
 
-    if(imageOrder.length === 0){
-      imageOrder = s3FileNames.map(function(item,key){
-        return key;  //make default imageorder based on number of files
-      });
-    }else{
-      imageOrder = imageOrder.split(',').map(function(item) {
-      return parseInt(item, 10);
-      }); //convert back to array and all elements to int
+    if (imageOrder.length === 0) {
+        imageOrder = s3FileNames.map(function(item, key) {
+            return key; //make default imageorder based on number of files
+        });
+    } else {
+        imageOrder = imageOrder.split(',').map(function(item) {
+            return parseInt(item, 10);
+        }); //convert back to array and all elements to int
     }
 
 
-    var arr =  [];
+    var arr = [];
 
-    s3FileNames.forEach(function(fileName,key){
-        arr.push("https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[imageOrder[key]]);
+    s3FileNames.forEach(function(fileName, key) {
+        arr.push("https://s3.amazonaws.com/mtacmsblog/" + s3FileNames[imageOrder[key]]);
     });
 
     newProduct.productImages = arr;
@@ -150,30 +162,33 @@ router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(re
                     productCategory.products.push(newlyCreated);
                     productCategory.save();
                     //product brand     //similar in  all categories
-                    productBrandArr.forEach(function(brandId){
-                      ProductBrand.findById(brandId, function(err,productBrand){
-                        if(err){
-                          console.log(err);
-                        }else{
-                            productBrand.products.push(newlyCreated);
-                            productBrand.save();
-                        }
-                      });
+
+                    productBrandArr.forEach(function(brand) {
+                        var brandId = brand.id;
+                        ProductBrand.findById(brandId, function(err, productBrand) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                productBrand.products.push(newlyCreated);
+                                productBrand.save();
+                            }
+                        });
                     });
                     //product Author
-                    productAuthorArr.forEach(function(authorId){
-                      ProductAuthor.findById(authorId, function(err,productAuthor){
-                        if(err){
-                          console.log(err);
-                        }else{
-                            productAuthor.products.push(newlyCreated);
-                            productAuthor.save();
-                        }
-                      });
+                    productAuthorArr.forEach(function(author) {
+                        var authorId = author.id;
+                        ProductAuthor.findById(authorId, function(err, productAuthor) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                productAuthor.products.push(newlyCreated);
+                                productAuthor.save();
+                            }
+                        });
                     });
 
                     req.flash('success', "Successfully add a new " + productCategory.productCategoryName + ".");
-                    res.redirect("/productcategories/"+req.params.categoryId+"/products/"+newlyCreated._id);
+                    res.redirect("/productcategories/" + req.params.categoryId + "/products/" + newlyCreated._id);
                 }
             })
 
@@ -183,9 +198,9 @@ router.post("/", [middleware.isProductFullAccess,  uploadNew.any()], function(re
 
 });
 
-router.get("/new", [middleware.isProductFullAccess,middleware.fillNewForm], function(req, res) {
+router.get("/new", [middleware.isProductFullAccess, middleware.getEachCategoryObjects], function(req, res) {
 
-    console.log("request",req.brandList);
+    console.log("request", req.brandList);
     ProductCategory.findById(req.params.categoryId, function(err, productCategory) {
         if (err) {
             console.log(err);
@@ -194,7 +209,7 @@ router.get("/new", [middleware.isProductFullAccess,middleware.fillNewForm], func
             res.render("products/new.ejs", {
                 productCategory: productCategory,
                 brandList: req.brandList,
-                authorList:req.authorList
+                authorList: req.authorList
             });
         }
     })
@@ -203,35 +218,38 @@ router.get("/new", [middleware.isProductFullAccess,middleware.fillNewForm], func
 
 router.get("/:productId", middleware.isProductReadOnly, function(req, res) {
     Product.findById(req.params.productId, function(err, foundProduct) {
-      console.log(req.params);
+        console.log(req.params);
         if (err) {
             console.log(err);
         } else {
             res.render("products/show.ejs", {
                 product: foundProduct,
-                productCategoryId:req.params.categoryId
-            })
+                productCategoryId: req.params.categoryId
+            });
         }
-    })
+    });
 });
 
-router.get("/:productId/edit", middleware.isProductFullAccess, function(req, res) {
-
+router.get("/:productId/edit", [middleware.isProductFullAccess, middleware.getEachCategoryObjects], function(req, res) {
+    console.log(req.body);
     Product.findById(req.params.productId, function(err, foundProduct) {
         if (err) {
             console.log(err);
         } else {
             res.render("products/edit.ejs", {
                 productCategoryId: req.params.categoryId,
-                product: foundProduct
+                product: foundProduct,
+                brandList: req.brandList,
+                authorList: req.authorList
+
             });
         }
     })
 });
 
-router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], function(req, res) {
-    // console.log("test etstestesteste");
-    console.log(req.body);
+router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , middleware.getProductDetails], function(req, res) {
+
+    var removedBrands = req.body.removedBrands;
 
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
@@ -240,6 +258,50 @@ router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], fun
         };
     });
 
+    var productBrandArr = req.productDetails.productBrand || [];
+    var productAuthorArr = req.productDetails.productAuthor  || [];
+
+    //take off productcategories (if any)
+
+
+    if (removedBrands) {
+      console.log("LENGTH 1: ", productBrandArr.length);
+      removedBrands.forEach(function(brandId){
+            productBrandArr = productBrandArr.filter(function(array) { return array.id !== brandId });
+          });
+    }
+    console.log("LENGTH 2: ", productBrandArr.length);
+
+
+
+
+
+
+    // add new productcategories (if any)
+
+   var   newProductBrandArr = req.body.brand || [];
+    if(newProductBrandArr.length > 0){
+      newProductBrandArr = newProductBrandArr.map(function(value) {
+          return JSON.parse(value);
+      });
+      productBrandArr = productBrandArr.concat(newProductBrandArr);
+
+    }
+
+
+
+    var newProductAuthorArr = req.body.author  || [];
+    if(newProductAuthorArr.length > 0 ){
+      newProductAuthorArr = newProductAuthorArr.map(function(value) {
+          return JSON.parse(value);
+      });
+        productAuthorArr = productAuthorArr.concat(newProductAuthorArr);
+    }
+
+
+
+
+
 
     var updatingProduct = {
         productName: req.body.name,
@@ -247,42 +309,48 @@ router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], fun
         productPrice: req.body.price,
         productQuantity: req.body.quantity,
         productContentDescription: req.body.contentDescription,
-        productCustomAttributes: customAttributesArr
+        productCustomAttributes: customAttributesArr,
+        productBrand: productBrandArr,
+        productAuthor: productAuthorArr
     }
 
 
     var imageOrder = req.body.imageOrder || "0,1,2,3,4,5"; // if image unchanged
-    var arr =  [];
-    if(imageOrder.length > 0){
+    var arr = [];
+    if (imageOrder.length > 0) {
 
-      imageOrder = imageOrder.split(',').map(function(item) {
-      return parseInt(item, 10);
-      }); //convert back to array and all elements to int
+        imageOrder = imageOrder.split(',').map(function(item) {
+            return parseInt(item, 10);
+        }); //convert back to array and all elements to int
 
 
-      // code to re-order images
-      var imageUrl = req.body.imageUrl;
+        // code to re-order images
+        var imageUrl = req.body.imageUrl;
 
-      imageOrder.forEach(function(val){
-        if(imageUrl[val]){
+        if (imageUrl) {
 
-          arr.push(imageUrl[val]);
+            imageOrder.forEach(function(val) {
+                if (imageUrl[val]) {
+
+                    arr.push(imageUrl[val]);
+                }
+            });
+
         }
-      });
+
 
     }
 
     //uploadedIndexes
-    console.log(  arr);
-    if(uploadIndexes.length > 0){
-      uploadIndexes.forEach(function(val,key){
-          arr[val] = "https://s3.amazonaws.com/mtacmsblog/"+s3FileNames[key];
-      })
+    if (uploadIndexes.length > 0) {
+        uploadIndexes.forEach(function(val, key) {
+            arr[val] = "https://s3.amazonaws.com/mtacmsblog/" + s3FileNames[key];
+        })
 
-      console.log(arr);
+        console.log(arr);
     }
-    uploadIndexes=[];  //cleanup
-    s3FileNames=[];
+    uploadIndexes = []; //cleanup
+    s3FileNames = [];
 
     //console.log(arr);
     updatingProduct.productImages = arr;
@@ -291,7 +359,61 @@ router.put("/:productId",[ middleware.isProductFullAccess,uploadEdit.any()], fun
         if (err) {
             console.log(err);
         } else {
-            res.redirect("/productcategories/"+req.params.categoryId+"/products/" + req.params.productId);
+
+            // add updated product to categories
+
+            //product brand     //similar in  all categories
+
+            newProductBrandArr.forEach(function(brand) {
+                var brandId = brand.id;
+                ProductBrand.findById(brandId, function(err, productBrand) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        productBrand.products.push(updatedProduct);
+                        productBrand.save();
+
+                    }
+                });
+            });
+
+            //delete  Product form  removed brand
+            if (removedBrands) {
+              removedBrands.forEach(function(brandId){
+                ProductBrand.findById(brandId, function(err, productBrand) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        productBrand.products.pull(updatedProduct);
+                        productBrand.save();
+
+                    }
+                });
+              });
+            }
+
+            //product Author
+            newProductAuthorArr.forEach(function(author) {
+                var authorId = author.id;
+                ProductAuthor.findById(authorId, function(err, productAuthor) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        productAuthor.products.push(updatedProduct);
+                        productAuthor.save();
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+            res.redirect("/productcategories/" + req.params.categoryId + "/products/" + req.params.productId);
+
         }
     });
 });
@@ -304,6 +426,13 @@ router.delete("/:productId", middleware.isProductFullAccess, function(req, res) 
             res.redirect("/products")
         }
     });
+    //delete product from each category as well
+
+
+
+
+
+
 });
 
 module.exports = router;

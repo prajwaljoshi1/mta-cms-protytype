@@ -202,3 +202,15 @@ img {
   height: 60px;
   text-align: center;
 }
+
+
+/*product edit strikethrough*/
+
+.strikethrough:checked + span{
+  text-decoration:line-through;
+}
+
+
+.strikethrough{
+  display:none;
+}
