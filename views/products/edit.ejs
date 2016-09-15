@@ -38,6 +38,8 @@
 
 
 
+
+
                     <!--  product brand start-->
 
                     <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
@@ -50,6 +52,19 @@
                     </select>
 
                         <!--  product brand end -->
+
+
+                        <% if(product.productAuthor) { %>
+
+                          <% product.productAuthor.forEach(function(author){ %>
+
+                            <div class="checkbox">
+                                 <label><input type="checkbox" name="removedAuthors[]" class="strikethrough" value="<%=author.id%>"><span><%=author.name%></span></label>
+                            </div>
+
+                          <% }); %>
+
+                      <% } %>
 
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
                         <option value="">Select an Author </option>

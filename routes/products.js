@@ -250,6 +250,7 @@ router.get("/:productId/edit", [middleware.isProductFullAccess, middleware.getEa
 router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , middleware.getProductDetails], function(req, res) {
 
     var removedBrands = req.body.removedBrands;
+    var removedAuthors = req.body.removedAuthors;
 
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
@@ -265,12 +266,21 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
 
 
     if (removedBrands) {
-      console.log("LENGTH 1: ", productBrandArr.length);
+      //console.log("LENGTH 1: ", productBrandArr.length);
       removedBrands.forEach(function(brandId){
             productBrandArr = productBrandArr.filter(function(array) { return array.id !== brandId });
           });
     }
-    console.log("LENGTH 2: ", productBrandArr.length);
+    //console.log("LENGTH 2: ", productBrandArr.length);
+
+    if (removedAuthors) {
+      console.log("LENGTH 1: ", productAuthorArr.length);
+      removedAuthors.forEach(function(authorId){
+            productAuthorArr = productAuthorArr.filter(function(array) { return array.id !== authorId });
+          });
+    }
+    console.log("LENGTH 2: ", productAuthorArr.length);
+
 
 
 
@@ -392,6 +402,24 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
               });
             }
 
+
+            // var addProductToCategory = function( categoryArr,CategoryModel,product ){
+            //   categoryArr.forEach(function(category){
+            //     var id = category.id;
+            //     CategoryModel.findById(id, function(err, category) {
+            //         if (err) {
+            //             console.log(err);
+            //         } else {
+            //             category.products.push(updated);
+            //             cagtegory.save();
+            //         }
+            //     });
+            //
+            //   })
+            // };
+
+
+
             //product Author
             newProductAuthorArr.forEach(function(author) {
                 var authorId = author.id;
@@ -404,6 +432,24 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
                     }
                 });
             });
+
+
+            //delete  Product form  removed brand
+            if (removedAuthors) {
+              removedAuthors.forEach(function(authorId){
+                ProductAuthor.findById(authorId, function(err, productAuthor) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                      console.log("total authors: " ,productAuthors.products.length);
+                        productAuthor.products.pull(updatedProduct);
+                        productAuthor.save();
+                      console.log("after delete: ", productAuthors.products.length);
+
+                    }
+                });
+              });
+            }
 
 
 
@@ -426,7 +472,10 @@ router.delete("/:productId", middleware.isProductFullAccess, function(req, res) 
             res.redirect("/products")
         }
     });
-    //delete product from each category as well
+    //need to delete product from each category as well
+
+
+
 
 
 

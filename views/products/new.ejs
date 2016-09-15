@@ -33,6 +33,87 @@
                             <% }); %>
                     </select>
 
+                    <select id="select-brand2" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand3" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand4" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand5" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand6" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand7" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand8" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand9" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand10" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <select id="select-brand11" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select a Brand </option>
+                        <% brandList.forEach(function(brand){ %>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                                <%=brand.productBrandName%>
+                            </option>
+                            <% }); %>
+                    </select>
+
                         <!--  product brand end -->
 
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
@@ -213,6 +294,17 @@
                     maxItems: 3
                 };
                 $('#select-brand').selectize(options);
+                  $('#select-brand2').selectize(options);
+                    $('#select-brand3').selectize(options);
+                      $('#select-brand4').selectize(options);
+                        $('#select-brand5').selectize(options);
+                          $('#select-brand6').selectize(options);
+                            $('#select-brand7').selectize(options);
+                              $('#select-brand8').selectize(options);
+                                $('#select-brand9').selectize(options);
+                                  $('#select-brand10').selectize(options);
+                                    $('#select-brand11').selectize(options);
+
                 $('#select-author').selectize(options);
             });
             //selectize end

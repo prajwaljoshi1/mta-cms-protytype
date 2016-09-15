@@ -6,7 +6,7 @@ var postDest= 'posts.json'
 var request = require('sync-request');
 
 
-
+var postDest= 'posts.json'
 
 jsonfile.readFile(posts, function(err, arrOfPosts) {
 
