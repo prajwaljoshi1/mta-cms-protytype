@@ -19,6 +19,7 @@ var objMapToArr = require('object-map-to-array');
 var aws = require('aws-sdk')
 var multer = require('multer');
 
+
 var s3 = new aws.S3({});
 var multerS3 = require('multer-s3');
 
@@ -60,12 +61,26 @@ var uploadEdit = multer({
 })
 
 
-router.use(paginate.middleware(10, 50));
-router.get("/", middleware.isProductReadOnly, function(req, res) {
-    Products.paginate({}, {
-        page: req.query.page,
-        limit: req.query.limit
-    }, function(err, allProducts, pageCount, itemCount) {
+router.get("/search/", middleware.isProductReadOnly, function(req, res) {
+  key = req.query.key;
+
+  Product.find({ $text: { $search : key}}, function(err, allProducts) {
+      if (err) {
+
+          console.log(err);
+      } else {
+          res.render("products/index.ejs", {
+              products: allProducts
+          });
+      }
+  });
+
+});
+
+
+router.use(paginate.middleware(500, 500));
+router.get("/",middleware.isProductReadOnly, function(req,res){
+  Product.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allProducts, pageCount, itemCount){
         if (err) {
             console.log(err);
         } else {
@@ -76,21 +91,15 @@ router.get("/", middleware.isProductReadOnly, function(req, res) {
                 pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
             });
         }
-    });
-    // Product.find({}, function(err, allProducts) {
-    //     if (err) {
-    //
-    //         console.log(err);
-    //     } else {
-    //         res.render("products/index.ejs", {
-    //             products: allProducts
-    //         });
-    //     }
-    // });
+
+        });
+
 });
 
-router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req, res) {
 
+
+
+router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req, res) {
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
             attributeName: k,
@@ -111,17 +120,40 @@ router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req
         return JSON.parse(value);
     });
 
+    // var newProduct = {
+    //     productName: req.body.name,
+    //     productState: req.body.state,
+    //     productPrice: req.body.price,
+    //     productQuantity: req.body.quantity,
+    //     productContentDescription: req.body.contentDescription,
+    //     productCustomAttributes: customAttributesArr,
+    //     productCategory: req.params.categoryId,
+    //     productBrand: productBrandArr,
+    //     productAuthor: productAuthorArr
+    // }
+
+
     var newProduct = {
-        productName: req.body.name,
-        productState: req.body.state,
-        productPrice: req.body.price,
-        productQuantity: req.body.quantity,
-        productContentDescription: req.body.contentDescription,
-        productCustomAttributes: customAttributesArr,
-        productCategory: req.params.categoryId,
-        productBrand: productBrandArr,
-        productAuthor: productAuthorArr
+      slug:req.body.slug,
+      productTitle: req.body.productTitle,
+      productDescription:req.body.productDescription,
+      productAdditionalDescription: request.body.productAdditionalDescription,
+      productCustomAttributes: [],
+      productCategories:[],
+      productBrands:[],
+      productAuthors:[],
+      productFiction:[],
+      productGenre:[],
+      productGrades:[],
+      productLanguages:[],
+      productLexiles:[],
+      ProductSeries:[],
+      productStrategies:[],
+      productThemes:[],
+      productYearLevels:[],
+      productReadingLevels:[]
     }
+
 
 
 
@@ -200,7 +232,7 @@ router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req
 
 router.get("/new", [middleware.isProductFullAccess, middleware.getEachCategoryObjects], function(req, res) {
 
-    console.log("request", req.brandList);
+
     ProductCategory.findById(req.params.categoryId, function(err, productCategory) {
         if (err) {
             console.log(err);
@@ -209,7 +241,8 @@ router.get("/new", [middleware.isProductFullAccess, middleware.getEachCategoryOb
             res.render("products/new.ejs", {
                 productCategory: productCategory,
                 brandList: req.brandList,
-                authorList: req.authorList
+                authorList: req.authorList,
+                productSlug:req.productSlug
             });
         }
     })
@@ -313,16 +346,17 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
 
 
 
+
     var updatingProduct = {
-        productName: req.body.name,
-        productState: req.body.state,
-        productPrice: req.body.price,
-        productQuantity: req.body.quantity,
-        productContentDescription: req.body.contentDescription,
-        productCustomAttributes: customAttributesArr,
-        productBrand: productBrandArr,
-        productAuthor: productAuthorArr
+      productTitle: req.body.productTitle,
+      productDescription:req.body.productDescription,
+      productAdditionalDescription: request.body.productAdditionalDescription,
+      productCustomAttributes: customAttributesArr,
+      productBrands:productBrandArr,
+      productAuthors:productAuthorArr
+
     }
+
 
 
     var imageOrder = req.body.imageOrder || "0,1,2,3,4,5"; // if image unchanged
@@ -464,6 +498,9 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
     });
 });
 
+
+
+
 router.delete("/:productId", middleware.isProductFullAccess, function(req, res) {
     Product.findByIdAndRemove(req.params.ProductId, function(err) {
         if (err) {
@@ -473,12 +510,6 @@ router.delete("/:productId", middleware.isProductFullAccess, function(req, res) 
         }
     });
     //need to delete product from each category as well
-
-
-
-
-
-
 
 
 

@@ -9,23 +9,45 @@
             <h1 style="text-align:center;"> Add a new Product</h1>
             <div style="width:80%; margin:30px auto;">
                 <form enctype="multipart/form-data" action="/productcategories/<%=productCategory._id%>/products" method="POST">
+
+
                     <div class="form-group">
+                        <label for="">Product Name</label>
                         <input class="form-control" type="text" name="name" placeholder="Product Name">
                     </div>
+
+
                     <div class="form-group">
+                          <label for="">Slug</label>
+                        <input id="slug-input" class="form-control" type="text" name="slug" placeholder="Slug" onFocusOut="checkSlugIsUnique()">
+                    </div>
+                    <p id="slug-name-error">
+                      Slug name already used!
+                    </p>
+                    <p id="slug-name-success">
+                      Slug name is unique!
+                    </p>
+
+
+
+                    <!-- <div class="form-group">
+                        <label for="">Product Name</label>
                         <input class="form-control" type="text" name="state" placeholder="State">
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                    <!-- <div class="form-group">
                         <input class="form-control" type="text" name="price" placeholder="Price">
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                    <!-- <div class="form-group">
                         <input class="form-control" type="text" name="Quantity" placeholder="Quantity">
-                    </div>
+                    </div> -->
 
                     <!--  product brand start-->
 
+
+
+                    <label for="">Select  Brand(s)</label>
                     <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+                        <option value="">Select additional item Categories </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
@@ -33,89 +55,111 @@
                             <% }); %>
                     </select>
 
-                    <select id="select-brand2" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+                    <label for="">Select  Reading Level(s)</label>
+                    <select id="select-reading-level" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select reading level </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand3" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <label for="">Select fiction/non-fiction</label>
+                    <select id="select-fiction" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select fiction/non-fiction </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand4" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                      <label for="">Select Genre(s)</label>
+                    <select id="select-genre" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select  Genre </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand5" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <label for="">Select Grade(s) </label>
+                    <select id="select-grades" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select Grade(s) </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand6" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <label for="">Select  Language(s)</label>
+                    <select id="select-language" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select Languages </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand7" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <label for=""> Select Lexile(s)</label>
+                    <select id="select-lexile" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select lexiles </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand8" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                  <label for="">Select  Theme(s)</label>
+                    <select id="select-theme" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select Themes </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand9" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <label for="">Select Year-Level(s) </label>
+                    <select id="select-year-level" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select year-level </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand10" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+
+                      <label for="">Select  Strategy(s)</label>
+                    <select id="select-strategy" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select strategies </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
-                    <select id="select-brand11" name="brand[]" class=" demo-default" placeholder="Select Brand">
-                        <option value="">Select a Brand </option>
+
+                    <select id="select-series" name="brand[]" class=" demo-default" placeholder="Select Brand">
+                        <option value="">Select series </option>
                         <% brandList.forEach(function(brand){ %>
                             <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
                     </select>
+
 
                         <!--  product brand end -->
 
+
+                          <label for="">Select  Author(s)</label>
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
                         <option value="">Select an Author </option>
                         <% authorList.forEach(function(author){ %>
@@ -284,6 +328,29 @@
     </div>
 
     <script type="text/javascript">
+
+    //slug unique check
+      var slugList = [];
+      $.get( "/mtacms/productslug", function( data ) {
+              slugList = data;
+
+        });
+        $('#slug-name-error').toggle();
+        $('#slug-name-success').toggle();
+        var checkSlugIsUnique = function(){
+
+           var currentSlugName  = $('#slug-input').val();
+           if(jQuery.inArray(currentSlugName, slugList) !== -1){
+                  $('#slug-name-error').toggle(true);
+                  $('#slug-name-success').toggle(false);
+           }else{
+               $('#slug-name-error').toggle(false);
+               $('#slug-name-success').toggle(true);
+           }
+
+
+        }
+
         $(document).ready(function() {
 
 
@@ -294,17 +361,17 @@
                     maxItems: 3
                 };
                 $('#select-brand').selectize(options);
-                  $('#select-brand2').selectize(options);
-                    $('#select-brand3').selectize(options);
-                      $('#select-brand4').selectize(options);
-                        $('#select-brand5').selectize(options);
-                          $('#select-brand6').selectize(options);
-                            $('#select-brand7').selectize(options);
-                              $('#select-brand8').selectize(options);
-                                $('#select-brand9').selectize(options);
-                                  $('#select-brand10').selectize(options);
-                                    $('#select-brand11').selectize(options);
-
+                $('#select-reading-level').selectize(options);
+                $('#select-item-cateogry').selectize(options);
+                $('#select-grades').selectize(options);
+                $('#select-language').selectize(options);
+                $('#select-fiction').selectize(options);
+                $('#select-genre').selectize(options);
+                $('#select-lexile').selectize(options);
+                $('#select-series').selectize(options);
+                $('#select-year-level').selectize(options);
+                $('#select-theme').selectize(options);
+                $('#select-strategy').selectize(options);
                 $('#select-author').selectize(options);
             });
             //selectize end

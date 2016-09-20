@@ -37,10 +37,22 @@
 
                             <div>
                                 <div>
-                                    <h2><%= product.productName %></h2>
-                                    <h4>Cost: <%= product.productPrice %></h4>
-                                    <p>more details goes here</p>
-                                    <p > more details goes  here</p>
+                                    <h2><%= product.productTitle %></h2>
+
+
+                                    <p>Item Category:
+                                      <% product.productCategories.forEach(function(category){ %>
+                                                <%= category.category%> /
+                                    <% }) %>
+                                    </p>
+
+                                    <p>Brand:
+                                      <% product.productBrands.forEach(function(category){ %>
+                                                <%= category.brand%> /
+                                    <% }) %>
+                                    </p>
+
+
                                 </div>
                         </div>
                     </div>
@@ -64,6 +76,11 @@
         </div>
 </div>
 <div>
+  <h4>Description</h4>
+    <%- product.productDescription %>
+</div>
+<div>
+  <h4>Additional Description</h4>
     <%- product.productAdditionalDescription %>
 </div>
 
@@ -73,8 +90,15 @@
     <% }); %>
 
     <div class="pull-right">
+
+      <%if(productCategoryId) { %>
       <a class="btn btn-default" href="/productcategories/<%=productCategoryId%>/products/<%=product._id%>/edit" name="button">Edit</a>
+      <% } else { %>
+          <a class="btn btn-default" href="/products/<%=product._id%>/edit" name="button">Edit</a>
+        <% } %>
       <form class="" action="/products/<%=product._id%>?_method=DELETE" method="POST">
+
+
         <button class="btn btn-default" name="button">Delete</button>
       </form>
     </div>

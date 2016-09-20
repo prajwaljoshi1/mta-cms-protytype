@@ -1,17 +1,33 @@
 <% include ../partials/header%>
 
 
-    <div class="container">
+    <div class="container" id="products">
 
         <header class="jumbotron">
             <div class="container">
 
 
-                <h2>All Products</h2>
+                <h2>SEARCH</h2>
                 <p>
-                    <a class="btn btn-primary btn-large" href="/products/new">Add New Product</a>
+                  <form  action="/products/search/" method="GET">
+
+                    <div class="form-group">
+                          <input class=" form-control" placeholder="Search" name="key" />
+                    </div>
+                    <div class="form-group">
+
+                            <button type="submit"  class="btn btn-primary" >Search</button>
+
+                    </div>
+
+
+
+
+                    <form>
                 </p>
-                <div class="container">
+
+
+
 
 
         </header>
@@ -21,33 +37,33 @@
 
 
 
-  <% products.forEach(function(product){  %>
-        <div class="well">
-            <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="<%= product.productMainImage %>" height="128px" width='128px'>
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading"><%= product.productName %></h4>
-                    <p>By <%= product.productCost %></p>
-                    <p><%= product.productQuantity %></p>
-
-                    <div>
-                        <a class="btn btn-default" href="/products/<%=product._id%>">Show</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-              <% }) %>
+        <ul class="row list list-group">
 
 
+            <% products.forEach(function(product){  %>
 
 
+                <li class=" col-xs-offset-1 col-xs-10">
 
+                    <a class="name " href="/products/<%=product._id%>">
+                        <%= product.productTitle %>
+                    </a>
+                </li>
+
+
+                <% }) %>
+
+
+        </ul>
 
         </div>
 
-        <% include ../partials/paginate%>
+    </div>
 
-        <% include ../partials/footer%>
+
+
+
+    <% include ../partials/paginate%>
+
+
+    <% include ../partials/footer%>

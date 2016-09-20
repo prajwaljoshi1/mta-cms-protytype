@@ -49,7 +49,8 @@ var importProduct = function(){
         ProductSeries:[],
         productStrategies:[],
         productThemes:[],
-        productYearLevels:[]
+        productYearLevels:[],
+        productReadingLevels:[],
         }
 
         Product.create(newProduct, function(err,newlyCreated){
@@ -82,7 +83,7 @@ var importProductmeta = function(){
             if(count !== 0) {
 
                 updateAdditionalAttributes(oldItem,attrArr);
-                console.log(count);
+                console.log("loading ", count, " Products");
             }
                   oldItem = newItem;
                     attrArr = [];
@@ -113,6 +114,7 @@ var importProductmeta = function(){
 };
 
 //call functions
+//importProduct();
 importProductmeta();
 
 connection.end();

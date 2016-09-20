@@ -2,17 +2,19 @@ var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 
 
+
+
 var mtaProductSchema = new mongoose.Schema({
   slug:String,
-  productTitle: String,
+  productTitle: { type: String, text: true },
   productDescription:String,
   productImages:Array,
   productAdditionalDescription: String,
   productCreatedAt: { type: Date, default: Date.now },
   productCustomAttributes: Array,
   productCategories:Array,
-  productBrand:Array,
-  productAuthor:Array,
+  productBrands:Array,
+  productAuthors:Array,
   productFiction:Array,
   productGenre:Array,
   productGrades:Array,
@@ -21,9 +23,14 @@ var mtaProductSchema = new mongoose.Schema({
   ProductSeries:Array,
   productStrategies:Array,
   productThemes:Array,
-  productYearLevels:Array
-
+  productYearLevels:Array,
+  productReadingLevels:Array
 });
+
+
+
+mtaProductSchema.index({ productTitle: true });
+
 
 // var mtaProductSchema = new mongoose.Schema({
 //   productName: String,

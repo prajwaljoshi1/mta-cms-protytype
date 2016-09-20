@@ -33,6 +33,8 @@ var productBrandRoutes = require('./routes/productBrands.js');
 var productAuthorRoutes = require('./routes/productAuthors.js');
 
 var apiRoutes = require('./routes/api.js');
+var internalApiRoutes = require('./routes/internalApi.js');
+
 
 //var uploadImageRoutes = require('./routes/uploadimage.js');
 
@@ -80,7 +82,9 @@ app.use("/productbrands/:id/products",productRoutes);
 app.use("/productcategories",productCategoryRoutes);
 app.use("/productbrands",productBrandRoutes);
 app.use("/productauthors",productAuthorRoutes);
+app.use("/products", productRoutes)
 app.use("/api",apiRoutes);
+app.use("/mtacms",internalApiRoutes);
 
 
 

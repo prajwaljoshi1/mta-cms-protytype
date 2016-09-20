@@ -70,6 +70,8 @@ middlewareObj.isAdmin = function(req, res, next){
 middlewareObj.getEachCategoryObjects = function(req,res,next){
     var ProductBrand = require('../models/product/productBrand.js');
     var ProductAuthor = require('../models/product/productAuthor.js');
+    //var ProductCategory = require('../models/product/ProductCategory.js');
+    var productFiction = require('../models/product/ProductFiction.js');
 
     var brandList = [];
 
@@ -83,7 +85,28 @@ middlewareObj.getEachCategoryObjects = function(req,res,next){
                       console.log(err);
                   } else {
                         req.authorList = allProductAuthors;
-                        return next();
+
+
+                                  productFiction.find({}, function(err, allProductFiction) {
+                                      if (err) {
+                                          console.log(err);
+                                      } else {
+                                            req.fictionList = allProductFiction;
+                                            productFiction.find({}, function(err, allProductFiction) {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                      req.fictionList = allProductFiction;
+                                                        return next();
+
+
+
+                                          }
+                                    });
+
+                            }
+                        });
+
                   }
               });
         }
@@ -91,6 +114,8 @@ middlewareObj.getEachCategoryObjects = function(req,res,next){
 
 };
 
+
+//  return next();
 
 
  middlewareObj.getProductDetails = function(req, res, next){
@@ -106,6 +131,9 @@ middlewareObj.getEachCategoryObjects = function(req,res,next){
        }
    });
   };
+
+
+
 
 
 module.exports = middlewareObj;

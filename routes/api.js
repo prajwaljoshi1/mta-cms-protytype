@@ -54,6 +54,7 @@ router.get("/product/:id", function(req, res) {
 
 
 router.get("/search/product/:slug", function(req, res) {
+  console.log("testtestststewtsetes");
   var date1 = Date.now();
     Product.find({}, function(err, allProducts) {
         if (err) {
@@ -65,7 +66,7 @@ router.get("/search/product/:slug", function(req, res) {
 
             searchIndex({}, function(err, si){
               if(err) console.log("ERROR searchIndex");
-                 si.add([{'allProducts':'test'}, {'batman':'test'}], {}, function(err) {
+                 si.add([{'allProducts':'pen'}, {'pen':'pen'}], {}, function(err) {
                    if (!err) console.log('success!');
                    else{
                      console.log("failure");

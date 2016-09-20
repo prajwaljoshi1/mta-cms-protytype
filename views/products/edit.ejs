@@ -6,29 +6,29 @@
         <div class="container">
             <div class="row">
 
-            <h1 style="text-align:center;"> Edit Product</h1>
+
+            <h1 style="text-align:center;"> Edit Product <%=product.productTitle %> (<%=product.slug %>)</h1>
             <div style="width:80%; margin:30px auto;">
+            <%  if(productCategoryId === undefined){  %>
+                <form enctype="multipart/form-data" action="/products/<%=product._id%>?_method=PUT"  method="POST">
+                
+            <%   }else{ %>
                 <form enctype="multipart/form-data" action="/productcategories/<%=productCategoryId%>/products/<%=product._id%>?_method=PUT"  method="POST">
+              <%  } %>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="name" value="<%=product.productName %>" placeholder="Product Name">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="state"  value="<%=product.productName %>" placeholder="State">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="price"  value="<%=product.productName %>" placeholder="Price">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="Quantity"  value="<%=product.productName %>" placeholder="Quantity">
+                          <label for=""> Product Title</label>
+                        <input class="form-control" type="text" name="title" value="<%=product.productTitle %>" placeholder="Product Name">
                     </div>
 
 
-                    <% if(product.productBrand) { %>
 
-                      <% product.productBrand.forEach(function(brand){ %>
+                    <% if(product.productBrands) { %>
+                        <label for="">Current Brand(click to remove)</label>
+
+                      <% product.productBrands.forEach(function(brand){ %>
 
                         <div class="checkbox">
-                             <label><input type="checkbox" name="removedBrands[]" class="strikethrough" value="<%=brand.id%>"><span><%=brand.name%></span></label>
+                             <label><input type="checkbox" name="removedBrands[]" class="strikethrough" value="<%=brand.id%>"><span><%=brand.brand%></span></label>
                         </div>
 
                       <% }); %>
@@ -41,7 +41,7 @@
 
 
                     <!--  product brand start-->
-
+                    <label for="">Add new Brand</label>
                     <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
                         <option value="">Select a Brand </option>
                         <% brandList.forEach(function(brand){ %>
@@ -55,6 +55,7 @@
 
 
                         <% if(product.productAuthor) { %>
+                          <label for="">Current Author(s) (click to remove)</label>
 
                           <% product.productAuthor.forEach(function(author){ %>
 
@@ -66,6 +67,7 @@
 
                       <% } %>
 
+                        <label for="">Add new Author(s)</label>
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
                         <option value="">Select an Author </option>
                         <% authorList.forEach(function(author){ %>
@@ -75,8 +77,7 @@
                             <% }); %>
                     </select>
 
-
-
+                    <label for="">Add/Arrange/Remove Images</label>
 
                                         <div class="row">
 
@@ -211,10 +212,15 @@
 
 
 
-
+                    <label for="">Product Description:</label>
                      <div class="form-group">
-                              <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"><%=product.productName %></textarea>
+                              <textarea class="blog-body" class="form-control" type="text" name="description" placeholder="Description"><%=product.productDescription %></textarea>
                       </div>
+
+                      <label for="">Product Addtional Description:</label>
+                       <div class="form-group">
+                                <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"><%=product.productAdditionalDescription %></textarea>
+                        </div>
 
 
                       <% product.productCustomAttributes.forEach(function(attribute){ %>
