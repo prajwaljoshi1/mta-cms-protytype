@@ -5,7 +5,6 @@ var ProductCategory = require("../models/product/productCategory.js");
 var Product = require("../models/product/product.js");
 
 var searchIndex = require('search-index');
- //var si = require('search-index')({indexPath: 'testindex', logLevel: 'info'});
 
 
 
@@ -33,11 +32,12 @@ router.get("/blog/:id", function(req, res) {
 });
 
 
-//get get a product with id
-// api/product/:id
+//get get a product with slug
+// api/product/:slug
 
-router.get("/product/:id", function(req, res) {
-    Product.findById(req.params.id, function(err, foundProduct) {
+router.get("/product/:slug", function(req, res) {
+
+    Product.find({slug:req.params.slug}, function(err, foundProduct) {
         if (err) {
 
             console.log(err);

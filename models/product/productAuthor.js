@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductAuthorSchema = new mongoose.Schema({
-  productAuthorName: String,
+  slug:String,
+  name: { type: String, text: true },
   products:[
     {
       type: mongoose.Schema.Types.ObjectId,

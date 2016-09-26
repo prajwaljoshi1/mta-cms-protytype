@@ -3,7 +3,7 @@ var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductGenreSchema = new mongoose.Schema({
   slug:String,
-  productGenreName: String,
+  name: String,
   products:[
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,6 +15,6 @@ var mtaProductGenreSchema = new mongoose.Schema({
 
 mtaProductGenreSchema.plugin(mongoosePaginate);
 
-var ProductGenre = mongoose.model("ProductBrand", mtaProductGenreSchema);
+var ProductGenre = mongoose.model("ProductGenre", mtaProductGenreSchema);
 
 module.exports  = ProductGenre;

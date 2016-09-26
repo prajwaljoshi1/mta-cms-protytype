@@ -5,7 +5,7 @@ var mongoosePaginate = require('mongoose-paginate');
 
 
 var mtaProductSchema = new mongoose.Schema({
-  slug:String,
+  slug:{ type: String, index: true },
   productTitle: { type: String, text: true },
   productDescription:String,
   productImages:Array,

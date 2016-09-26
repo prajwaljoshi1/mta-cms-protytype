@@ -26,7 +26,7 @@ middlewareObj.isBlogFullAccess = function(req, res, next){
 
 middlewareObj.isBlogReadOnly = function(req, res, next){
   if(req.isAuthenticated()){
-    if(req.user.userType == 'blogfullAccess' || req.user.userType == 'admin' || req.user.userType == 'blogReadOnly'){
+    if(req.user.userType === 'blogfullAccess' || req.user.userType == 'admin' || req.user.userType == 'blogReadOnly'){
       return next();
     }
   }

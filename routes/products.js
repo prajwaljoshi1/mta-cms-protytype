@@ -62,17 +62,35 @@ var uploadEdit = multer({
 
 
 router.get("/search/", middleware.isProductReadOnly, function(req, res) {
+
   key = req.query.key;
+  var date1 = Date.now();
+  Product.find({slug:key}).exec(function(err,found){
 
-  Product.find({ $text: { $search : key}}, function(err, allProducts) {
-      if (err) {
-
-          console.log(err);
-      } else {
-          res.render("products/index.ejs", {
-              products: allProducts
-          });
-      }
+    if(found.length === 0 ){
+      Product.find({ $text: { $search : key}}, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( function(err, allProducts) {
+          if (err) {
+              console.log(err);
+          } else {
+            var date2 = Date.now();
+            var timeForSearch = date2 - date1;
+            totalFound = allProducts.length;
+              res.render("products/index.ejs", {
+                  products: allProducts,
+                  timeForSearch: timeForSearch,
+                  totalFound: totalFound
+              });
+          }
+      });
+    }else{
+      var date2 = Date.now();
+        var timeForSearch = date2 - date1;
+      res.render("products/index.ejs", {
+          products: found,
+          timeForSearch: timeForSearch,
+          totalFound:1
+      });
+    }
   });
 
 });
@@ -100,6 +118,8 @@ router.get("/",middleware.isProductReadOnly, function(req,res){
 
 
 router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req, res) {
+
+  if(req.body.customAttributes){
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
             attributeName: k,
@@ -107,6 +127,10 @@ router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req
         };
     });
 
+  }
+
+  var productCategoryArr = [];
+  productCategoryArr.push(req.params.categoryId); // fix this later
 
 
     var productBrandArr = req.body.brand || [];
@@ -132,16 +156,17 @@ router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req
     //     productAuthor: productAuthorArr
     // }
 
+    console.log(productCategoryArr);
 
     var newProduct = {
       slug:req.body.slug,
       productTitle: req.body.productTitle,
       productDescription:req.body.productDescription,
-      productAdditionalDescription: request.body.productAdditionalDescription,
-      productCustomAttributes: [],
-      productCategories:[],
-      productBrands:[],
-      productAuthors:[],
+      productAdditionalDescription: req.body.productAdditionalDescription,
+      productCustomAttributes: customAttributesArr,
+      productCategories:productCategoryArr,
+      productBrands: productBrandArr,
+      productAuthors:productAuthorArr,
       productFiction:[],
       productGenre:[],
       productGrades:[],
@@ -178,6 +203,8 @@ router.post("/", [middleware.isProductFullAccess, uploadNew.any()], function(req
     });
 
     newProduct.productImages = arr;
+
+
 
     ProductCategory.findById(req.params.categoryId, function(err, productCategory) {
         if (err) {
@@ -284,6 +311,7 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
 
     var removedBrands = req.body.removedBrands;
     var removedAuthors = req.body.removedAuthors;
+    console.log("RB: ", removedBrands);
 
     var customAttributesArr = objMapToArr(req.body.customAttributes, function(n, k) {
         return {
@@ -292,8 +320,9 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
         };
     });
 
-    var productBrandArr = req.productDetails.productBrand || [];
-    var productAuthorArr = req.productDetails.productAuthor  || [];
+    var productBrandArr = req.productDetails.productBrands || [];
+    var productAuthorArr = req.productDetails.productAuthors  || [];
+    console.log("pb " ,productBrandArr);
 
     //take off productcategories (if any)
 
@@ -301,18 +330,18 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
     if (removedBrands) {
       //console.log("LENGTH 1: ", productBrandArr.length);
       removedBrands.forEach(function(brandId){
-            productBrandArr = productBrandArr.filter(function(array) { return array.id !== brandId });
+            productBrandArr = productBrandArr.filter(function(array) { return array.id != brandId }); //loose just in case
           });
     }
     //console.log("LENGTH 2: ", productBrandArr.length);
-
+    console.log("NB: " ,productBrandArr);
     if (removedAuthors) {
-      console.log("LENGTH 1: ", productAuthorArr.length);
+      //console.log("LENGTH 1: ", productAuthorArr.length);
       removedAuthors.forEach(function(authorId){
-            productAuthorArr = productAuthorArr.filter(function(array) { return array.id !== authorId });
+            productAuthorArr = productAuthorArr.filter(function(array) { return array.id != authorId }); //loose just in case
           });
     }
-    console.log("LENGTH 2: ", productAuthorArr.length);
+    //console.log("LENGTH 2: ", productAuthorArr.length);
 
 
 
@@ -350,7 +379,7 @@ router.put("/:productId", [middleware.isProductFullAccess, uploadEdit.any() , mi
     var updatingProduct = {
       productTitle: req.body.productTitle,
       productDescription:req.body.productDescription,
-      productAdditionalDescription: request.body.productAdditionalDescription,
+      productAdditionalDescription: req.body.productAdditionalDescription,
       productCustomAttributes: customAttributesArr,
       productBrands:productBrandArr,
       productAuthors:productAuthorArr

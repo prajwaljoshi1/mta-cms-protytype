@@ -5,12 +5,22 @@
 
 <div class="container">
         <div id="main_area">
+
+            <div class="row">
+              <div class="center">
+                  <h2><%= product.productTitle %></h2>
+
+              </div>
+
+            </div>
                 <!-- Slider -->
                 <div class="row">
                     <div class="col-xs-12" id="slider">
                         <!-- Top part of the slider -->
                         <div class="row">
-                            <div class="col-sm-8" id="carousel-bounding-box">
+                            <div class="col-sm-6 well" id="carousel-bounding-box">
+                              <div class="row">
+
                                 <div class="carousel slide" id="myCarousel">
                                     <!-- Carousel items -->
                                     <div class="carousel-inner">
@@ -31,63 +41,154 @@
                                         <span class="glyphicon glyphicon-chevron-right"></span>
                                     </a>
                                     </div>
+
+                              </div>
+
+                              <div class="row">
+                                <div class="row hidden-xs" id="slider-thumbs">
+                                        <!-- Bottom switcher of slider -->
+                                        <ul class="hide-bullets">
+                                          <% product.productImages.forEach(function(image, key){ %>
+
+                                            <li class="col-sm-2">
+                                                <a class="thumbnail item" id="carousel-selector-<%=key%>"><img src="<%=image%>"></a>
+                                            </li>
+
+                                           <% }) %>
+
+
+
+                                        </ul>
+                                </div>
+
+                              </div>
+
                             </div>
 
-                            <div class="col-sm-4" id="carousel-text"></div>
-
-                            <div>
-                                <div>
-                                    <h2><%= product.productTitle %></h2>
+                            <div class="col-sm-6" id="carousel-text">
+                              <div class="well">
 
 
-                                    <p>Item Category:
-                                      <% product.productCategories.forEach(function(category){ %>
-                                                <%= category.category%> /
-                                    <% }) %>
-                                    </p>
 
-                                    <p>Brand:
-                                      <% product.productBrands.forEach(function(category){ %>
-                                                <%= category.brand%> /
-                                    <% }) %>
-                                    </p>
+                                  <p>Item Category:
+                                    <% product.productCategories.forEach(function(category){ %>
+                                              <%= category.category%>,
+                                  <% }) %>
+                                  </p>
+
+                                  <p>Brand:
+                                    <% product.productBrands.forEach(function(category){ %>
+                                              <%= category.brand%>,
+                                  <% }) %>
+                                  </p>
+
+                                  <p>Author:
+
+                                  </p>
+
+                                  <p>Fiction:
+
+                                  </p>
+
+                                  <p>Genre:
+
+                                  </p>
+
+                                  <p>Grades:
+
+                                  </p>
+
+                                  <p>Language:
+
+                                  </p>
+
+                                  <p>Lexile:
+
+                                  </p>
+
+                                  <p>ReadingLevel:
+
+                                  </p>
+
+                                  <p>Year Level:
+
+                                  </p>
+                                  <p>Series:
+
+                                  </p>
+                                  <p>Stragegy:
+
+                                  </p>
+                                  <p> Theme:
+
+                                  </p>
+
+
+                              </div>
+
+
+                            </div>
 
 
                                 </div>
-                        </div>
                     </div>
                 </div><!--/Slider-->
 
-                <div class="row hidden-xs" id="slider-thumbs">
-                        <!-- Bottom switcher of slider -->
-                        <ul class="hide-bullets">
-                          <% product.productImages.forEach(function(image, key){ %>
-
-                            <li class="col-sm-2">
-                                <a class="thumbnail item" id="carousel-selector-<%=key%>"><img src="<%=image%>"></a>
-                            </li>
-
-                           <% }) %>
 
 
 
-                        </ul>
-                </div>
+        <div class="row">
+
+          <div class="col-xs-12">
+
+
+            <div class="well">
+              <h4>Description</h4>
+              <% if(product.productDescription) { %>
+                <%- product.productDescription %>
+                <% }else{ %>
+                      <p>
+                          not available
+                      </p>
+                <% } %>
+            </div>
+
+          </div>
         </div>
-</div>
-<div>
-  <h4>Description</h4>
-    <%- product.productDescription %>
-</div>
-<div>
-  <h4>Additional Description</h4>
-    <%- product.productAdditionalDescription %>
-</div>
 
-<% product.productCustomAttributes.forEach(function(attr) { %>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="well">
+              <h4>Additional Description</h4>
+              <% if(product.productAdditionalDescription) { %>
+                <%- product.productAdditionalDescription %>
+                <% }else{ %>
+                      <p>
+                          not available
+                      </p>
+                <% } %>
+            </div>
 
-      <div><%= attr.attributeName%>:  <%= attr.attributeValue%> </div>
-    <% }); %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="well">
+              <h4>Custom  Attributes</h4>
+
+                <% product.productCustomAttributes.forEach(function(attr) { %>
+
+                              <div><%= attr.attributeName%>:  <%= attr.attributeValue%> </div>
+                <% }); %>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
 
     <div class="pull-right">
 

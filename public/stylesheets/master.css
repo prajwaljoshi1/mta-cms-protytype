@@ -17,6 +17,23 @@ a {
     margin-left: 60px;
 }
 
+.center{
+  margin:auto;
+  text-align: center;
+}
+
+.invisible-link:link {
+    color:black !important;
+}
+
+.invisible-link:visited {
+    color:black !important;
+}
+
+.invisible-link:hover{
+    color:#4582ec !important;
+}
+
 
 /*login register*/
 
@@ -27,6 +44,10 @@ a {
 
 .login-register{
   margin-top: 10em;
+}
+
+.form-submit-button{
+  padding-top: 30px;
 }
 
 
@@ -213,4 +234,130 @@ img {
 
 .strikethrough{
   display:none;
+}
+
+
+/*floating seo meter*/
+
+.seo-meter{
+  color: white;
+  height:60px;
+  width:90px;
+  background:#2d8df9;
+  opacity: 0.7;
+  position: fixed;
+}
+
+.seo-meter-content{
+  font-size: 1.3em;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+
+/*page loading*/
+
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../images/loading.gif) center no-repeat #fff;
+}
+
+/* fk test scores*/
+
+.fk-test-previous{
+  color:red;
+}
+
+.fk-test-current{
+  color:green;
+}
+
+/*cateogry navigation button group*/
+
+.category-nav{
+  margin-bottom: 30px;
+}
+
+
+
+/*category item list*/
+
+.category-item-list{
+    list-style: none;
+}
+
+.category-item-list-item{
+    border-bottom: 1px solid #dddddd;
+    margin:10px;
+}
+
+.category-item-list-name{
+    font-size: 1.4em;
+    font-weight: 100;
+}
+
+.category-item-list-item:hover{
+  color:#4582ec !important;
+}
+
+
+/*search */
+
+.search-input-group .input-group-addon{
+    background: white !important;
+}
+.search-input-group .form-control{
+	border-right:0;
+	box-shadow:0 0 0;
+	border-color:#ccc;
+}
+.search-input-group button{
+    border:0;
+    background:transparent;
+}
+
+
+.add-category-item-btn{
+  margin:45px ;
+}
+
+/*jquery error message */
+
+.error-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index:9999;
+    border-radius: 0;
+}
+
+
+/*listjs mod*/
+.list-group-item{
+  background-color: transparent !important;
+}
+
+.list-group-item a{
+  font-weight: 200;
+}
+
+.list-group-item a:link{
+    color: black !important;
+}
+
+.list-group-item a:visited{
+    color: black !important;
+}
+
+.list-group-item a:hover{
+    color:#4582ec !important;
+    text-decoration: none;
 }

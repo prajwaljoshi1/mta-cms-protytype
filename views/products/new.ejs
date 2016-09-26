@@ -2,46 +2,50 @@
 
 
 
+<div class="error-message">
+  <div  id="slug-name-error" class="alert alert-danger">
+  <strong>Invalid!</strong> Slug name already used.
+  </div>
+
+</div>
+
+<div id="seo-meter" class="seo-meter">
+    <p class="seo-meter-content">
+      SEO: <span id="seo-score"></span>
+    </p>
+</div>
     <div class="container">
+
+      <div class="se-pre-con"></div>
+
+
 
         <div class="row">
 
             <h1 style="text-align:center;"> Add a new Product</h1>
             <div style="width:80%; margin:30px auto;">
-                <form enctype="multipart/form-data" action="/productcategories/<%=productCategory._id%>/products" method="POST">
+                <form id="new-product-form" enctype="multipart/form-data" action="/productcategories/<%=productCategory._id%>/products" method="POST">
 
 
                     <div class="form-group">
                         <label for="">Product Name</label>
-                        <input class="form-control" type="text" name="name" placeholder="Product Name">
+                        <input class="form-control" type="text" name="productTitle" placeholder="Product Name" onFocusOut="hasProperTitle()" >
                     </div>
 
 
                     <div class="form-group">
                           <label for="">Slug</label>
-                        <input id="slug-input" class="form-control" type="text" name="slug" placeholder="Slug" onFocusOut="checkSlugIsUnique()">
+                        <input id="slug-input" class="form-control" type="text" name="slug" placeholder="Slug" >
                     </div>
-                    <p id="slug-name-error">
-                      Slug name already used!
-                    </p>
-                    <p id="slug-name-success">
-                      Slug name is unique!
-                    </p>
+
+                    <div class="form-group">
+                      <label>Product Description:</label>
+                        <textarea id="product-description1" class="form-control" type="text" name="productDescription" placeholder="Description"></textarea>
+                        <div id="pd1-fk-test-result"></div>
+                    </div>
 
 
 
-                    <!-- <div class="form-group">
-                        <label for="">Product Name</label>
-                        <input class="form-control" type="text" name="state" placeholder="State">
-                    </div> -->
-                    <!-- <div class="form-group">
-                        <input class="form-control" type="text" name="price" placeholder="Price">
-                    </div> -->
-                    <!-- <div class="form-group">
-                        <input class="form-control" type="text" name="Quantity" placeholder="Quantity">
-                    </div> -->
-
-                    <!--  product brand start-->
 
 
 
@@ -49,7 +53,7 @@
                     <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
                         <option value="">Select additional item Categories </option>
                         <% brandList.forEach(function(brand){ %>
-                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.name%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
@@ -163,7 +167,7 @@
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
                         <option value="">Select an Author </option>
                         <% authorList.forEach(function(author){ %>
-                            <option value='{ "id" :"<%=author._id%>" , "name": "<%=author.productAuthorName%>"}'>
+                            <option value='{ "id" :"<%=author._id%>" , "name": "<%=author.name%>"}'>
                                 <%=author.productAuthorName%>
                             </option>
                             <% }); %>
@@ -301,8 +305,12 @@
 
 
                     <div class="form-group">
-                        <textarea class="blog-body" class="form-control" type="text" name="additionalDescription" placeholder="Description"></textarea>
+                      <label>Product Additional Description</label>
+                        <textarea id="product-description2" class="form-control" type="text" name="productAdditionalDescription" placeholder="AdditionalDescription"></textarea>
+                        <div id="pd2-fk-test-result"></div>
                     </div>
+
+
 
 
 
@@ -317,7 +325,7 @@
 
 
                             <div class="form-group">
-                                <button class="btn btn-large btn-primary btn-block">Submit</button>
+                                <button id="submit-btn" class="btn btn-large btn-primary btn-block">Create New</button>
                             </div>
                 </form>
 
@@ -329,27 +337,80 @@
 
     <script type="text/javascript">
 
-    //slug unique check
-      var slugList = [];
-      $.get( "/mtacms/productslug", function( data ) {
-              slugList = data;
+    var slugList =[];
 
-        });
-        $('#slug-name-error').toggle();
-        $('#slug-name-success').toggle();
+
+    $(window).load(function() {
+
+      $(".se-pre-con").fadeOut("slow");
+      $('#slug-name-error').toggle();
+      $('#submit-btn').attr('disabled','disabled');
+
+       $.get( "/mtacms/productslug", function( data ) {
+        slugList = data.productSlugs;
+		      $('#submit-btn').removeAttr('disabled');
+     });
+
+	});
+
+
+//check if slug is unique
+
         var checkSlugIsUnique = function(){
 
-           var currentSlugName  = $('#slug-input').val();
-           if(jQuery.inArray(currentSlugName, slugList) !== -1){
-                  $('#slug-name-error').toggle(true);
-                  $('#slug-name-success').toggle(false);
-           }else{
                $('#slug-name-error').toggle(false);
-               $('#slug-name-success').toggle(true);
-           }
+           var currentSlugName  = $('#slug-input').val();
+           if(currentSlugName){
 
+             //$.get( "/mtacms/productslug", function( data ) {
 
+                    //var slugList = slugList ||  data.productSlugs;
+                    //console.log(slugList);
+                     if(jQuery.inArray(currentSlugName, slugList) !== -1){
+                            $('#slug-name-error').toggle(true);
+                            return false;
+
+                     }else{
+                         return true;
+                     }
+
+            //   });
+
+          }else{
+            return false;
+          }
         }
+
+
+
+
+//form validation
+
+                $('#new-product-form').on( 'submit', function(e){
+                  e.preventDefault();
+
+                  if(checkSlugIsUnique()){
+                    this.submit();
+                  }
+                });
+
+
+
+
+
+//seo score
+        var seoScore = 0;
+        var properTitle = false;
+
+        var hasProperTitle = function(){
+              //if has proper title and properTitle === false
+              //seoScroe++
+              //propertitle =true
+              //elseif has improper toitle  and propertitle == true
+              //seoScore--
+              //properTitle = false
+        }
+
 
         $(document).ready(function() {
 
@@ -383,7 +444,49 @@
                 }
             });
 
-            $('.blog-body').summernote({
+
+//fleschKincaidTest
+
+            var fleschKincaidTest = function (context) {
+                var ui = $.summernote.ui;
+                var previousScore = 0;
+
+                  // create button
+                    var button = ui.button({
+                        contents: 'Test Reading Level',
+                        tooltip: 'test Flesch-Kincaid reading level',
+                        click: function () {
+                          //removing everything between "<" ">" results a clean text
+                          var cleanText = $("#product-description1").val().replace(/<\/?[^>]+(>|$)/g, "").replace(/&nbsp;/g, " ");                                    // come back to check
+                          var wordCount = cleanText.split(' ').length;
+                          if(wordCount > 1){
+                          $.get( "/mtacms/flesch-kincaid/"+cleanText, function( result ) {
+
+
+                                 $('#pd1-fk-test-result').html("<span  class='fk-test-words' align='left'>Words: "+ wordCount +"</span> ");
+                                  if(previousScore){
+                                   $('#pd1-fk-test-result').append("<span  class='fk-test-previous' align='right'>Previous: "+ previousScore +"</span> ");
+                                  }
+
+                                  $('#pd1-fk-test-result').append("<span class='fk-test-current' align='right'>Current: "+ result.score +" ("+result.grade+")</span> ");
+                                  previousScore = result.score;
+
+
+
+                            });
+
+                          }else {
+                             $('#pd1-fk-test-result').html(" <p>Nothing to test.</p> ");
+                          }
+                        }
+                      });
+
+                      return button.render();   // return button as jquery object
+                    }
+
+
+  // WSIWIG
+            $('#product-description1').summernote({
                 height: 300,
                 toolbar: [
                     // [groupName, [list of button]]
@@ -391,9 +494,32 @@
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['para', ['ul', 'ol', 'paragraph']],
-                    ['link', ['link']]
-                ]
+                    ['link', ['link']],
+                    ['Flesch-Kincaid', ['fKTest']]
+                ],
+                buttons:{
+                    fKTest:fleschKincaidTest
+                }
             });
+
+            $('#product-description2').summernote({
+                height: 300,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['link', ['link']],
+                    ['Flesch-Kincaid', ['fKTest']]
+                ],
+                buttons:{
+                    fKTest:fleschKincaidTest
+                }
+            });
+
+
+  //End WSIWIG
 
             function readURLImage(input, $output) {
                 if (input.files && input.files[0]) {
@@ -442,6 +568,15 @@
 
 
         });
+
+
+
+
+
+
+
+
+
     </script>
 
 

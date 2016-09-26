@@ -1,73 +1,77 @@
-
 <% include ../partials/header%>
 
 
-<div class="container">
-      <div class="row">
-        <div class="well">
-            <div class="row">
-          <div class="col-xs-12">
-                <h3>
-                    <%= productCategory.productCategoryName %>
-                </h3>
-          </div>
-        </div>
+    <div class="container">
         <div class="row">
-          <div class="col-xs-6 col-md-4">
-              <h4>
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4>Item-Category Name:</h4>
+                        <h3><%= productCategory.productCategoryName %></h3>
+                    </div>
+                </div>
+                <% if( typeof productCategory.productCategoryAdditionalFields != "undefined") {%>
+
+                    <% if( productCategory.productCategoryAdditionalFields.length !== 0 ) {%>
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4">
+                                <h4>
                   Additional Fields:
               </h4>
-          </div>
-          <div class="col-xs-6 col-md-8">
-            <h4>
-              <%productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+                            </div>
+                            <div class="col-xs-6 col-md-8">
 
-                    <span><%=field%> </span>
-              <%})%>
+
+                                <h4>
+                <%productCategory.productCategoryAdditionalFields.forEach(function(field){ %>
+
+                    <span><%=field%> </span>,
+                <%})%>
+
+
             </h4>
-
-          </div>
+                            </div>
+                        </div>
+                        <%}%>
+                            <%}%>
 
             </div>
-
         </div>
-  </div>
 
-  <div id="products">
-  <input class="fuzzy-search form-control" placeholder="Search" />
-
-
-  <ul class="row list list-group">
-  <% productCategory.products.forEach(function(product){ %>
-
-            <li class="list-group-item list-group-item col-xs-offset-1 col-xs-5">
-
-              <a class="name " href="/productcategories/<%=productCategory._id%>/products/<%=product._id%>"><%= product.productTitle %></a>
-          </li>
+        <div id="products" class="jumbotron">
+            <input class="search form-control" placeholder="Search" />
 
 
-  <% }); %>
-    </ul>
-</div>
+            <ul class="row list list-group">
+                <% productCategory.products.forEach(function(product){ %>
 
-</div>
+                    <li class="list-group-item  col-xs-offset-1 col-xs-5">
 
-<script type="text/javascript">
+                        <a class="name " href="/products/<%=product._id%>">
+                            <%= product.productTitle %>
+                        </a>
+                    </li>
 
-//search, sort
 
-$(document).ready(function(){
-  var options = {
-  valueNames: [ 'name'],
-  plugins:[ListFuzzySearch()]
-};
+                    <% }); %>
+            </ul>
+        </div>
 
-var productList = new List('products', options);
-})
+    </div>
 
-</script>
+    <script type="text/javascript">
+        //search, sort
+
+        $(document).ready(function() {
+            var options = {
+                valueNames: ['name']
+            };
+
+            var productList = new List('products', options);
+        })
+    </script>
 
 
 
 
-<% include ../partials/footer%>
+    <% include ../partials/footer%>

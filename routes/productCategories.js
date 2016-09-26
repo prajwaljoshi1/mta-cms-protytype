@@ -8,7 +8,7 @@ var ProductCategory = require("../models/product/productCategory.js");
 var middleware 	= require("../middleware");
 
 //var objMapToArr = require('object-map-to-array');
-router.use(paginate.middleware(10, 50));
+router.use(paginate.middleware(20, 50));
 router.get("/",middleware.isProductReadOnly, function(req,res){
   ProductCategory.paginate({},{page:req.query.page, limit:req.query.limit}, function( err, allProductCategories, pageCount, itemCount){
     if(err){
@@ -30,6 +30,43 @@ router.get("/",middleware.isProductReadOnly, function(req,res){
         //   }
         // });
 });
+
+
+
+router.get("/search/", middleware.isProductReadOnly, function(req, res) {
+  key = req.query.key;
+  var date1 = Date.now();
+
+  ProductCategory.find({slug:key}).exec(function(err,found){
+    if(found.length === 0 ){
+      ProductCategory.find({ $text: { $search : key}}, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( function(err, foundCategories) {
+          if (err) {
+              console.log(err);
+          } else {
+            var date2 = Date.now();
+              var timeForSearch = date2 - date1;
+              totalFound = foundCategories.length;
+            res.render("productcategories/index.ejs", {
+                productCategories: foundCategories,
+                timeForSearch:timeForSearch,
+                totalFound: totalFound
+            });
+          }
+      });
+    }else{
+      var date2 = Date.now();
+        var timeForSearch = date2 - date1;
+      res.render("productcategories/index.ejs", {
+          productCategories: found,
+          timeForSearch:timeForSearch,
+          totalFound:1
+      });
+    }
+  });
+
+});
+
+
 
 router.post("/",middleware.isProductFullAccess, function(req, res){
 

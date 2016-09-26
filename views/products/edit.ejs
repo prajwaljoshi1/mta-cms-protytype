@@ -11,7 +11,7 @@
             <div style="width:80%; margin:30px auto;">
             <%  if(productCategoryId === undefined){  %>
                 <form enctype="multipart/form-data" action="/products/<%=product._id%>?_method=PUT"  method="POST">
-                
+
             <%   }else{ %>
                 <form enctype="multipart/form-data" action="/productcategories/<%=productCategoryId%>/products/<%=product._id%>?_method=PUT"  method="POST">
               <%  } %>
@@ -39,13 +39,14 @@
 
 
 
+                  <div class="form-group">
 
                     <!--  product brand start-->
                     <label for="">Add new Brand</label>
                     <select id="select-brand" name="brand[]" class=" demo-default" placeholder="Select Brand">
                         <option value="">Select a Brand </option>
                         <% brandList.forEach(function(brand){ %>
-                            <option value='{ "id" :"<%=brand._id%>" , "name" : "<%=brand.productBrandName%>"}'>
+                            <option value='{ "id" :"<%=brand._id%>" , "brand" : "<%=brand.productBrandName%>"}'>
                                 <%=brand.productBrandName%>
                             </option>
                             <% }); %>
@@ -53,8 +54,11 @@
 
                         <!--  product brand end -->
 
+                  </div>
 
-                        <% if(product.productAuthor) { %>
+
+
+                        <% if(product.productAuthor ) { %>
                           <label for="">Current Author(s) (click to remove)</label>
 
                           <% product.productAuthor.forEach(function(author){ %>
@@ -67,15 +71,21 @@
 
                       <% } %>
 
+
+                    <div class="form-group">
+
                         <label for="">Add new Author(s)</label>
                     <select id="select-author" name="author[]" class=" demo-default" placeholder="Select Author">
                         <option value="">Select an Author </option>
                         <% authorList.forEach(function(author){ %>
-                            <option value='{ "id" :"<%=author._id%>" , "name": "<%=author.productAuthorName%>"}'>
+                            <option value='{ "id" :"<%=author._id%>" , "author": "<%=author.productAuthorName%>"}'>
                                 <%=author.productAuthorName%>
                             </option>
                             <% }); %>
                     </select>
+
+
+                  </div>
 
                     <label for="">Add/Arrange/Remove Images</label>
 

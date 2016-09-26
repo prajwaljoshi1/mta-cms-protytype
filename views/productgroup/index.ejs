@@ -1,0 +1,116 @@
+<% include ../partials/header%>
+
+
+
+<div class="category-nav" align="center">
+  <div class="btn-group" >
+    <a class="btn btn-default "href="/productcategories">Item Categories</a>
+    <a class="btn btn-default " href="/productgroup/productBrand/">Brands</a>
+    <a class="btn btn-default " href="/productgroup/productAuthor/"> Authors</a>
+    <a class="btn btn-default " href="/productauthors"> Fiction</a>
+    <a class="btn btn-default " href="/productbrands">Genres</a>
+    <a class="btn btn-default " href="/productauthors"> Grades</a>
+    <a class="btn btn-default " href="/productbrands">Languages</a>
+    <a class="btn btn-default " href="/productauthors"> Lexiles</a>
+    <a class="btn btn-default " href="/productbrands">Reading Levels</a>
+    <a class="btn btn-default " href="/productauthors"> Strategies</a>
+    <a class="btn btn-default " href="/productauthors"> Series</a>
+    <a class="btn btn-default " href="/productauthors"> Themes</a>
+    <a class="btn btn-default " href="/productauthors"> Year Level</a>
+  </div>
+
+</div>
+
+        <div class="container">
+
+
+        <header class="jumbotron">
+
+
+
+            <div class="row">
+              <div class="col-sm-8">
+                    <h1><%= groupDisplayName%></h1>
+              </div>
+              <div class="col-sm-4">
+                    <p class="add-category-item-btn">
+                      <a class="btn btn-primary" href="/productgroup/<%=groupName%>/new">Add New <%=groupDisplayName%></a>
+                    </p>
+              </div>
+            </div>
+
+
+                  <h4>Search</h4>
+
+                    <form  action="/productGroup/search/<%=groupName%>/" method="GET">
+
+
+                      <div class="input-group search-input-group">
+               <input type="text" class="form-control"  placeholder="Search" name="key" >
+               <span class="input-group-addon">
+                   <button type="submit">
+                       <span class="glyphicon glyphicon-search"></span>
+                   </button>
+               </span>
+           </div>
+
+
+
+
+                      <form>
+
+                        <% if( typeof timeForSearch != "undefined") {%>
+                            <% if( totalFound === 0) {%>
+
+                              <div class="not-found" align="right">
+                                   <h6>No items found</h6>
+                              </div>
+                              <%}else{%>
+                        <div class="time-for-search" align="right">
+                             <h6>Found <%=totalFound %> items in  <%= timeForSearch %> ms</h6>
+                        </div>
+
+                        <%}%>
+                        <%}%>
+
+
+
+
+
+
+        </header>
+
+
+
+
+<ul class=category-item-list>
+
+
+  <% groupItems.forEach(function(item){  %>
+        <li class="category-item-list-item">
+          <div class="row">
+            <div class="col-xs-8">
+                <p class="category-item-list-name"><%= item.slug  %>   </p>
+            </div>
+            <div class="col-xs-4">
+                <p>
+                  <a class="btn btn-default btn-product-list" href="/<%=groupName%>/<%=item._id%>"> List</a>
+                </p>
+            </div>
+          </div>
+
+
+
+        </li>
+  <% }) %>
+
+</ul>
+
+
+
+
+        </div>
+
+        <% include ../partials/paginate%>
+
+        <% include ../partials/footer%>

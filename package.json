@@ -9,6 +9,7 @@
   "author": "<Intygrate/>",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.0.1",
     "aws-sdk": "^2.5.3",
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
@@ -26,6 +27,7 @@
     "object-map-to-array": "^1.0.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.0.0"
+    "passport-local-mongoose": "^4.0.0",
+    "syllable": "^1.0.0"
   }
 }

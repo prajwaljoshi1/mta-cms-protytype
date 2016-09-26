@@ -1,27 +1,65 @@
 <% include ../partials/header%>
+
+<div class="error-message">
+  <div  id="slug-name-error" class="alert alert-danger">
+  <strong>Invalid!</strong> Slug name already used.
+  </div>
+
+</div>
     <div class="container">
+
+        <div class="se-pre-con"></div>
+
         <div class="row">
 
             <h1 style="text-align:center;"> Add a new Item Category</h1>
             <div style="width:80%; margin:30px auto;">
-                <form action="/productcategories" method="POST">
+                <form id="new-product-category-form" action="/productcategories" method="POST">
+
+
+
+
+
                     <div class="form-group">
+                      <label>Product Item Category Name:</label>
                         <input class="form-control" type="text" name="name" placeholder="Product Name">
                     </div>
+
+                    <div class="form-group">
+                      <label>Slug:</label>
+                        <input id="slug-input" class="form-control" type="text" name="slug" placeholder="slug">
+                    </div>
+
 
                     <div class="" id="custom-attributes">
 
                     </div>
 
                     <button class="btn btn-large btn-default" id="addCustomAttr" >Add Custom Attributes</button>
-                    <div class="" id="attribute-name-input">
-                      <input class="form-control" id="attribute-name" name="field1" placeholder="enter additional attribute name" type="text">
-                      <button class="btn btn-default" id="confirm-attribute">Confirm</button>
+
+
+                    </div>
+                    <div class="col-xs-offset-1" id="attribute-name-input">
+                      <label>Enter Additional Attribute Name:</label>
+                      <div class="row">
+                        <div class="col-xs-8 col-xs-offset-1">
+                            <input class="form-control " id="attribute-name" name="field1" placeholder="enter additional attribute name" type="text">
+                        </div>
+                        <div class="col-sx-2 col-xs-offset-1">
+                              <button class="btn btn-default" id="confirm-attribute">Confirm</button>
+                        </div>
+                      </div>
                     </div>
 
 
                     <div class="form-group">
-                        <button class="btn btn-large btn-primary btn-block" >Submit</button>
+                      <div class="row form-submit-button">
+                      <div class="col-xs-10 col-xs-offset-1">
+                            <button  id="submit-btn" class="btn btn-large btn-primary btn-block" >Create</button>
+                      </div>
+
+                      </div>
+
                     </div>
                 </form>
 
@@ -29,6 +67,64 @@
             </div>
 
             <script type="text/javascript">
+
+            var slugList =[];
+            $(window).load(function() {
+
+              $(".se-pre-con").fadeOut("slow");
+              $('#slug-name-error').toggle();
+              $('#submit-btn').attr('disabled','disabled');
+
+               $.get( "/mtacms/productslug", function( data ) {
+                slugList = data.productSlugs;
+                  $('#submit-btn').removeAttr('disabled');
+             });
+
+              });
+
+              //check if slug is unique
+
+                      var checkSlugIsUnique = function(){
+
+                             $('#slug-name-error').toggle(false);
+                         var currentSlugName  = $('#slug-input').val();
+                         if(currentSlugName){
+
+                           //$.get( "/mtacms/productslug", function( data ) {
+
+                                  //var slugList = slugList ||  data.productSlugs;
+                                  //console.log(slugList);
+                                   if(jQuery.inArray(currentSlugName, slugList) !== -1){
+                                          $('#slug-name-error').toggle(true);
+                                          return false;
+
+                                   }else{
+                                       return true;
+                                   }
+
+                          //   });
+
+                        }else{
+                          return false;
+                        }
+                      }
+
+
+
+
+              //form validation
+
+                              $('#new-product-category-form').on( 'submit', function(e){
+                                e.preventDefault();
+
+                                if(checkSlugIsUnique()){
+                                  this.submit();
+                                }
+                              });
+
+
+
+
 
 
 

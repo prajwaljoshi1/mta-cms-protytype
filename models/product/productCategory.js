@@ -3,7 +3,7 @@ var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductCategorySchema = new mongoose.Schema({
   slug:String,
-  productCategoryName: String,
+  productCategoryName: { type: String, text: true },
   productCategoryAdditionalFields:Array,
   products:[
     {

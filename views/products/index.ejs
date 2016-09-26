@@ -7,7 +7,7 @@
             <div class="container">
 
 
-                <h2>SEARCH</h2>
+                <h1> Products home </h1>
                 <p>
                   <form  action="/products/search/" method="GET">
 
@@ -20,10 +20,29 @@
 
                     </div>
 
+                          <form>
+
+
+                    <% if( typeof timeForSearch != "undefined") {%>
+
+                      <% if( totalFound === 0) {%>
+
+                        <div class="not-found" align="right">
+                             <h6>No items found</h6>
+                        </div>
+                        <%}else{%>
+                    <div class="time-for-search" align="right">
+                         <h6>Found <%=totalFound %> items in  <%= timeForSearch %> ms</h6>
+
+                    </div>
+
+                    <%}%>
+                    <%}%>
 
 
 
-                    <form>
+
+
                 </p>
 
 
@@ -37,18 +56,24 @@
 
 
 
-        <ul class="row list list-group">
+        <ul class="category-item-list">
 
 
             <% products.forEach(function(product){  %>
 
 
-                <li class=" col-xs-offset-1 col-xs-10">
-
-                    <a class="name " href="/products/<%=product._id%>">
-                        <%= product.productTitle %>
-                    </a>
-                </li>
+              <li class="category-item-list-item">
+                <a class="invisible-link" href='/products/<%= product._id %>'>
+                <div class="row">
+                  <div class="col-xs-8">
+                      <p class="category-item-list-name"><%= product.productTitle %>   </p>
+                  </div>
+                  <div class="col-xs-4">
+                      <p class="category-item-list-name"><%= product.slug %>   </p>
+                  </div>
+                </div>
+              </a>
+                <li
 
 
                 <% }) %>

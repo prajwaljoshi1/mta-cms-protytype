@@ -1,0 +1,54 @@
+<% include ../partials/header%>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4><%=groupName%> Name:</h4>
+                        <h3><%= groupItem.name %></h3>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div id="products" class="jumbotron">
+            <input class="search form-control" placeholder="Search" />
+
+
+            <ul class="row list list-group">
+                <% groupItem.products.forEach(function(product){ %>
+
+                    <li class="list-group-item  col-xs-offset-1 col-xs-5">
+
+                        <a class="name " href="/products/<%=product._id%>">
+                            <%= product.productTitle %>
+                        </a>
+                    </li>
+
+
+                    <% }); %>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        //search, sort
+
+        $(document).ready(function() {
+            var options = {
+                valueNames: ['name']
+            };
+
+            var productList = new List('products', options);
+        })
+    </script>
+
+
+
+
+    <% include ../partials/footer%>

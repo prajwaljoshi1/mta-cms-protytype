@@ -1,19 +1,88 @@
 <% include ../partials/header%>
 
 
-    <div class="container">
+
+<div class="category-nav" align="center">
+  <div class="btn-group" >
+      <a class="btn btn-default " href="/productcategories">Item Categories</a>
+    <a class="btn btn-default " href="/productbrands">Brands</a>
+    <a class="btn btn-default " href="/productauthors"> Authors</a>
+    <a class="btn btn-default " href="/productauthors"> Fiction</a>
+    <a class="btn btn-default " href="/productbrands">Genres</a>
+    <a class="btn btn-default " href="/productauthors"> Grades</a>
+    <a class="btn btn-default " href="/productbrands">Languages</a>
+    <a class="btn btn-default " href="/productauthors"> Lexiles</a>
+    <a class="btn btn-default " href="/productbrands">Reading Levels</a>
+    <a class="btn btn-default " href="/productauthors"> Strategies</a>
+    <a class="btn btn-default " href="/productauthors"> Series</a>
+    <a class="btn btn-default " href="/productauthors"> Themes</a>
+    <a class="btn btn-default " href="/productauthors"> Year Level</a>
+  </div>
+
+</div>
+
+        <div class="container">
+
 
         <header class="jumbotron">
-            <div class="container">
 
 
-                <h2>Product listing by Types</h2>
-                <p>
-                    <a class="btn btn-primary btn-large" href="/productcategories/new">Add New Product Type</a>
-                      <a class="btn btn-default btn-large" href="/productbrands">Brands</a>
-                      <a class="btn btn-default btn-large" href="/productauthors"> Authors</a>
-                </p>
-                <div class="container">
+
+            <div class="row">
+              <div class="col-sm-8">
+                    <h1>Item-Category</h1>
+              </div>
+              <div class="col-sm-4">
+                    <p class="add-category-item-btn">
+                      <a class="btn btn-primary" href="/productcategories/new">Add New Item-Category</a>
+                    </p>
+              </div>
+
+
+            </div>
+
+
+
+
+
+
+
+                  <h4>Search</h4>
+
+                    <form  action="/productcategories/search/" method="GET">
+
+
+                      <div class="input-group search-input-group">
+               <input type="text" class="form-control"  placeholder="Search" name="key" >
+               <span class="input-group-addon">
+                   <button type="submit">
+                       <span class="glyphicon glyphicon-search"></span>
+                   </button>
+               </span>
+           </div>
+
+
+
+
+                      <form>
+
+                        <% if( typeof timeForSearch != "undefined") {%>
+                            <% if( totalFound === 0) {%>
+
+                              <div class="not-found" align="right">
+                                   <h6>No items found</h6>
+                              </div>
+                              <%}else{%>
+                        <div class="time-for-search" align="right">
+                             <h6>Found <%=totalFound %> items in  <%= timeForSearch %> ms</h6>
+                        </div>
+
+                        <%}%>
+                        <%}%>
+
+
+
+
 
 
         </header>
@@ -21,29 +90,33 @@
 
 
 
+<ul class=category-item-list>
 
 
   <% productCategories.forEach(function(productCategory){  %>
-        <div class="well">
+        <li class="category-item-list-item">
           <div class="row">
-            <div class="col-xs-7">
-                <h3><%= productCategory.productCategoryName %>   </h3>
+            <div class="col-xs-8">
+                <p class="category-item-list-name"><%= productCategory.productCategoryName %>   </p>
             </div>
-            <div class="col-xs-5">
-                <h3>
-                  <a class="btn btn-default btn-product-list" href="/productCategories/<%=productCategory._id%>"> List</a>
-                  <a class="btn btn-default btn-product-add-new" href="/productCategories/<%=productCategory._id%>/products/new"> Add new <%= productCategory.productCategoryName %> </a>
+            <div class="col-xs-4">
+                <p>
 
-                </h3>
+                  <a class="btn btn-default btn-product-list" href="/productCategories/<%=productCategory._id%>/products/new"> Add New</a>
+                  <a class="btn btn-default btn-product-list" href="/productCategories/<%=productCategory._id%>"> List</a>
+                  <a class="btn btn-default btn-product-list" href="/productCategories/<%=productCategory._id%>"> Edit</a>
+
+
+                </p>
             </div>
           </div>
 
 
 
-        </div>
+        </li>
   <% }) %>
 
-
+</ul>
 
 
 

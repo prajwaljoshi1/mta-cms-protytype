@@ -3,7 +3,7 @@ var mongoosePaginate = require('mongoose-paginate');
 
 var mtaProductReadingLevelSchema = new mongoose.Schema({
   slug:String,
-  productReadingLevelName: String,
+  name: String,
   products:[
     {
       type: mongoose.Schema.Types.ObjectId,

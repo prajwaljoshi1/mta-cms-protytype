@@ -1,0 +1,101 @@
+<% include ../partials/header%>
+
+<div class="error-message">
+  <div  id="slug-name-error" class="alert alert-danger">
+  <strong>Invalid!</strong> Slug name already used.
+  </div>
+</div>
+
+
+
+    <div class="container">
+
+        <div class="se-pre-con"></div>
+        <div class="row">
+
+            <h1 style="text-align:center;"> Add a new <%=groupDisplayName%> </h1>
+            <div style="width:80%; margin:30px auto;">
+                <form id="new-form" action="/productgroup/<%=groupName%>" method="POST">
+                    <div class="form-group">
+                              <label><%=groupDisplayName%> Name:</label>
+                        <input class="form-control" type="text" name="name" placeholder="New <%=groupDisplayName%> Name">
+                    </div>
+
+
+                    <div class="form-group">
+                      <label>Slug:</label>
+                        <input id="slug-input" class="form-control" type="text" name="slug" placeholder="slug">
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <button id="submit-btn" class="btn btn-large btn-primary btn-block" >Create</button>
+                    </div>
+                </form>
+
+                <a href="/<%=groupName%>">Go Back</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+    var slugList =[];
+    $(window).load(function() {
+
+      $(".se-pre-con").fadeOut("slow");
+      $('#slug-name-error').toggle();
+      $('#submit-btn').attr('disabled','disabled');
+
+       $.get( "/mtacms/productslug", function( data ) {
+        slugList = data.productSlugs;
+          $('#submit-btn').removeAttr('disabled');
+     });
+
+      });
+
+      //check if slug is unique
+
+              var checkSlugIsUnique = function(){
+
+                     $('#slug-name-error').toggle(false);
+                 var currentSlugName  = $('#slug-input').val();
+                 if(currentSlugName){
+
+                   //$.get( "/mtacms/productslug", function( data ) {
+
+                          //var slugList = slugList ||  data.productSlugs;
+                          //console.log(slugList);
+                           if(jQuery.inArray(currentSlugName, slugList) !== -1){
+                                  $('#slug-name-error').toggle(true);
+                                  return false;
+
+                           }else{
+                               return true;
+                           }
+
+                  //   });
+
+                }else{
+                  return false;
+                }
+              }
+
+
+
+
+      //form validation
+
+                      $('#new-form').on( 'submit', function(e){
+                        e.preventDefault();
+
+                        if(checkSlugIsUnique()){
+                          this.submit();
+                        }
+                      });
+
+          </script>
+
+    <% include ../partials/footer%>

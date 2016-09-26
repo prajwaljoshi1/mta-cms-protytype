@@ -114,7 +114,7 @@ var importProductmeta = function(){
 };
 
 //call functions
-//importProduct();
-importProductmeta();
+importProduct();
+//importProductmeta();
 
 connection.end();
